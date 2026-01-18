@@ -1,0 +1,13 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.log
+
+# PPTX/Document outputs (common in this project)
+**/output.pptx
+**/working.pptx
+**/thumbnails/
+**/workspace/
