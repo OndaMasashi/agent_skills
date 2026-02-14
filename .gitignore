@@ -11,3 +11,10 @@ Thumbs.db
 **/working.pptx
 **/thumbnails/
 **/workspace/
+
+# Dependencies & Build
+node_modules/
+__pycache__/
+.venv/
+dist/
+build/
