@@ -44,6 +44,14 @@ Match the level of specificity to the task's fragility and variability:
 
 Think of Claude as exploring a path: a narrow bridge with cliffs needs specific guardrails (low freedom), while an open field allows many routes (high freedom).
 
+### Composability
+
+Claude can load multiple skills simultaneously. Design skills to work alongside others — avoid assumptions about being the only skill loaded. Use specific triggers in the description to prevent conflicts with other skills.
+
+### Portability
+
+Skills work across Claude.ai, Claude Code, and API. Avoid environment-specific assumptions unless documented in the `compatibility` frontmatter field. Create a skill once and it works across all surfaces, provided the environment supports any dependencies.
+
 ### Anatomy of a Skill
 
 Every skill consists of a required SKILL.md file and optional bundled resources:
@@ -212,22 +220,35 @@ Skill creation involves these steps:
 
 Follow these steps in order, skipping only if there is a clear reason why they are not applicable.
 
-### Step 1: Understanding the Skill with Concrete Examples
+### Step 1: Define Use Cases
 
 Skip this step only when the skill's usage patterns are already clearly understood. It remains valuable even when working with an existing skill.
 
-To create an effective skill, clearly understand concrete examples of how the skill will be used. This understanding can come from either direct user examples or generated examples that are validated with user feedback.
+Before writing any code, identify 2-3 concrete use cases. Define each using this structured format:
 
-For example, when building an image-editor skill, relevant questions include:
+```yaml
+Use Case: [Name]
+Trigger: User says "[specific phrases]"
+Steps:
+  1. [What Claude does first]
+  2. [What Claude does next]
+  ...
+Result: [Expected output]
+```
 
-- "What functionality should the image-editor skill support? Editing, rotating, anything else?"
-- "Can you give some examples of how this skill would be used?"
-- "I can imagine users asking for things like 'Remove the red-eye from this image' or 'Rotate this image'. Are there other ways you imagine this skill being used?"
+**Identify the skill category** to guide design decisions:
+
+1. **Document & Asset Creation** — Creating consistent, high-quality output (documents, presentations, code, designs). Key techniques: embedded style guides, template structures, quality checklists.
+2. **Workflow Automation** — Multi-step processes with consistent methodology. Key techniques: step-by-step workflows with validation gates, iterative refinement loops.
+3. **MCP Enhancement** — Workflow guidance on top of MCP tool access. Key techniques: coordinating multiple MCP calls, embedding domain expertise, providing context users would otherwise need to specify.
+
+**Gather understanding through questions** (avoid asking too many at once):
+
+- "What functionality should the skill support?"
+- "Can you give examples of how this skill would be used?"
 - "What would a user say that should trigger this skill?"
 
-To avoid overwhelming users, avoid asking too many questions in a single message. Start with the most important questions and follow up as needed for better effectiveness.
-
-Conclude this step when there is a clear sense of the functionality the skill should support.
+Conclude this step when use cases are clearly defined and the skill category is identified.
 
 ### Step 2: Planning the Reusable Skill Contents
 
@@ -284,10 +305,10 @@ When editing the (newly-generated or existing) skill, remember that the skill is
 
 Consult these helpful guides based on your skill's needs:
 
-- **Multi-step processes**: See references/workflows.md for sequential workflows and conditional logic
-- **Specific output formats or quality standards**: See references/output-patterns.md for template and example patterns
-
-These files contain established best practices for effective skill design.
+- **Workflow design**: See references/workflows.md for 6 workflow patterns (sequential, conditional, multi-MCP, iterative, context-aware, domain-specific) and MCP integration guidance
+- **Output formats**: See references/output-patterns.md for template and example patterns
+- **Testing methodology**: See references/testing-guide.md for triggering tests, functional tests, and troubleshooting
+- **Frontmatter options**: See references/frontmatter-reference.md for complete field documentation
 
 #### Start with Reusable Skill Contents
 
@@ -303,19 +324,39 @@ Any example files and directories not needed for the skill should be deleted. Th
 
 ##### Frontmatter
 
-Write the YAML frontmatter with `name` and `description`:
+Write the YAML frontmatter. See references/frontmatter-reference.md for complete field documentation.
 
-- `name`: The skill name
-- `description`: This is the primary triggering mechanism for your skill, and helps Claude understand when to use the skill.
-  - Include both what the Skill does and specific triggers/contexts for when to use it.
-  - Include all "when to use" information here - Not in the body. The body is only loaded after triggering, so "When to Use This Skill" sections in the body are not helpful to Claude.
-  - Example description for a `docx` skill: "Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. Use when Claude needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks"
+**Required fields:**
 
-Do not include any other fields in YAML frontmatter.
+- `name`: Skill name in kebab-case (max 64 chars, must match folder name)
+- `description`: Primary triggering mechanism. Structure as: `[What it does] + [When to use it] + [Key capabilities]`
+  - Include all "when to use" information here — the body is only loaded after triggering
+  - Include specific phrases users would say to trigger the skill
+  - Mention relevant file types if applicable
+
+**Good example:** `"Comprehensive document creation and editing with tracked changes and comments. Use when Claude needs to create, modify, or analyze .docx files, work with tracked changes, or add comments to documents."`
+
+**Bad example:** `"Helps with documents."` (Too vague — no trigger context, no capabilities)
+
+**Negative triggers** — when the skill might be confused with similar skills, add exclusions:
+`"...Do NOT use for plain text files or CSV processing."`
+
+**Optional fields:**
+
+- `license`: License reference (e.g., `MIT`, `Apache-2.0`)
+- `compatibility`: Environment requirements, 1-500 chars (e.g., `"Requires Python 3.9+"`)
+- `allowed-tools`: Restrict which tools Claude may use with this skill
+- `metadata`: Object with `author`, `version`, `mcp-server`, `category`, `tags`, etc.
 
 ##### Body
 
-Write instructions for using the skill and its bundled resources.
+Write instructions for using the skill and its bundled resources. Recommended body structure:
+
+1. **Instructions** - Core procedures and workflows (the main content)
+2. **Examples** - Input/output pairs or usage scenarios showing desired style and quality
+3. **Troubleshooting** - Common issues and solutions (if applicable)
+
+Put critical instructions at the top. Use `## Important` or `## Critical` headers for must-follow rules. For critical validations, prefer bundling scripts over relying on language instructions — code is deterministic; language interpretation is not.
 
 ### Step 5: Packaging a Skill
 
@@ -344,9 +385,53 @@ The packaging script will:
 
 If validation fails, the script will report the errors and exit without creating a package. Fix any validation errors and run the packaging command again.
 
-### Step 6: Iterate
+### Quick Validation Checklist
 
-After testing the skill, users may request improvements. Often this happens right after using the skill, with fresh context of how the skill performed.
+Before development:
+
+- [ ] 2-3 concrete use cases defined (Use Case / Trigger / Steps / Result)
+- [ ] Skill category identified (Document & Asset Creation, Workflow Automation, or MCP Enhancement)
+
+During development:
+
+- [ ] Folder named in kebab-case, SKILL.md exists (exact spelling)
+- [ ] Description follows `[What it does] + [When to use it] + [Key capabilities]` structure
+- [ ] Negative triggers included if risk of over-triggering
+- [ ] No XML tags (< >) in frontmatter
+- [ ] SKILL.md body under 500 lines
+- [ ] References split out for content beyond essential procedures
+
+Before packaging:
+
+- [ ] All scripts tested and functional
+- [ ] Frontmatter passes validation (run package_skill.py)
+- [ ] No TODO placeholders remaining
+- [ ] Example files from init_skill.py removed or replaced
+
+After first use:
+
+- [ ] Skill triggers on intended inputs
+- [ ] Skill does NOT trigger on unrelated inputs
+- [ ] Output quality meets expectations
+- [ ] Iterate on description and instructions based on feedback
+
+### Step 6: Test and Iterate
+
+After creating the skill, test it systematically before distributing. See references/testing-guide.md for the complete testing methodology.
+
+**Testing dimensions:**
+
+1. **Triggering tests**: Verify the skill activates for intended inputs and does NOT activate for unrelated inputs.
+   - Should trigger: "Create a PDF report" / Should NOT trigger: "What is a PDF?"
+2. **Functional tests**: Verify output quality using Given/When/Then format.
+   - Given [specific input], When [user request], Then [expected output]
+3. **Performance check**: Compare results with and without the skill. The skill should reduce back-and-forth messages, avoid failed tool calls, and produce consistent results.
+
+**Iteration signals:**
+
+- **Undertriggering** (skill does not activate when it should): Broaden description keywords, add trigger phrases
+- **Overtriggering** (skill activates for unrelated queries): Add negative triggers (`Do NOT use for...`), make description more specific
+- **Poor execution** (output quality is low): Add examples or scripts, check reference files are loaded, move critical instructions to top of SKILL.md
 
 **Iteration workflow:**
 

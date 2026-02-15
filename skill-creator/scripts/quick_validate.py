@@ -39,7 +39,7 @@ def validate_skill(skill_path):
         return False, f"Invalid YAML in frontmatter: {e}"
 
     # Define allowed properties
-    ALLOWED_PROPERTIES = {'name', 'description', 'license', 'allowed-tools', 'metadata'}
+    ALLOWED_PROPERTIES = {'name', 'description', 'license', 'allowed-tools', 'compatibility', 'metadata'}
 
     # Check for unexpected properties (excluding nested keys under metadata)
     unexpected_keys = set(frontmatter.keys()) - ALLOWED_PROPERTIES
@@ -82,6 +82,42 @@ def validate_skill(skill_path):
         # Check description length (max 1024 characters per spec)
         if len(description) > 1024:
             return False, f"Description is too long ({len(description)} characters). Maximum is 1024 characters."
+
+    # Validate compatibility field
+    compatibility = frontmatter.get('compatibility')
+    if compatibility is not None:
+        if not isinstance(compatibility, str):
+            return False, f"'compatibility' must be a string, got {type(compatibility).__name__}"
+        if len(compatibility) > 500:
+            return False, f"'compatibility' is too long ({len(compatibility)} characters). Maximum is 500."
+
+    # Validate allowed-tools field
+    allowed_tools = frontmatter.get('allowed-tools')
+    if allowed_tools is not None:
+        if isinstance(allowed_tools, list):
+            for tool in allowed_tools:
+                if not isinstance(tool, str):
+                    return False, f"'allowed-tools' items must be strings, got {type(tool).__name__}"
+        elif not isinstance(allowed_tools, str):
+            return False, f"'allowed-tools' must be a string or list, got {type(allowed_tools).__name__}"
+
+    # Validate metadata field
+    metadata = frontmatter.get('metadata')
+    if metadata is not None:
+        if not isinstance(metadata, dict):
+            return False, f"'metadata' must be a dictionary, got {type(metadata).__name__}"
+
+    # Non-blocking warnings
+    warnings = []
+    if description and len(description) < 50:
+        warnings.append(f"  Warning: Description is only {len(description)} chars. "
+                        f"Consider using [What it does] + [When to use it] + [Key capabilities] structure.")
+    if description and ('[TODO:' in description or '[TODO]' in description):
+        warnings.append("  Warning: Description contains TODO placeholder. Complete before distribution.")
+
+    if warnings:
+        for w in warnings:
+            print(w)
 
     return True, "Skill is valid!"
 
