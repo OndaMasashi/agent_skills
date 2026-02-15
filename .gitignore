@@ -1,5 +1,28 @@
+<<<<<<< HEAD
 .DS_Store
 __pycache__/
 .idea/
 .vscode/
 
+=======
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.log
+
+# PPTX/Document outputs (common in this project)
+**/output.pptx
+**/working.pptx
+**/thumbnails/
+**/workspace/
+
+# Dependencies & Build
+node_modules/
+__pycache__/
+.venv/
+dist/
+build/
+>>>>>>> 4cdb70d2aba8d338e9fc55ec316595f04fb8d108
