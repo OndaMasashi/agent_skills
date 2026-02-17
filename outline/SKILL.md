@@ -1,7 +1,8 @@
----
-name: outline
-description: "Search, read, and manage Outline wiki documents. Use when: (1) searching wiki for documentation, (2) reading wiki pages or articles, (3) listing wiki collections or documents, (4) creating or updating wiki content, (5) exporting documents as markdown. Works with any Outline wiki instance (self-hosted or cloud)."
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py outline`
 
 # Outline Wiki Skill
 
@@ -19,12 +20,14 @@ Search, read, create, and manage documents in any Outline wiki instance. Works w
    - Create a new token with appropriate permissions
 
 2. Configure the environment:
+
    ```bash
    cp .env.example .env
    # Edit .env with your API key
    ```
 
 3. Set the environment variables:
+
    ```bash
    export OUTLINE_API_KEY=your-api-key-here
    # Optional: for self-hosted instances
@@ -34,6 +37,7 @@ Search, read, create, and manage documents in any Outline wiki instance. Works w
 ## Usage
 
 ### Search documents
+
 ```bash
 python3 scripts/outline.py search "deployment guide"
 python3 scripts/outline.py search "API documentation" --limit 10
@@ -41,28 +45,33 @@ python3 scripts/outline.py search "onboarding" --collection-id <id>
 ```
 
 ### Read a document
+
 ```bash
 python3 scripts/outline.py read <document-id>
 python3 scripts/outline.py read <document-id> --json
 ```
 
 ### List collections
+
 ```bash
 python3 scripts/outline.py list-collections
 python3 scripts/outline.py list-collections --limit 50
 ```
 
 ### List documents in a collection
+
 ```bash
 python3 scripts/outline.py list-documents --collection-id <id>
 ```
 
 ### Get collection details
+
 ```bash
 python3 scripts/outline.py get-collection <collection-id>
 ```
 
 ### Create a document
+
 ```bash
 python3 scripts/outline.py create --title "New Guide" --collection-id <id>
 python3 scripts/outline.py create --title "Guide" --collection-id <id> --text "# Content here"
@@ -70,6 +79,7 @@ python3 scripts/outline.py create --title "Draft" --collection-id <id> --draft
 ```
 
 ### Update a document
+
 ```bash
 python3 scripts/outline.py update <document-id> --title "Updated Title"
 python3 scripts/outline.py update <document-id> --text "New content"
@@ -77,12 +87,14 @@ python3 scripts/outline.py update <document-id> --publish
 ```
 
 ### Export document as markdown
+
 ```bash
 python3 scripts/outline.py export <document-id>
 python3 scripts/outline.py export <document-id> --output doc.md
 ```
 
 ### Test authentication
+
 ```bash
 python3 scripts/outline.py auth-info
 ```
@@ -90,6 +102,7 @@ python3 scripts/outline.py auth-info
 ## JSON Output
 
 Add `--json` flag to any command for machine-readable output:
+
 ```bash
 python3 scripts/outline.py search "query" --json
 python3 scripts/outline.py read <id> --json
@@ -114,7 +127,7 @@ python3 scripts/outline.py read <id> --json
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | OUTLINE_API_KEY | Yes | - | Your Outline API token |
-| OUTLINE_API_URL | No | https://app.getoutline.com/api | API URL |
+| OUTLINE_API_URL | No | <https://app.getoutline.com/api> | API URL |
 | OUTLINE_TIMEOUT | No | 30 | Request timeout (seconds) |
 
 ## Troubleshooting

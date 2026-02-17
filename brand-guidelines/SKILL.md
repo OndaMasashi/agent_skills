@@ -1,8 +1,12 @@
----
+﻿---
 name: brand-guidelines
 description: Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.
 license: Complete terms in LICENSE.txt
 ---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py brand-guidelines`
 
 # Anthropic Brand Styling
 

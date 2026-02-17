@@ -1,4 +1,4 @@
----
+﻿---
 name: vercel-react-native-skills
 description:
   React Native and Expo best practices for building performant mobile apps. Use
@@ -13,7 +13,7 @@ metadata:
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py react-native-skills`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py react-native-skills`
 
 # React Native Patterns
 

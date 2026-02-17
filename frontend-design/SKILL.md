@@ -1,4 +1,4 @@
----
+﻿---
 name: frontend-design
 description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.
 license: Complete terms in LICENSE.txt
@@ -10,7 +10,7 @@ The user provides frontend requirements: a component, page, application, or inte
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py frontend-design`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py frontend-design`
 
 ## Design Thinking
 

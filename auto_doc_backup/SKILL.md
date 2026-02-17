@@ -1,9 +1,20 @@
+﻿---
+name: auto_doc_backup
+description: implementation_planやwalkthroughの自動バックアップを行います。重要なドキュメントが更新された際、所定のフォルダにタイムスタンプ付きで保存することをAIに指示します。
+---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py auto_doc_backup`
+
 # Auto Document Backup Skill
 
 ## Description
+
 `implementation_plan` または `walkthrough` が作成・更新された際に、プロジェクト内の特定のディレクトリに自動的にバックアップコピーを保存します。
 
 ## Guidelines
+
 1. **トリガー条件**:
     - AIが `implementation_plan` 型のアーティファクトを作成または更新したとき。
     - AIが `walkthrough` 型のアーティファクトを作成または更新したとき。
@@ -21,6 +32,7 @@
     - アーティファクトの生成・編集が終わった直後に、バックアップファイルを書き出すツール（`write_to_file`）を実行してください。
 
 ## Example Actions
+
 - `implementation_plan` を作成した。
 - → `c:/work/project/doc_implementation/plan_20260118_2100.md` に内容をコピー。
 - `walkthrough` を更新した。

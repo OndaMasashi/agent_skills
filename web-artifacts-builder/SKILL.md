@@ -1,4 +1,4 @@
----
+﻿---
 name: web-artifacts-builder
 description: Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.
 license: Complete terms in LICENSE.txt
@@ -20,7 +20,7 @@ To build powerful frontend claude.ai artifacts, follow these steps:
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py web-artifacts-builder`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py web-artifacts-builder`
 
 ## Guidelines
 

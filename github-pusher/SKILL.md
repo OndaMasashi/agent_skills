@@ -1,4 +1,4 @@
----
+﻿---
 name: github-pusher
 description: GitHubへのコミットとプッシュを自動化します。「GitHubへプッシュして」「変更を反映して」といった指示で、変更箇所の要約、コミットメッセージの生成、GitHubへの反映を一括で行います。
 metadata:
@@ -8,7 +8,7 @@ metadata:
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py github-pusher`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py github-pusher`
 
 ## Overview
 

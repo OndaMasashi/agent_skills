@@ -1,11 +1,8 @@
----
-name: google-calendar
-description: |
-  Interact with Google Calendar - list calendars, view events, create/update/delete events, and find free time.
-  Use when user asks to: check calendar, schedule a meeting, create an event, find available time, list upcoming events,
-  delete or update a calendar event, or respond to meeting invitations. Lightweight alternative to full
-  Google Workspace MCP server with standalone OAuth authentication.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py google-calendar`
 
 # Google Calendar
 
@@ -16,16 +13,19 @@ Lightweight Google Calendar integration with standalone OAuth authentication. No
 ## First-Time Setup
 
 Authenticate with Google (opens browser):
+
 ```bash
 python scripts/auth.py login
 ```
 
 Check authentication status:
+
 ```bash
 python scripts/auth.py status
 ```
 
 Logout when needed:
+
 ```bash
 python scripts/auth.py logout
 ```
@@ -35,11 +35,13 @@ python scripts/auth.py logout
 All operations via `scripts/gcal.py`. Auto-authenticates on first use if not logged in.
 
 ### List Calendars
+
 ```bash
 python scripts/gcal.py list-calendars
 ```
 
 ### List Events
+
 ```bash
 # List events from primary calendar (default: next 30 days)
 python scripts/gcal.py list-events
@@ -55,12 +57,14 @@ python scripts/gcal.py list-events --max-results 10
 ```
 
 ### Get Event Details
+
 ```bash
 python scripts/gcal.py get-event EVENT_ID
 python scripts/gcal.py get-event EVENT_ID --calendar "work@example.com"
 ```
 
 ### Create Event
+
 ```bash
 # Basic event
 python scripts/gcal.py create-event "Team Meeting" "2024-01-15T10:00:00Z" "2024-01-15T11:00:00Z"
@@ -79,6 +83,7 @@ python scripts/gcal.py create-event "Meeting" "2024-01-15T10:00:00Z" "2024-01-15
 ```
 
 ### Update Event
+
 ```bash
 # Update event title
 python scripts/gcal.py update-event EVENT_ID --summary "New Title"
@@ -95,13 +100,16 @@ python scripts/gcal.py update-event EVENT_ID --attendees user1@example.com user3
 ```
 
 ### Delete Event
+
 ```bash
 python scripts/gcal.py delete-event EVENT_ID
 python scripts/gcal.py delete-event EVENT_ID --calendar "work@example.com"
 ```
 
 ### Find Free Time
+
 Find the first available slot for a meeting with specified attendees:
+
 ```bash
 # Find 30-minute slot for yourself
 python scripts/gcal.py find-free-time \
@@ -119,6 +127,7 @@ python scripts/gcal.py find-free-time \
 ```
 
 ### Respond to Event Invitation
+
 ```bash
 # Accept an invitation
 python scripts/gcal.py respond-to-event EVENT_ID accepted
@@ -136,6 +145,7 @@ python scripts/gcal.py respond-to-event EVENT_ID accepted --no-notify
 ## Date/Time Format
 
 All times use ISO 8601 format with timezone:
+
 - UTC: `2024-01-15T10:30:00Z`
 - With offset: `2024-01-15T10:30:00-05:00` (EST)
 
@@ -147,6 +157,7 @@ All times use ISO 8601 format with timezone:
 ## Token Management
 
 Tokens stored securely using the system keyring:
+
 - **macOS**: Keychain
 - **Windows**: Windows Credential Locker
 - **Linux**: Secret Service API (GNOME Keyring, KDE Wallet, etc.)

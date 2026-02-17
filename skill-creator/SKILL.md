@@ -1,8 +1,8 @@
----
-name: skill-creator
-description: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.
-license: Complete terms in LICENSE.txt
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py skill-creator`
 
 # Skill Creator
 

@@ -1,11 +1,8 @@
----
-name: google-sheets
-description: |
-  Read Google Sheets spreadsheets - get content, fetch specific ranges, search for spreadsheets, and view metadata.
-  Use when user asks to: read a spreadsheet, get data from Google Sheets, find a spreadsheet, check sheet contents,
-  export spreadsheet data, or get cell values. Lightweight alternative to full Google Workspace MCP server with
-  standalone OAuth authentication. Read-only access.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py google-sheets`
 
 # Google Sheets
 
@@ -16,16 +13,19 @@ Lightweight Google Sheets integration with standalone OAuth authentication. No M
 ## First-Time Setup
 
 Authenticate with Google (opens browser):
+
 ```bash
 python scripts/auth.py login
 ```
 
 Check authentication status:
+
 ```bash
 python scripts/auth.py status
 ```
 
 Logout when needed:
+
 ```bash
 python scripts/auth.py logout
 ```
@@ -59,6 +59,7 @@ python scripts/sheets.py get-metadata SPREADSHEET_ID
 ## Spreadsheet ID
 
 You can use either:
+
 - The spreadsheet ID: `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms`
 - The full URL: `https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit`
 
@@ -67,7 +68,9 @@ The script automatically extracts the ID from URLs.
 ## Output Formats
 
 ### Text (default)
+
 Human-readable format with pipe separators:
+
 ```
 Spreadsheet Title: Sales Data
 Sheet Name: Q1
@@ -77,7 +80,9 @@ Product B | 15000 | 75
 ```
 
 ### CSV
+
 Standard CSV format, suitable for further processing:
+
 ```
 Name,Revenue,Units
 Product A,10000,50
@@ -85,7 +90,9 @@ Product B,15000,75
 ```
 
 ### JSON
+
 Structured data format:
+
 ```json
 {
   "Q1": [
@@ -105,6 +112,7 @@ Structured data format:
 ## Token Management
 
 Tokens stored securely using the system keyring:
+
 - **macOS**: Keychain
 - **Windows**: Windows Credential Locker
 - **Linux**: Secret Service API (GNOME Keyring, KDE Wallet, etc.)

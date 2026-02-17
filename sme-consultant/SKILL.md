@@ -1,4 +1,4 @@
----
+﻿---
 name: sme-consultant
 description: 中小企業診断士試験で問われる経営知識・フレームワークを活用するスキル。以下の場面で使用：(1) 経営戦略の策定・分析、(2) マーケティング戦略の立案、(3) 組織・人事の課題解決、(4) 生産管理・オペレーション改善、(5) 財務分析・投資判断、(6) 事業承継・M&Aの検討、(7) ビジネスフレームワークの適用。「診断士」「経営分析」「SWOT」「財務指標」「事例I〜IV」などのキーワードで呼び出される。
 license: Complete terms in LICENSE.txt
@@ -6,7 +6,7 @@ license: Complete terms in LICENSE.txt
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py sme-consultant`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py sme-consultant`
 
 # SME Consultant Skill
 

@@ -1,11 +1,8 @@
----
-name: imagen
-description: |
-  Generate images using Google Gemini's image generation capabilities.
-  Use this skill when the user needs to create, generate, or produce images
-  for any purpose including UI mockups, icons, illustrations, diagrams,
-  concept art, placeholder images, or visual representations.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py imagen`
 
 # Imagen - AI Image Generation Skill
 
@@ -18,6 +15,7 @@ This skill generates images using Google Gemini's image generation model (`gemin
 ## When to Use This Skill
 
 Automatically activate this skill when:
+
 - User requests image generation (e.g., "generate an image of...", "create a picture...")
 - Frontend development requires placeholder or actual images
 - Documentation needs illustrations or diagrams
@@ -55,24 +53,28 @@ python scripts/generate_image.py --size 2K "High resolution landscape" "./wallpa
 ## Output
 
 Generated images are saved as PNG files. The script returns:
+
 - Success: Path to the generated image
 - Failure: Error message with details
 
 ## Examples
 
 ### Frontend Development
+
 ```
 User: "I need a hero image for my landing page - something abstract and tech-focused"
 -> Generates and saves image, provides path for use in HTML/CSS
 ```
 
 ### Documentation
+
 ```
 User: "Create a diagram showing microservices architecture"
 -> Generates visual representation, ready for README or docs
 ```
 
 ### UI Assets
+
 ```
 User: "Generate a placeholder avatar image for the user profile component"
 -> Creates image in appropriate size for component use

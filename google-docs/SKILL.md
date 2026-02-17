@@ -1,11 +1,8 @@
----
-name: google-docs
-description: |
-  Interact with Google Docs - create documents, search by title, read content, and edit text.
-  Use when user asks to: create a Google Doc, find a document, read doc content, add text to a doc,
-  or replace text in a document. Lightweight alternative to full Google Workspace MCP server with
-  standalone OAuth authentication.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py google-docs`
 
 # Google Docs
 
@@ -16,16 +13,19 @@ Lightweight Google Docs integration with standalone OAuth authentication. No MCP
 ## First-Time Setup
 
 Authenticate with Google (opens browser):
+
 ```bash
 python scripts/auth.py login
 ```
 
 Check authentication status:
+
 ```bash
 python scripts/auth.py status
 ```
 
 Logout when needed:
+
 ```bash
 python scripts/auth.py logout
 ```
@@ -63,6 +63,7 @@ python scripts/docs.py replace-text 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
 ## Document ID Format
 
 Google Docs uses document IDs like `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms`. You can:
+
 - Use the full URL (the ID will be extracted automatically)
 - Use just the document ID
 - Get document IDs from the `find` command results
@@ -70,6 +71,7 @@ Google Docs uses document IDs like `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
 ## Token Management
 
 Tokens stored securely using the system keyring:
+
 - **macOS**: Keychain
 - **Windows**: Windows Credential Locker
 - **Linux**: Secret Service API (GNOME Keyring, KDE Wallet, etc.)

@@ -1,11 +1,8 @@
----
-name: google-drive
-description: |
-  Interact with Google Drive - search files, find folders, list contents, and download files.
-  Use when user asks to: search Google Drive, find a file/folder, list Drive contents,
-  download a file from Drive, or browse Drive folders. Lightweight alternative to full
-  Google Workspace MCP server with standalone OAuth authentication.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py google-drive`
 
 # Google Drive
 
@@ -16,16 +13,19 @@ Lightweight Google Drive integration with standalone OAuth authentication. No MC
 ## First-Time Setup
 
 Authenticate with Google (opens browser):
+
 ```bash
 python scripts/auth.py login
 ```
 
 Check authentication status:
+
 ```bash
 python scripts/auth.py status
 ```
 
 Logout when needed:
+
 ```bash
 python scripts/auth.py logout
 ```
@@ -78,6 +78,7 @@ The search command supports multiple query formats:
 ## File ID Format
 
 Google Drive uses long IDs like `1ABC123xyz_-abc123`. Get IDs from:
+
 - `search` results
 - `find-folder` results
 - `list` results
@@ -92,6 +93,7 @@ Google Drive uses long IDs like `1ABC123xyz_-abc123`. Get IDs from:
 ## Token Management
 
 Tokens stored securely using the system keyring:
+
 - **macOS**: Keychain
 - **Windows**: Windows Credential Locker
 - **Linux**: Secret Service API (GNOME Keyring, KDE Wallet, etc.)

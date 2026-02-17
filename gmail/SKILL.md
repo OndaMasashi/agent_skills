@@ -1,11 +1,8 @@
----
-name: gmail
-description: |
-  Interact with Gmail - search emails, read messages, send emails, create drafts, and manage labels.
-  Use when user asks to: search email, read email, send email, create email draft, mark as read,
-  archive email, star email, or manage Gmail labels. Lightweight alternative to full Google
-  Workspace MCP server with standalone OAuth authentication.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py gmail`
 
 # Gmail
 
@@ -16,16 +13,19 @@ Lightweight Gmail integration with standalone OAuth authentication. No MCP serve
 ## First-Time Setup
 
 Authenticate with Google (opens browser):
+
 ```bash
 python scripts/auth.py login
 ```
 
 Check authentication status:
+
 ```bash
 python scripts/auth.py status
 ```
 
 Logout when needed:
+
 ```bash
 python scripts/auth.py logout
 ```
@@ -144,6 +144,7 @@ Gmail supports powerful search operators:
 | `in:trash` | Trashed emails |
 
 Combine with AND (space), OR, or - (NOT):
+
 ```bash
 python scripts/gmail.py search "from:boss@company.com is:unread newer_than:1d"
 python scripts/gmail.py search "subject:urgent OR subject:important"
@@ -166,6 +167,7 @@ python scripts/gmail.py search "from:newsletter@example.com -is:starred"
 ## Token Management
 
 Tokens stored securely using the system keyring:
+
 - **macOS**: Keychain
 - **Windows**: Windows Credential Locker
 - **Linux**: Secret Service API (GNOME Keyring, KDE Wallet, etc.)

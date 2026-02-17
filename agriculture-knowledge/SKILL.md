@@ -1,8 +1,12 @@
----
+﻿---
 name: agriculture-knowledge
 description: 日本農業の構造的課題と知見を活用するためのスキル。農業政策、スマート農業、食料安全保障、農地制度、経営課題などについて議論・分析する際に使用する。以下の場面で活用：(1) 農業経営の課題分析、(2) スマート農業・FaaSの導入検討、(3) 農地集約・基盤整備の議論、(4) 食料安全保障・サプライチェーンの分析、(5) 農業政策・補助金制度の検討、(6) 地域コミュニティ・環境問題の議論、(7) 担い手・労働力問題の分析
 license: Complete terms in LICENSE.txt
 ---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py agriculture-knowledge`
 
 # Agriculture Knowledge Skill
 

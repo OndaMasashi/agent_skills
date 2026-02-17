@@ -1,4 +1,4 @@
----
+﻿---
 name: vercel-composition-patterns
 description:
   React composition patterns that scale. Use when refactoring components with
@@ -14,7 +14,7 @@ metadata:
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py composition-patterns`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py composition-patterns`
 
 # React Composition Patterns
 

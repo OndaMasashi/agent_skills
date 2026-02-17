@@ -1,4 +1,4 @@
----
+﻿---
 name: "moai-domain-frontend"
 description: "Frontend development specialist covering React 19, Next.js 16, Vue 3.5, and modern UI/UX patterns with component architecture. Use when building web UIs, implementing components, optimizing frontend performance, or integrating state management."
 version: 2.0.0
@@ -42,7 +42,7 @@ triggers:
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py moai-domain-frontend`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py moai-domain-frontend`
 
 # Frontend Development Specialist
 

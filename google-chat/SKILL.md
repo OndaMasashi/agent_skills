@@ -1,11 +1,8 @@
----
-name: google-chat
-description: |
-  Interact with Google Chat - list spaces, send messages, read conversations, and manage DMs.
-  Use when user asks to: send a message on Google Chat, read chat messages, list chat spaces,
-  find a chat room, send a DM, or create a new chat space. Lightweight alternative to full
-  Google Workspace MCP server with standalone OAuth authentication.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py google-chat`
 
 # Google Chat
 
@@ -16,16 +13,19 @@ Lightweight Google Chat integration with standalone OAuth authentication. No MCP
 ## First-Time Setup
 
 Authenticate with Google (opens browser):
+
 ```bash
 python scripts/auth.py login
 ```
 
 Check authentication status:
+
 ```bash
 python scripts/auth.py status
 ```
 
 Logout when needed:
+
 ```bash
 python scripts/auth.py logout
 ```
@@ -67,6 +67,7 @@ Google Chat uses `spaces/AAAA123` format. Get space names from `list-spaces` or 
 ## Token Management
 
 Tokens stored securely using the system keyring:
+
 - **macOS**: Keychain
 - **Windows**: Windows Credential Locker
 - **Linux**: Secret Service API (GNOME Keyring, KDE Wallet, etc.)

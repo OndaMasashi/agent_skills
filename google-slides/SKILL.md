@@ -1,11 +1,8 @@
----
-name: google-slides
-description: |
-  Read content from Google Slides presentations - get text, find presentations, and retrieve metadata.
-  Use when user asks to: read a presentation, find slides, get presentation content, search for a slideshow,
-  or check presentation details. Lightweight alternative to full Google Workspace MCP server with standalone
-  OAuth authentication. Read-only operations only.
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py google-slides`
 
 # Google Slides
 
@@ -16,16 +13,19 @@ Lightweight Google Slides integration with standalone OAuth authentication. No M
 ## First-Time Setup
 
 Authenticate with Google (opens browser):
+
 ```bash
 python scripts/auth.py login
 ```
 
 Check authentication status:
+
 ```bash
 python scripts/auth.py status
 ```
 
 Logout when needed:
+
 ```bash
 python scripts/auth.py logout
 ```
@@ -50,6 +50,7 @@ python scripts/slides.py get-metadata "1abc123xyz789"
 ## Presentation ID Format
 
 You can use either:
+
 - Direct presentation ID: `1abc123xyz789`
 - Full Google Slides URL: `https://docs.google.com/presentation/d/1abc123xyz789/edit`
 
@@ -58,13 +59,17 @@ The scripts automatically extract the ID from URLs.
 ## Output Format
 
 ### get-text
+
 Returns extracted text from all slides, including:
+
 - Presentation title
 - Text from shapes/text boxes on each slide
 - Table data with cell contents
 
 ### find
+
 Returns list of matching presentations:
+
 ```json
 {
   "presentations": [
@@ -75,7 +80,9 @@ Returns list of matching presentations:
 ```
 
 ### get-metadata
+
 Returns presentation details:
+
 ```json
 {
   "presentationId": "1abc...",
@@ -90,6 +97,7 @@ Returns presentation details:
 ## Token Management
 
 Tokens stored securely using the system keyring:
+
 - **macOS**: Keychain
 - **Windows**: Windows Credential Locker
 - **Linux**: Secret Service API (GNOME Keyring, KDE Wallet, etc.)

@@ -1,7 +1,8 @@
----
-name: postgres
-description: "Execute read-only SQL queries against multiple PostgreSQL databases. Use when: (1) querying PostgreSQL databases, (2) exploring database schemas/tables, (3) running SELECT queries for data analysis, (4) checking database contents. Supports multiple database connections with descriptions for intelligent auto-selection. Blocks all write operations (INSERT, UPDATE, DELETE, DROP, etc.) for safety."
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py postgres`
 
 # PostgreSQL Read-Only Query Skill
 
@@ -17,6 +18,7 @@ Execute safe, read-only queries against configured PostgreSQL databases.
 Create `connections.json` in the skill directory or `~/.config/claude/postgres-connections.json`.
 
 **Security**: Set file permissions to `600` since it contains credentials:
+
 ```bash
 chmod 600 connections.json
 ```
@@ -54,26 +56,31 @@ chmod 600 connections.json
 ## Usage
 
 ### List configured databases
+
 ```bash
 python3 scripts/query.py --list
 ```
 
 ### Query a database
+
 ```bash
 python3 scripts/query.py --db production --query "SELECT * FROM users LIMIT 10"
 ```
 
 ### List tables
+
 ```bash
 python3 scripts/query.py --db production --tables
 ```
 
 ### Show schema
+
 ```bash
 python3 scripts/query.py --db production --schema
 ```
 
 ### Limit results
+
 ```bash
 python3 scripts/query.py --db production --query "SELECT * FROM orders" --limit 100
 ```

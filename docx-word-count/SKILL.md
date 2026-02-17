@@ -1,7 +1,8 @@
----
-name: docx-word-count
-description: "MDファイルからMicrosoft Word相当の文字数をカウントします。MD記法を自動的に除外して、本文の純粋な文字数（スペースあり・なし）を算出します。"
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py docx-word-count`
 
 # DOCX Word Count
 

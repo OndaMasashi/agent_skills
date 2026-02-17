@@ -1,7 +1,8 @@
----
-name: deep-research
-description: "Execute autonomous multi-step research using Google Gemini Deep Research Agent. Use for: market analysis, competitive landscaping, literature reviews, technical research, due diligence. Takes 2-10 minutes but produces detailed, cited reports. Costs $2-5 per task."
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py deep-research`
 
 # Gemini Deep Research Skill
 
@@ -17,50 +18,60 @@ Run autonomous research tasks that plan, search, read, and synthesize informatio
 
 1. Get a Gemini API key from [Google AI Studio](https://aistudio.google.com/)
 2. Set the environment variable:
+
    ```bash
    export GEMINI_API_KEY=your-api-key-here
    ```
+
    Or create a `.env` file in the skill directory.
 
 ## Usage
 
 ### Start a research task
+
 ```bash
 python3 scripts/research.py --query "Research the history of Kubernetes"
 ```
 
 ### With structured output format
+
 ```bash
 python3 scripts/research.py --query "Compare Python web frameworks" \
   --format "1. Executive Summary\n2. Comparison Table\n3. Recommendations"
 ```
 
 ### Stream progress in real-time
+
 ```bash
 python3 scripts/research.py --query "Analyze EV battery market" --stream
 ```
 
 ### Start without waiting
+
 ```bash
 python3 scripts/research.py --query "Research topic" --no-wait
 ```
 
 ### Check status of running research
+
 ```bash
 python3 scripts/research.py --status <interaction_id>
 ```
 
 ### Wait for completion
+
 ```bash
 python3 scripts/research.py --wait <interaction_id>
 ```
 
 ### Continue from previous research
+
 ```bash
 python3 scripts/research.py --query "Elaborate on point 2" --continue <interaction_id>
 ```
 
 ### List recent research
+
 ```bash
 python3 scripts/research.py --list
 ```

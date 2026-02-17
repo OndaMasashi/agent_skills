@@ -1,10 +1,8 @@
----
-name: vercel-deploy
-description: Deploy applications and websites to Vercel. Use this skill when the user requests deployment actions such as "Deploy my app", "Deploy this to production", "Create a preview deployment", "Deploy and give me the link", or "Push this live". No authentication required - returns preview URL and claimable deployment link.
-metadata:
-  author: vercel
-  version: "1.0.0"
----
+﻿---
+
+> [!IMPORTANT]
+> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py vercel-deploy`
 
 # Vercel Deploy
 
@@ -24,6 +22,7 @@ bash /mnt/skills/user/vercel-deploy/scripts/deploy.sh [path]
 ```
 
 **Arguments:**
+
 - `path` - Directory to deploy, or a `.tgz` file (defaults to current directory)
 
 **Examples:**
@@ -80,6 +79,7 @@ For static HTML projects (no `package.json`), framework is set to `null`.
 ## Static HTML Projects
 
 For projects without a `package.json`:
+
 - If there's a single `.html` file not named `index.html`, it gets renamed automatically
 - This ensures the page is served at the root URL (`/`)
 

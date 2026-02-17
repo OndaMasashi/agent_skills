@@ -1,4 +1,4 @@
----
+﻿---
 name: ship-learn-next
 description: Transform learning content (like YouTube transcripts, articles, tutorials) into actionable implementation plans using the Ship-Learn-Next framework. Use when user wants to turn advice, lessons, or educational content into concrete action steps, reps, or a learning quest.
 allowed-tools:
@@ -8,7 +8,7 @@ allowed-tools:
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py ship-learn-next`
+> `python C:/work/utility/skills-main/skills-main/usage_logger.py ship-learn-next`
 
 # Ship-Learn-Next Action Planner
 
