@@ -1,5 +1,33 @@
 # Testing and Iteration Guide
 
+Skills can be tested at varying levels of rigor:
+
+- **Manual testing in Claude.ai** - Run queries directly and observe behavior. Fast iteration, no setup required.
+- **Scripted testing in Claude Code** - Automate test cases for repeatable validation across changes.
+- **Programmatic testing via skills API** - Build evaluation suites that run systematically against defined test sets.
+
+Choose the approach that matches your quality requirements and the skill's visibility.
+
+**Pro Tip: Iterate on a single task before expanding.** The most effective skill creators iterate on a single challenging task until Claude succeeds, then extract the winning approach into a skill. This leverages Claude's in-context learning and provides faster signal than broad testing. Once you have a working foundation, expand to multiple test cases for coverage.
+
+## Define Success Criteria
+
+Establish targets before testing. These are aspirational benchmarks rather than precise thresholds.
+
+**Quantitative metrics:**
+
+- **Skill triggers on 90% of relevant queries** — Run 10-20 test queries that should trigger your skill. Track how many times it loads automatically vs. requires explicit invocation.
+- **Completes workflow in X tool calls** — Compare the same task with and without the skill enabled. Count tool calls and total tokens consumed.
+- **0 failed API calls per workflow** — Monitor MCP server logs during test runs. Track retry rates and error codes.
+
+**Qualitative metrics:**
+
+- **Users don't need to prompt Claude about next steps** — During testing, note how often you need to redirect or clarify. Ask beta users for feedback.
+- **Workflows complete without user correction** — Run the same request 3-5 times. Compare outputs for structural consistency and quality.
+- **Consistent results across sessions** — Can a new user accomplish the task on first try with minimal guidance?
+
+## Testing Dimensions
+
 Effective skill testing covers three areas: triggering, functionality, and performance.
 
 ## 1. Triggering Tests
@@ -89,6 +117,14 @@ Metrics to track: tool calls, total tokens consumed, number of user corrections 
    - Bad: `Make sure to validate things properly`
    - Good: `CRITICAL: Before calling create_project, verify: project name is non-empty, at least one team member assigned, start date is not in the past`
 4. **Model skipping steps** — For critical validations, bundle a script that performs checks programmatically rather than relying on language instructions. Code is deterministic; language interpretation is not.
+5. **Model "laziness"** — Add explicit encouragement. Note that adding this to **user prompts is more effective** than in SKILL.md:
+
+   ```markdown
+   ## Performance Notes
+   - Take your time to do this thoroughly
+   - Quality is more important than speed
+   - Do not skip validation steps
+   ```
 
 ### Large Context Issues
 

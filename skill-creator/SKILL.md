@@ -307,8 +307,9 @@ Consult these helpful guides based on your skill's needs:
 
 - **Workflow design**: See references/workflows.md for 6 workflow patterns (sequential, conditional, multi-MCP, iterative, context-aware, domain-specific) and MCP integration guidance
 - **Output formats**: See references/output-patterns.md for template and example patterns
-- **Testing methodology**: See references/testing-guide.md for triggering tests, functional tests, and troubleshooting
+- **Testing methodology**: See references/testing-guide.md for triggering tests, functional tests, success criteria, and troubleshooting
 - **Frontmatter options**: See references/frontmatter-reference.md for complete field documentation
+- **Distribution and sharing**: See references/distribution.md for API usage, distribution methods, and positioning guidance
 
 #### Start with Reusable Skill Contents
 
@@ -387,19 +388,25 @@ If validation fails, the script will report the errors and exit without creating
 
 ### Quick Validation Checklist
 
-Before development:
+Before you start:
 
 - [ ] 2-3 concrete use cases defined (Use Case / Trigger / Steps / Result)
 - [ ] Skill category identified (Document & Asset Creation, Workflow Automation, or MCP Enhancement)
+- [ ] Tools identified (built-in or MCP)
+- [ ] Folder structure planned
 
 During development:
 
 - [ ] Folder named in kebab-case, SKILL.md exists (exact spelling)
+- [ ] YAML frontmatter has `---` delimiters
 - [ ] Description follows `[What it does] + [When to use it] + [Key capabilities]` structure
 - [ ] Negative triggers included if risk of over-triggering
 - [ ] No XML tags (< >) in frontmatter
+- [ ] Instructions are clear and actionable
+- [ ] Error handling included
+- [ ] Examples provided
 - [ ] SKILL.md body under 500 lines
-- [ ] References split out for content beyond essential procedures
+- [ ] References split out for content beyond essential procedures and clearly linked
 
 Before packaging:
 
@@ -407,6 +414,9 @@ Before packaging:
 - [ ] Frontmatter passes validation (run package_skill.py)
 - [ ] No TODO placeholders remaining
 - [ ] Example files from init_skill.py removed or replaced
+- [ ] Tested triggering on obvious tasks
+- [ ] Tested triggering on paraphrased requests
+- [ ] Verified doesn't trigger on unrelated topics
 
 After first use:
 
@@ -414,10 +424,13 @@ After first use:
 - [ ] Skill does NOT trigger on unrelated inputs
 - [ ] Output quality meets expectations
 - [ ] Iterate on description and instructions based on feedback
+- [ ] Update version in metadata
 
 ### Step 6: Test and Iterate
 
-After creating the skill, test it systematically before distributing. See references/testing-guide.md for the complete testing methodology.
+After creating the skill, test it systematically before distributing. See references/testing-guide.md for the complete testing methodology, including success criteria definitions.
+
+**Pro Tip: Iterate on a single task before expanding.** The most effective approach is to iterate on a single challenging task until Claude succeeds, then extract the winning approach into the skill. This leverages Claude's in-context learning and provides faster signal than broad testing. Once the foundation works, expand to multiple test cases for coverage.
 
 **Testing dimensions:**
 
