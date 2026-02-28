@@ -5,7 +5,7 @@ description: "You MUST use this before any creative work - creating features, bu
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/usage_logger.py brainstorming`
+> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py brainstorming`
 
 # Brainstorming Ideas Into Designs
 

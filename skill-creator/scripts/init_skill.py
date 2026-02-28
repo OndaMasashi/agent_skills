@@ -17,7 +17,7 @@ import os
 from datetime import datetime
 
 # 使用状況ロギング定数
-LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../usage.log"))
+LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../usage.log"))
 
 def log_usage(skill_name):
     """スキルの使用をログに記録する（低負荷な追記方式）"""
@@ -92,7 +92,7 @@ import os
 from datetime import datetime
 
 # 使用状況ロギング定数
-LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../usage.log"))
+LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../usage.log"))
 
 def log_usage(skill_name):
     """スキルの使用をログに記録する"""

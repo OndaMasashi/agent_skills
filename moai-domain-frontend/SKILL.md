@@ -42,7 +42,7 @@ triggers:
 
 > [!IMPORTANT]
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/usage_logger.py moai-domain-frontend`
+> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py moai-domain-frontend`
 
 # Frontend Development Specialist
 
