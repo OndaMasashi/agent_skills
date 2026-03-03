@@ -1,4 +1,4 @@
-﻿---
+---
 name: internal-comms
 description: A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).
 license: Complete terms in LICENSE.txt
@@ -8,10 +8,9 @@ license: Complete terms in LICENSE.txt
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
 > `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py internal-comms`
 
+
 ## When to use this skill
-
 To write internal communications, use this skill for:
-
 - 3P updates (Progress, Plans, Problems)
 - Company newsletters
 - FAQ responses
@@ -35,5 +34,4 @@ To write any internal communication:
 If the communication type doesn't match any existing guideline, ask for clarification or more context about the desired format.
 
 ## Keywords
-
 3P updates, company newsletter, company comms, weekly update, faqs, common questions, updates, internal comms
