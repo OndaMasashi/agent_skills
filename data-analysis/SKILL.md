@@ -11,6 +11,8 @@ metadata:
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
 > `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py data-analysis`
 
+> **思考モード**: このスキルはデータ探索→仮説生成→検証→インサイト導出の長い推論チェーンを伴うため、分析方針の決定前に `ultrathink` で深く考えること。
+
 # データ分析アシスタント
 
 ## Overview

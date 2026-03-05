@@ -9,6 +9,8 @@ license: Complete terms in LICENSE.txt
 > `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py mcp-builder`
 
 
+> **思考モード**: このスキルはAPI設計・ツール粒度・エラーハンドリング等の多数のアーキテクチャ判断を伴うため、設計・実装方針の決定前に `ultrathink` で深く考えること。
+
 # MCP Server Development Guide
 
 ## Overview

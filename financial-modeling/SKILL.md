@@ -11,6 +11,8 @@ metadata:
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
 > `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py financial-modeling`
 
+> **思考モード**: このスキルはDCF・感応度分析・モンテカルロ等の複合的な数値推論を伴うため、パラメータ選定・結果解釈の前に `ultrathink` で深く考えること。
+
 # 財務モデリングガイド
 
 ## Overview

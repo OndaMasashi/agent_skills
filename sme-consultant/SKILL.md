@@ -8,6 +8,8 @@ license: Complete terms in LICENSE.txt
 > このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
 > `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py sme-consultant`
 
+> **思考モード**: このスキルは複数フレームワークの横断的統合と多面的な経営分析を伴うため、分析・提案の前に `ultrathink` で深く考えること。
+
 # SME Consultant Skill
 
 中小企業診断士試験で問われる経営知識・フレームワークを体系的に整理し、経営課題の分析・解決に活用するためのスキル。
