@@ -244,6 +244,206 @@ const MODERN = {
 
 ---
 
+## 5. スタイリッシュ (Stylish)
+
+太字・高コントラスト。ディープネイビー x ビビッドレッドのインパクトあるデザイン。
+
+```javascript
+const STYLISH = {
+  fonts: {
+    heading: "Arial",
+    body: "Arial",
+  },
+  sizes: {
+    title: 34,
+    heading1: 24,
+    heading2: 16,
+    heading3: 13,
+    body: 11,
+    caption: 9,
+  },
+  colors: {
+    heading: "1A1A2E",       // ディープネイビー
+    body: "3D3D3D",
+    accent: "E94560",        // ビビッドレッド
+    tableBorder: "1A1A2E",
+    tableHeaderBg: "1A1A2E",
+    tableHeaderText: "FFFFFF",
+    tableAltRowBg: "F5F0F0",
+  },
+  spacing: {
+    heading1Before: 480,
+    heading1After: 240,
+    heading2Before: 320,
+    heading2After: 160,
+    bodyAfter: 140,
+    lineSpacing: 288,     // 1.2倍
+  },
+  headingStyle: {
+    heading1: { bold: true, bottomBorder: { style: "thick", size: 10, color: "E94560" } },
+    heading2: { bold: true },
+    heading3: { bold: true, italics: true },
+  },
+  table: {
+    borderStyle: "single",
+    borderSize: 2,
+    borderColor: "1A1A2E",
+    headerShading: { type: "CLEAR", color: "auto", fill: "1A1A2E" },
+    cellPadding: { top: 80, bottom: 80, left: 120, right: 120 },
+  },
+};
+```
+
+---
+
+## 6. エグゼクティブ (Executive)
+
+チャコール x ゴールド。経営層・役員向けの洗練された高級感あるデザイン。
+
+```javascript
+const EXECUTIVE = {
+  fonts: {
+    heading: "Arial",
+    body: "Arial",
+  },
+  sizes: {
+    title: 30,
+    heading1: 20,
+    heading2: 15,
+    heading3: 12,
+    body: 11,
+    caption: 9,
+  },
+  colors: {
+    heading: "2C3E50",       // チャコール
+    body: "34495E",
+    accent: "C9A84C",        // ゴールド
+    tableBorder: "2C3E50",
+    tableHeaderBg: "2C3E50",
+    tableHeaderText: "F5F0E1",  // ウォームホワイト
+    tableAltRowBg: "FAF8F2",
+  },
+  spacing: {
+    heading1Before: 440,
+    heading1After: 260,
+    heading2Before: 300,
+    heading2After: 180,
+    bodyAfter: 160,
+    lineSpacing: 300,     // 1.25倍
+  },
+  headingStyle: {
+    heading1: { bold: true, bottomBorder: { style: "single", size: 6, color: "C9A84C" } },
+    heading2: { bold: true },
+    heading3: { bold: true },
+  },
+  table: {
+    borderStyle: "single",
+    borderSize: 4,
+    borderColor: "2C3E50",
+    headerShading: { type: "CLEAR", color: "auto", fill: "2C3E50" },
+    cellPadding: { top: 80, bottom: 80, left: 140, right: 140 },
+  },
+};
+```
+
+---
+
+## 7. テック (Tech)
+
+GitHub Dark風。ダークヘッダー x ブルーアクセントのエンジニアリング報告向けデザイン。
+
+```javascript
+const TECH = {
+  fonts: {
+    heading: "Arial",
+    body: "Arial",
+  },
+  sizes: {
+    title: 30,
+    heading1: 20,
+    heading2: 15,
+    heading3: 13,
+    body: 11,
+    caption: 9,
+  },
+  colors: {
+    heading: "0D1117",       // ギットハブダーク
+    body: "333333",
+    accent: "58A6FF",        // ブルーリンク
+    tableBorder: "30363D",
+    tableHeaderBg: "0D1117",
+    tableHeaderText: "C9D1D9",
+    tableAltRowBg: "F0F6FC",
+  },
+  spacing: {
+    heading1Before: 400,
+    heading1After: 240,
+    heading2Before: 280,
+    heading2After: 160,
+    bodyAfter: 140,
+    lineSpacing: 276,     // 1.15倍
+  },
+  headingStyle: {
+    heading1: { bold: true, bottomBorder: { style: "single", size: 6, color: "58A6FF" } },
+    heading2: { bold: true },
+    heading3: { bold: true },
+  },
+  table: {
+    borderStyle: "single",
+    borderSize: 2,
+    borderColor: "30363D",
+    headerShading: { type: "CLEAR", color: "auto", fill: "0D1117" },
+    cellPadding: { top: 60, bottom: 60, left: 100, right: 100 },
+  },
+};
+```
+
+---
+
+## Mermaid図のスタイル連動
+
+各スタイルプリセットに対応する Mermaid テーマと色設定。mmdc の `-c` オプションで JSON config を指定して適用する。
+
+### mmdc 設定テンプレート
+
+```json
+{
+  "theme": "<theme>",
+  "themeVariables": {
+    "primaryColor": "<tableHeaderBg>",
+    "primaryTextColor": "<tableHeaderText>",
+    "primaryBorderColor": "<tableBorder>",
+    "lineColor": "<accent>",
+    "secondaryColor": "<tableAltRowBg>",
+    "tertiaryColor": "<tableAltRowBg>",
+    "fontFamily": "<fonts.body>",
+    "fontSize": "14px"
+  }
+}
+```
+
+### スタイル別マッピング
+
+| スタイル | mmdc theme | primaryColor | lineColor | 背景 |
+|---------|-----------|-------------|-----------|------|
+| シンプル | neutral | F0F0F0 | 666666 | transparent |
+| ブランドカラー | base | ${primaryColor} | ${accentColor} | transparent |
+| フォーマル | dark | 1B3A5C | 2E75B6 | transparent |
+| モダン | default | 2E75B6 | 00B0F0 | transparent |
+| スタイリッシュ | dark | 1A1A2E | E94560 | transparent |
+| エグゼクティブ | neutral | 2C3E50 | C9A84C | transparent |
+| テック | base | 0D1117 | 58A6FF | transparent |
+
+mmdc実行コマンド例:
+
+```bash
+mmdc -i diagram.mmd -o diagram.png -w 1600 --scale 2 -b transparent -c mermaid-config.json
+```
+
+※ `mermaid-config.json` は一時ファイルとして生成し、DOCX出力後に削除する。
+
+---
+
 ## スタイル適用の注意事項
 
 1. **ShadingType**: 必ず `CLEAR` を使用（`SOLID` は使わない）
