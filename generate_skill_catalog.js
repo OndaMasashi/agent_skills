@@ -21,7 +21,7 @@ const {
 } = require("docx");
 
 // ===== Configuration =====
-const VERSION = 3;
+const VERSION = 4;
 const OUTPUT_PATH = `${__dirname}/skill_catalog_v${VERSION}.docx`;
 const CREATED_DATE = "2026-03-07";
 
@@ -599,6 +599,15 @@ const categories = [
           "\u6570\u5B66\u3084\u30A2\u30EB\u30B4\u30EA\u30BA\u30E0\u3092\u7528\u3044\u305F\u82B8\u8853\u4F5C\u54C1\u306E\u4F5C\u6210",
         features:
           "p5.js\u306B\u3088\u308B\u30B8\u30A7\u30CD\u30E9\u30C6\u30A3\u30D6\u30A2\u30FC\u30C8\u3002\u30B7\u30FC\u30C9\u4ED8\u304D\u30E9\u30F3\u30C0\u30E0\u3067\u518D\u73FE\u6027\u3042\u308A\u3002",
+      },
+      {
+        name: "NLM Style Generator",
+        keywords:
+          "\u300CNLM\u30B9\u30BF\u30A4\u30EBJSON\u300D\u300CNotebookLM\u30B9\u30BF\u30A4\u30EB\u300D\u300C\u30B9\u30E9\u30A4\u30C9\u306E\u30B9\u30BF\u30A4\u30EB\u3092\u4F5C\u3063\u3066\u300D",
+        useCase:
+          "PDF\u30FB\u753B\u50CF\u304B\u3089NotebookLM\u30B9\u30BF\u30A4\u30EBJSON\u3092\u30EA\u30D0\u30FC\u30B9\u30A8\u30F3\u30B8\u30CB\u30A2\u30EA\u30F3\u30B0\u751F\u6210",
+        features:
+          "5000\u6587\u5B57\u5236\u9650\u5BFE\u5FDC\u3002PDF\u30EA\u30D0\u30FC\u30B9\u30AC\u30A4\u30C9\u30C1\u30A7\u30C3\u30AF\u30EA\u30B9\u30C8\u3001\u691C\u8A3C\u30B9\u30AF\u30EA\u30D7\u30C8\u4ED8\u304D\u3002",
       },
       {
         name: "Frontend Design",
