@@ -85,8 +85,9 @@ def validate(file_path: str) -> list[str]:
                 if not any(alt in section for alt in alternatives):
                     errors.append(f"Missing required field: {section_path}.{field}")
 
-    # 文字数チェック（プリアンブル込み）
-    full_text = PREAMBLE + json_text
+    # minify形式で文字数カウント（プリアンブル込み）
+    minified = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    full_text = PREAMBLE + minified
     char_count = len(full_text)
 
     return errors, char_count

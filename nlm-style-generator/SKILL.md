@@ -14,8 +14,30 @@ NotebookLMのスライド/インフォグラフィック生成時に「スタイ
 ## 制約
 
 - **文字数制限**: NLMスタイル欄は **5000文字** まで
+- **目標文字数**: **4000〜4800文字**。5000文字の枠を最大限活用し、各セクションを具体的に記述することでNLMの再現精度を高める
+- **出力形式**: minify JSON（改行・インデントなし）で出力する。文字数制限への余裕が生まれる
+- **出力ファイル名**: `style.json`。同名ファイルが既に存在する場合は `style_2.json`, `style_3.json` 等で回避
 - **スコープ**: ビジュアルスタイルのみ。ストーリー・構成・ページ順序は別途NLMに指示する
 - **柔軟性**: 必須フィールドは最小限。PDFのオブジェクト種類やモチーフ等はスタイルに応じて自由に追加する
+
+## 汎用スタイル原則
+
+生成するスタイルJSONは **汎用的に使える** ことを重視する。入力素材がどの業界のものであっても、抽出するのは視覚的特徴のみ。
+
+- **抽出すべき**: 色、フォント、レイアウト、イラストスタイル、トーン、余白、グリッド感、質感
+- **抽出すべきでない**: 業種名、役務名、地域名、人種、固有名詞、業界用語
+- **OK な表現**: 「自然を感じさせる緑系」「草木や葉をモチーフに」「温かみのあるアースカラー」
+- **NG な表現**: 「農業向け」「医療系」「東京都の施策向け」「〇〇社ブランド」
+
+`design_directive` の `objective` / `target_audience` も汎用的に書く:
+
+- NG: `"農業従事者向けの報告書スタイル"`
+- OK: `"自然素材を感じさせるナチュラルモダン、専門職向けの落ち着いたトーン"`
+
+`motifs` / `objects` も視覚的特徴として記述し、業種ラベルを付けない:
+
+- NG: `"農業アイコン"`, `"医療機器イラスト"`
+- OK: `"葉・枝のシルエット"`, `"精密な線画オブジェクト"`
 
 ## ワークフロー
 
@@ -25,23 +47,37 @@ NotebookLMのスライド/インフォグラフィック生成時に「スタイ
 
 | 入力 | 方法 |
 | --- | --- |
-| PDF | Read tool で `pages: "1-5"` 指定。必要に応じて追加ページも読む |
+| PDF | **pdf スキルが利用可能ならスキルを発動**して読み取る。スキルが使えない場合は Read tool で `pages: "1-5"` 指定 |
 | 画像/スクリーンショット | Read tool で視覚的に分析 |
-| Webサイト | スクリーンショットの提供を依頼、または URL から WebFetch |
+| Webサイト | 下記「Webページからの取得方法」を参照 |
 | テキスト指示のみ | ユーザーの方向性からデザインを設計 |
+
+**Webページからの取得方法:**
+
+URLが指定された場合、以下の優先順で取得を試みる:
+
+1. **chrome-devtools MCP**（推奨）: `navigate_page` → `take_screenshot` でページ全体のスクリーンショットを取得し、Read tool で視覚分析。最もスタイル情報が正確に取れる
+2. **WebFetch**: HTMLソースからCSS変数・カラーコード・フォント指定等を抽出。視覚的な分析はできないがテキストベースの情報は取れる
+3. **ユーザーにスクリーンショットを依頼**: 上記が使えない場合のフォールバック
 
 ### Step 2: 体系的分析
 
 PDFリバースガイドチェックリスト（後述）に沿って各要素を観察し、分析結果を構造化サマリーとしてユーザーに提示する。
 
-**注意**: HEXカラーはPDF/画像からの推定値。ユーザーに「推定値です。必要に応じて調整してください」と明記すること。
+**注意**:
+
+- HEXカラーはPDF/画像からの推定値。ユーザーに「推定値です。必要に応じて調整してください」と明記すること
+- 分析時は「汎用スタイル原則」に従い、業種・固有名詞に依存しない視覚的特徴の抽出に集中すること
 
 ### Step 3: スタイルJSON生成
 
-1. ミニマル版テンプレート（後述）をベースに必須フィールドを埋める
-2. リファレンス素材に明確な根拠がある場合のみ任意フィールドを追加
-3. 詳細なフィールド定義が必要な場合 → [references/style_json_framework.md](references/style_json_framework.md) セクション3を参照
-4. リッチなスタイルを生成する場合 → 同ファイルのフル版テンプレート（セクション6.1）を使用
+1. **フル版テンプレート**（[references/style_json_framework.md](references/style_json_framework.md) セクション6.1）をベースに開始する
+2. チェックリストで観察できた要素は **全て記述** する — 任意フィールドも積極的に埋める
+3. 特に `illustration_style_guide` の `parameters` を厚く書く（スライドの見た目に最も影響する）
+4. `description` 欄には「どこに使うか」+「どんな効果を狙うか」を両方書く
+5. **目標: 4000〜4800文字**。不足時はリッチ化チェックリスト（後述）で肉付けする
+6. 5000文字超過時のみ圧縮テクニック表（後述）を適用
+7. 詳細なフィールド定義は [references/style_json_framework.md](references/style_json_framework.md) セクション3を参照
 
 ### Step 4: 検証・圧縮
 
@@ -53,8 +89,8 @@ python scripts/validate_style_json.py <output_path>
 
 ### Step 5: 出力
 
-- プリアンブル「スタイルは下記を適用すること。」を先頭に付与
-- ファイルに保存（ユーザー指定パス or 提案）
+- プリアンブル「スタイルは下記を適用すること。」+ 改行 + minified JSON の構成でファイルに書き出す
+- ファイル名は `style.json`（同名が存在する場合は `style_2.json` 等）
 - 文字数と主なスタイル選択を簡潔に説明
 
 ---
@@ -131,7 +167,8 @@ python scripts/validate_style_json.py <output_path>
 ```text
 "No photorealism", "No 3D renders", "No cartoon characters",
 "No corporate Memphis style", "No gradients", "No drop shadows",
-"No cluttered backgrounds", "No animations or transitions"
+"No cluttered backgrounds", "No animations or transitions",
+"No industry-specific icons or symbols"
 ```
 
 ### slide_layout_structure
@@ -198,9 +235,24 @@ python scripts/validate_style_json.py <output_path>
 
 ---
 
-## 5000文字圧縮テクニック
+## リッチ化チェックリスト
 
-優先度順に適用する。
+JSON生成後、4000文字未満の場合は以下を順にチェックして肉付けする:
+
+- [ ] color_palette: 4〜5色あるか？ description は「どこに＋どんな効果」を書いているか？
+- [ ] typography: headings/body 以外に labels, caption, code を追加できるか？ size を指定しているか？
+- [ ] illustration_style_guide.parameters: perspective, line_work, shading, fill, color_rule を記述したか？
+- [ ] motifs: 具体的なモチーフを3つ以上列挙したか？
+- [ ] effects: テクスチャやエフェクトの指定があるか？
+- [ ] negative_prompts: 5個以上あるか？（素材固有の禁止事項を含む）
+- [ ] slide_layout_structure: diagram_placement or patterns を追加したか？
+- [ ] content_tone_and_voice: vocabulary, structure を追加したか？
+
+---
+
+## 5000文字超過時の圧縮テクニック
+
+**5000文字を超過した場合のみ**、優先度順に適用する。
 
 | 優先度 | テクニック | 効果 |
 | --- | --- | --- |
@@ -211,11 +263,13 @@ python scripts/validate_style_json.py <output_path>
 | 5 | **negative_prompts を厳選** — 4〜5個に絞る | 小 |
 | 6 | **structure を省略** — `style` だけでトーンが十分伝わるなら不要 | 小 |
 
-**目安**: 必須フィールドのみ → 約2,000〜2,500文字。任意フィールド込み → 約3,500〜4,500文字。
+**目標: 4,000〜4,800文字**。超過した場合のみ上記を適用して5000文字以内に収める。
 
 ---
 
-## ミニマル版テンプレート
+## ミニマル版テンプレート（フォールバック用）
+
+通常はフル版テンプレート（references セクション6.1）を使用すること。ユーザーが明示的に軽量版を要求した場合のみ使用。
 
 必須フィールドのみ。プリアンブル付きでそのままNLMに貼り付け可能。
 

@@ -1,0 +1,14 @@
+{
+  "_comment": "Replace ${primaryColor} and ${accentColor} with your brand colors (e.g., #1B4F72, #E74C3C)",
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "${primaryColor}",
+    "primaryTextColor": "#FFFFFF",
+    "primaryBorderColor": "${primaryColor}",
+    "lineColor": "${accentColor}",
+    "secondaryColor": "#F5F5F5",
+    "tertiaryColor": "#F5F5F5",
+    "fontFamily": "Arial",
+    "fontSize": "14px"
+  }
+}

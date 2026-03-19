@@ -1,0 +1,13 @@
+{
+  "theme": "neutral",
+  "themeVariables": {
+    "primaryColor": "#F0F0F0",
+    "primaryTextColor": "#000000",
+    "primaryBorderColor": "#999999",
+    "lineColor": "#666666",
+    "secondaryColor": "#F9F9F9",
+    "tertiaryColor": "#F9F9F9",
+    "fontFamily": "Arial",
+    "fontSize": "14px"
+  }
+}

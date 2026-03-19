@@ -21,7 +21,7 @@ const {
 } = require("docx");
 
 // ===== Configuration =====
-const VERSION = 4;
+const VERSION = 5;
 const OUTPUT_PATH = `${__dirname}/skill_catalog_v${VERSION}.docx`;
 const CREATED_DATE = "2026-03-07";
 
