@@ -59,6 +59,7 @@
 | **Mermaid Diagram** | 「アーキテクチャ図を作って」「Mermaid図」「構成図」「フロー図」 | Mermaid記法で標準規約に基づくアーキテクチャ図を作成。システム概要・データフロー・デプロイ構成・ER図・シーケンス図・C4・Gitグラフ・ガントの8タイプ対応。ブランドカラーパレット、ティア別subgraphカラー、mmdc PNG/SVG出力をサポート。 |
 | **CLAUDE.md Improver** | 「CLAUDE.mdを監査」「CLAUDE.mdを改善して」「プロジェクトメモリ最適化」 | リポジトリ内の全CLAUDE.mdファイルを発見・品質スコアリング（6基準100点満点）し、品質レポートを出力後、ターゲットを絞った改善diffを提案・適用。 |
 | **Claude API** | 「Claude APIで実装」「Anthropic SDKを使って」「Agent SDKで」 | Claude API・Anthropic SDK・Agent SDKを使ったアプリ開発。Python/TypeScript/Java/Go/Ruby/C#/PHP/cURLの8言語対応。ストリーミング、Tool Use、バッチ処理、ファイルAPI。 |
+| **ML Data Guardian** | 「特徴量を検証」「データ整合性チェック」「提出前チェック」 | MLパイプラインの5つのマイルストーン（特徴量生成・外部データ結合・分布比較・予測値生成・提出ファイル）でtrain/testデータの整合性チェックを能動的に提案。NaN率比較、分布ドリフト検出、常識チェック用Pythonスニペット付き。 |
 
 ---
 

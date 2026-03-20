@@ -21,9 +21,9 @@ const {
 } = require("docx");
 
 // ===== Configuration =====
-const VERSION = 5;
+const VERSION = 6;
 const OUTPUT_PATH = `${__dirname}/skill_catalog_v${VERSION}.docx`;
-const CREATED_DATE = "2026-03-07";
+const CREATED_DATE = "2026-03-20";
 
 // Color palette (same as project catalog)
 const COLORS = {
@@ -528,6 +528,15 @@ const categories = [
           "Claude API\u30FBAnthropic SDK\u30FBAgent SDK\u3092\u4F7F\u3063\u305F\u30A2\u30D7\u30EA\u30B1\u30FC\u30B7\u30E7\u30F3\u958B\u767A",
         features:
           "Python/TypeScript/Java/Go/Ruby/C#/PHP/cURL\u306E8\u8A00\u8A9E\u5BFE\u5FDC\u3002\u30B9\u30C8\u30EA\u30FC\u30DF\u30F3\u30B0\u3001Tool Use\u3001\u30D0\u30C3\u30C1\u51E6\u7406\u3001\u30D5\u30A1\u30A4\u30EBAPI\u3002",
+      },
+      {
+        name: "ML Data Guardian",
+        keywords:
+          "\u300C\u7279\u5FB4\u91CF\u3092\u691C\u8A3C\u300D\u300C\u30C7\u30FC\u30BF\u6574\u5408\u6027\u30C1\u30A7\u30C3\u30AF\u300D\u300C\u63D0\u51FA\u524D\u30C1\u30A7\u30C3\u30AF\u300D",
+        useCase:
+          "ML\u30D1\u30A4\u30D7\u30E9\u30A4\u30F3\u306Etrain/test\u30C7\u30FC\u30BF\u6574\u5408\u6027\u30C1\u30A7\u30C3\u30AF\u3092\u80FD\u52D5\u7684\u306B\u63D0\u6848",
+        features:
+          "5\u3064\u306E\u30DE\u30A4\u30EB\u30B9\u30C8\u30FC\u30F3\u3067NaN\u7387\u6BD4\u8F03\u3001\u5206\u5E03\u30C9\u30EA\u30D5\u30C8\u691C\u51FA\u3001\u5E38\u8B58\u30C1\u30A7\u30C3\u30AF\u7528Python\u30B9\u30CB\u30DA\u30C3\u30C8\u4ED8\u304D\u3002",
       },
     ],
   },
