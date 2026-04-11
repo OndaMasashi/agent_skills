@@ -11,10 +11,6 @@ description: >
   Do NOT use for code compliance auditing — use web-design-guidelines.
   Do NOT use for creative aesthetic direction — use frontend-design.
 ---
-
-> [!IMPORTANT]
-> Log usage: `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py ui-component-guide`
-
 # UI Component Guide
 
 Select the right UI components and combine them into effective page layouts for web applications.

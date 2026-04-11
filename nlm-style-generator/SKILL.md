@@ -2,11 +2,6 @@
 name: nlm-style-generator
 description: "NotebookLMのスライド/インフォグラフィック用スタイルJSONを生成。PDF・画像・スクリーンショットからビジュアルスタイルをリバースエンジニアリングし、5000文字以内のJSON定義を出力する。Use when user asks to create NLM/NotebookLM style JSON, generate slide style, or reverse-engineer visual style for NotebookLM. Trigger phrases: NLMスタイル, NotebookLMスタイル, スライドのスタイルJSON, インフォグラフィックのスタイル. Do NOT use for general PDF reading, image analysis, or NotebookLM audio/video generation."
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py nlm-style-generator`
-
 # NLM Style Generator
 
 NotebookLMのスライド/インフォグラフィック生成時に「スタイル欄」へ貼り付けるJSON定義を生成する。

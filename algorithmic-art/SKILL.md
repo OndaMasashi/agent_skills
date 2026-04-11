@@ -4,11 +4,6 @@ description: Creating algorithmic art using p5.js with seeded randomness and int
 license: Complete terms in LICENSE.txt
 ---
 
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py algorithmic-art`
-
-
 Algorithmic philosophies are computational aesthetic movements that are then expressed through code. Output .md files (philosophy), .html files (interactive viewer), and .js files (generative algorithms).
 
 This happens in two steps:

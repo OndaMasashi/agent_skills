@@ -2,11 +2,6 @@
 name: reverve-style-writer
 description: "Reverve Consulting（リバーヴ・コンサルティング）のブログ記事の執筆スタイル、トーン、構成の癖を再現するためのスキルです。専門的な知見を構造化して分かりやすく解説しつつ、個人的な背景を交えて信頼性を醸成するスタイルを模倣します。"
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py reverve-style-writer`
-
 # Agent Skill: ReverveStyleWriter
 
 ## Description

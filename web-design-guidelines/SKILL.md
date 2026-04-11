@@ -6,11 +6,6 @@ metadata:
   version: "1.0.0"
   argument-hint: <file-or-pattern>
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py web-design-guidelines`
-
 # Web Interface Guidelines
 
 Review files for compliance with Web Interface Guidelines.

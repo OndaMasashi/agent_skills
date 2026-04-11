@@ -1,9 +1,4 @@
 ﻿---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py docx-word-count`
-
 # DOCX Word Count
 
 このスキルは、Markdown (.md) ファイルから、Microsoft Word でカウントされる文字数に近い数値を算出します。

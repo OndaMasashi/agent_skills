@@ -2,11 +2,6 @@
 name: stripe-integration-node
 description: Implement Stripe payment processing for robust, PCI-compliant payment flows using Node.js, Express, and React. Covers PaymentElement, Subscriptions, and Webhooks.
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py stripe-integration`
-
 ## Overview
 
 pe Integration (Node.js & React)

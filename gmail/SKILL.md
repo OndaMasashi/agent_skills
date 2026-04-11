@@ -1,9 +1,4 @@
 ﻿---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py gmail`
-
 # Gmail
 
 Lightweight Gmail integration with standalone OAuth authentication. No MCP server required.

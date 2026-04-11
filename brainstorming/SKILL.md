@@ -2,11 +2,6 @@
 name: brainstorming
 description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py brainstorming`
-
 # Brainstorming Ideas Into Designs
 
 ## Overview
@@ -44,14 +39,14 @@ Start by understanding the current project context, then ask questions one at a 
 **Documentation:**
 
 - Write the validated design to `docs/plans/YYYY-MM-DD-<topic>-design.md`
-- Use elements-of-style:writing-clearly-and-concisely skill if available
+- 簡潔で明瞭な文章を心がける
 - Commit the design document to git
 
 **Implementation (if continuing):**
 
 - Ask: "Ready to set up for implementation?"
-- Use superpowers:using-git-worktrees to create isolated workspace
-- Use superpowers:writing-plans to create detailed implementation plan
+- git worktree で隔離ワークスペースを作成（EnterWorktree が利用可能な場合）
+- 実装計画を docs/plans/ に作成（各ステップは検証可能なタスクリスト形式）
 
 ## Key Principles
 

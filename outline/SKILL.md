@@ -1,9 +1,4 @@
 ﻿---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py outline`
-
 # Outline Wiki Skill
 
 Search, read, create, and manage documents in any Outline wiki instance. Works with all AI clients supporting the Agent Skills Standard.

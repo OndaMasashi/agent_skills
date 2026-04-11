@@ -2,11 +2,6 @@
 name: excel-to-pdf
 description: ExcelファイルをPDFに変換します。「ExcelをPDFに変換して」「xlsxをPDF化」といった指示で、書式を保持したPDF出力を行います。LibreOffice利用の高忠実度変換とPython純正の軽量変換に対応。ExcelやPDFの作成・編集自体には使わないでください（それぞれxlsx, pdfスキルを使用）。
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py excel-to-pdf`
-
 # Excel→PDF変換ガイド
 
 ## Overview
@@ -87,16 +82,16 @@ doc.build([table])
 
 ```bash
 # 全シート変換（デフォルト）
-python C:/work/utility/skills-main/skills-main/skills/excel-to-pdf/convert.py <input.xlsx> [output.pdf]
+python convert.py <input.xlsx> [output.pdf]
 
 # 特定シートのみ変換（名前指定）
-python C:/work/utility/skills-main/skills-main/skills/excel-to-pdf/convert.py <input.xlsx> --sheets "Sheet1,Sheet3"
+python convert.py <input.xlsx> --sheets "Sheet1,Sheet3"
 
 # 特定シートのみ変換（0始まりインデックス指定）
-python C:/work/utility/skills-main/skills-main/skills/excel-to-pdf/convert.py <input.xlsx> --sheets 0
+python convert.py <input.xlsx> --sheets 0
 
 # 1シート目だけPDF化
-python C:/work/utility/skills-main/skills-main/skills/excel-to-pdf/convert.py <input.xlsx> --sheets 0
+python convert.py <input.xlsx> --sheets 0
 ```
 
 LibreOfficeの検出と変換方式の自動選択を行います。

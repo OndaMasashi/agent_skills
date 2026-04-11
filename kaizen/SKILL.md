@@ -6,11 +6,6 @@ metadata:
   version: "1.0.0"
   source: https://github.com/NeoLabHQ/context-engineering-kit
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py kaizen`
-
 # Kaizen: 継続的改善
 
 **原則**: 「多くの小さな改善は、1つの大きな変更に勝る。エラーは修正ではなく設計段階で防ぐ。」

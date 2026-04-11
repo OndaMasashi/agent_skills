@@ -6,11 +6,6 @@ metadata:
   version: "1.0.0"
   category: "development"
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py mermaid-diagram`
-
 # Mermaid Diagram
 
 Mermaid記法による図の作成を標準規約に基づいて行うスキル。システム構成図、データフロー図、デプロイ構成図、ER図、シーケンス図など、ソフトウェアアーキテクチャの文書化に必要な図を統一されたスタイルで生成する。

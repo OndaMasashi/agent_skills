@@ -4,11 +4,6 @@ description: Guide for creating high-quality MCP (Model Context Protocol) server
 license: Complete terms in LICENSE.txt
 ---
 
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py mcp-builder`
-
-
 > **思考モード**: このスキルはAPI設計・ツール粒度・エラーハンドリング等の多数のアーキテクチャ判断を伴うため、設計・実装方針の決定前に `ultrathink` で深く考えること。
 
 # MCP Server Development Guide

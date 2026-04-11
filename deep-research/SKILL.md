@@ -1,9 +1,4 @@
 ﻿---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py deep-research`
-
 # Gemini Deep Research Skill
 
 Run autonomous research tasks that plan, search, read, and synthesize information into comprehensive reports.

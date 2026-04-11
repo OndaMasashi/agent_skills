@@ -5,11 +5,6 @@ allowed-tools:
   - Read
   - Write
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py ship-learn-next`
-
 # Ship-Learn-Next Action Planner
 
 This skill helps transform passive learning content into actionable **Ship-Learn-Next cycles** - turning advice and lessons into concrete, shippable iterations.

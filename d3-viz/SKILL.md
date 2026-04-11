@@ -6,11 +6,6 @@ metadata:
   version: "1.0.0"
   source: https://github.com/chrisvoncsefalvay/claude-d3js-skill
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py d3-viz`
-
 # D3.js Visualization
 
 ## When to use d3.js

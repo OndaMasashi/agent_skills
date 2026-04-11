@@ -1,9 +1,4 @@
 ﻿---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py skill-creator`
-
 > **思考モード**: このスキルはユースケース定義→アーキテクチャ設計→Progressive Disclosure設計→テスト戦略の多段設計判断を伴うため、各フェーズの意思決定前に `ultrathink` で深く考えること。
 
 # Skill Creator

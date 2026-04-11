@@ -4,11 +4,6 @@ description: Suite of tools for creating elaborate, multi-component claude.ai HT
 license: Complete terms in LICENSE.txt
 ---
 
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py web-artifacts-builder`
-
-
 # Web Artifacts Builder
 
 To build powerful frontend claude.ai artifacts, follow these steps:

@@ -194,7 +194,7 @@ graph TB
     end
 
     subgraph GHRepo["GitHub Repository"]
-        Repo["OndaMasashi/\nreverve-X-analysis"]
+        Repo["your-org/\nyour-repo"]
     end
 
     Scraper -->|"write data"| PG

@@ -7,11 +7,6 @@ metadata:
   source: https://github.com/coffeefuelbump/csv-data-summarizer-claude-skill
   dependencies: python>=3.8, pandas>=2.0.0, matplotlib>=3.7.0, seaborn>=0.12.0
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py csv-data-summarizer`
-
 # CSV Data Summarizer
 
 CSVファイルをアップロードまたは指定されたら、**質問せずに即座に包括的な分析を実行する**。
