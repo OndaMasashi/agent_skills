@@ -60,6 +60,7 @@
 | **CLAUDE.md Improver** | 「CLAUDE.mdを監査」「CLAUDE.mdを改善して」「プロジェクトメモリ最適化」 | リポジトリ内の全CLAUDE.mdファイルを発見・品質スコアリング（6基準100点満点）し、品質レポートを出力後、ターゲットを絞った改善diffを提案・適用。 |
 | **Claude API** | 「Claude APIで実装」「Anthropic SDKを使って」「Agent SDKで」 | Claude API・Anthropic SDK・Agent SDKを使ったアプリ開発。Python/TypeScript/Java/Go/Ruby/C#/PHP/cURLの8言語対応。ストリーミング、Tool Use、バッチ処理、ファイルAPI。 |
 | **ML Data Guardian** | 「特徴量を検証」「データ整合性チェック」「提出前チェック」 | MLパイプラインの5つのマイルストーン（特徴量生成・外部データ結合・分布比較・予測値生成・提出ファイル）でtrain/testデータの整合性チェックを能動的に提案。NaN率比較、分布ドリフト検出、常識チェック用Pythonスニペット付き。 |
+| **Test Strategy** | 「テスト戦略」「テスト計画を立てて」「新規プロジェクトの品質設計」「プランモードでテスト観点」「カバレッジを改善」 | 新規PJ立ち上げ・Plan Modeでテスト戦略（ピラミッドのバランス、静的解析、CI、補強領域の採否判断）を考慮観点として提示。YAGNI原則で規模別に必須/推奨を仕分け。 |
 
 ---
 
