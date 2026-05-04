@@ -61,6 +61,9 @@
 | **Claude API** | 「Claude APIで実装」「Anthropic SDKを使って」「Agent SDKで」 | Claude API・Anthropic SDK・Agent SDKを使ったアプリ開発。Python/TypeScript/Java/Go/Ruby/C#/PHP/cURLの8言語対応。ストリーミング、Tool Use、バッチ処理、ファイルAPI。 |
 | **ML Data Guardian** | 「特徴量を検証」「データ整合性チェック」「提出前チェック」 | MLパイプラインの5つのマイルストーン（特徴量生成・外部データ結合・分布比較・予測値生成・提出ファイル）でtrain/testデータの整合性チェックを能動的に提案。NaN率比較、分布ドリフト検出、常識チェック用Pythonスニペット付き。 |
 | **Test Strategy** | 「テスト戦略」「テスト計画を立てて」「新規プロジェクトの品質設計」「プランモードでテスト観点」「カバレッジを改善」 | 新規PJ立ち上げ・Plan Modeでテスト戦略（ピラミッドのバランス、静的解析、CI、補強領域の採否判断）を考慮観点として提示。YAGNI原則で規模別に必須/推奨を仕分け。 |
+| **Subagent-Driven Development** | 「サブエージェント並列で実装」「実装プランを分散実行」「二段階レビューで」 | 実装プランの独立タスクをサブエージェントに分散→spec compliance→code quality の二段階レビューで高速反復。obra/superpowers から取込み（MIT）。 |
+| **Systematic Debugging** | 「バグの原因を体系的に」「テスト失敗の根本原因」「症状ではなく原因」 | バグ・テスト失敗・予期せぬ挙動の前にPhase1（根本原因特定）を完了する4段階プロセス。症状だけのfixを禁ずる Iron Law。obra/superpowers から取込み（MIT）。 |
+| **Verification Before Completion** | 「完了前に検証」「証拠を出して完了報告」「PR前チェック」 | 完了/PR/コミット前に検証コマンドを実行し、出力を確認するまで成功宣言を禁止。Iron Law: 証拠なしの完了主張は不誠実。obra/superpowers から取込み（MIT）。 |
 
 ---
 
