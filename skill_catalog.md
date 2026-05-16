@@ -68,6 +68,7 @@
 | **GCP WAF: Cost Optimization** | 「GCPコスト最適化」「FinOps観点で」「Well-Architectedでコスト評価」 | Google Cloud Well-Architected Frameworkの「コスト最適化」柱に基づくワークロード評価。FinOps文化、CapEx→OpEx移行、コスト要件の特定と推奨事項の生成。google/skills 取込み（Apache-2.0）。 |
 | **GCP WAF: Reliability** | 「GCP信頼性設計」「可用性レビュー」「Well-Architectedで信頼性評価」 | Google Cloud Well-Architected Frameworkの「信頼性」柱に基づく設計指針。可用性・障害耐性・グレースフルリカバリの観点でワークロードを評価し推奨事項を生成。google/skills 取込み（Apache-2.0）。 |
 | **GCP WAF: Security** | 「GCPセキュリティ設計」「IAM評価」「Well-Architectedでセキュリティ評価」 | Google Cloud Well-Architected Frameworkの「セキュリティ」柱に基づくIAM・ネットワーク・データ保護・運用セキュリティの設計指針。リスク管理・脅威対策・ID制御の構造化アプローチ。google/skills 取込み（Apache-2.0）。 |
+| **Multi-Axis Audit** | 「監査して」「総合監査」「Sprint末監査」「branch監査」「全コードレビュー」「コード監査」「異視座監査」「盲点を洗い出して」「多軸監査」「リファクタ前監査」「規制対応監査」「サプライチェーン監査」 | **監査系リクエストの第一選択スキル**。9大カテゴリ75軸 (Sec/Reliability/Perf/Quality/UX/Data/Supply/Meta/LLM) の監査軸 menu を filter で選択 (--all/--top10/Cn/M-XXX/--tags/--filter/--meta-only)、並列 sub-agent dispatch (Round 制御, 並列 5 default / max 7)、HIGH spot-check で false-positive 制御、memory snapshot + ROADMAP + improvement_list を自動生成。PR scope 超の大規模監査用。 |
 
 ---
 

@@ -21,9 +21,9 @@ const {
 } = require("docx");
 
 // ===== Configuration =====
-const VERSION = 9;
+const VERSION = 10;
 const OUTPUT_PATH = `${__dirname}/skill_catalog_v${VERSION}.docx`;
-const CREATED_DATE = "2026-05-14";
+const CREATED_DATE = "2026-05-16";
 
 // Color palette (same as project catalog)
 const COLORS = {
@@ -609,6 +609,15 @@ const categories = [
           "Google Cloud Well-Architected Framework\u300C\u30BB\u30AD\u30E5\u30EA\u30C6\u30A3\u300D\u67F1\u306B\u57FA\u3065\u304FIAM\u30FB\u30CD\u30C3\u30C8\u30EF\u30FC\u30AF\u30FB\u30C7\u30FC\u30BF\u4FDD\u8B77\u30FB\u904B\u7528\u30BB\u30AD\u30E5\u30EA\u30C6\u30A3\u306E\u8A2D\u8A08\u6307\u91DD",
         features:
           "\u30EA\u30B9\u30AF\u7BA1\u7406\u30FB\u8105\u5A01\u5BFE\u7B56\u30FBID\u5236\u5FA1\u306E\u69CB\u9020\u5316\u30A2\u30D7\u30ED\u30FC\u30C1\u3002google/skills \u53D6\u8FBC\u307F\uFF08Apache-2.0\uFF09\u3002",
+      },
+      {
+        name: "Multi-Axis Audit",
+        keywords:
+          "\u300C\u76E3\u67FB\u3057\u3066\u300D\u300C\u7DCF\u5408\u76E3\u67FB\u300D\u300CSprint\u672B\u76E3\u67FB\u300D\u300Cbranch\u76E3\u67FB\u300D\u300C\u5168\u30B3\u30FC\u30C9\u30EC\u30D3\u30E5\u30FC\u300D\u300C\u7570\u8996\u5EA7\u76E3\u67FB\u300D\u300C\u76F2\u70B9\u3092\u6D17\u3044\u51FA\u3057\u3066\u300D",
+        useCase:
+          "PR scope\u3092\u8D85\u3048\u308B\u5927\u898F\u6A21\u76E3\u67FB\uFF089\u5927\u30AB\u30C6\u30B4\u30EA75\u8EF8\u306Emenu\u3092filter\u3067\u9078\u629E\u3001\u4E26\u5217sub-agent\u3067dispatch\uFF09",
+        features:
+          "\u76E3\u67FB\u7CFB\u30EA\u30AF\u30A8\u30B9\u30C8\u306E\u7B2C\u4E00\u9078\u629E\u30B9\u30AD\u30EB\u3002Sec/Reliability/Perf/Quality/UX/Data/Supply/Meta/LLM\u30929\u5927\u30AB\u30C6\u30B4\u30EA75\u8EF8\u306Bcatalog\u5316\u3002--all/--top10/Cn/M-XXX/--tags/--filter/--meta-only\u3067\u8EF8\u9078\u629E\u3001Round\u5236\u5FA1\u3067\u4E26\u52175 default/max 7\u3001HIGH spot-check\u3067false positive\u5236\u5FA1\u3001memory snapshot+ROADMAP+improvement_list\u3092\u81EA\u52D5\u751F\u6210\u3002",
       },
     ],
   },

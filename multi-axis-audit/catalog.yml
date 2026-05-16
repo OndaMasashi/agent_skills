@@ -1,0 +1,1187 @@
+# Multi-Axis Audit Catalog
+# 9 大カテゴリ 75 軸の監査軸定義。
+# 各軸は SKILL.md / prompts/axis-auditor-prompt.md から参照され、
+# `--all` / `--top10` / `Cn` / `M-NNN` / `--tags` / `--filter` / `--exclude-tags` で選択される。
+#
+# scores: U = uniqueness (既存軸では出ない度合い 1-5)
+#         I = impact (検出時 finding の重要度 1-5)
+#         E = executability (agent prompt 実行容易度 1-5)
+# tags:   web / api / batch / datapipe / infra / ml / llm-app / llm-dev / cli / all
+# recommended_agent_type: ~/.claude/agents/ に該当が無ければ general-purpose にフォールバック
+#                         (config.yml の subagent_overrides で上書き可能)
+
+version: "1.0.0"
+
+# §10.1 TOP 10 推奨軸 (--top10 起動時に使用)
+top10:
+  - M-042  # Tacit Assumption (単位/順序/一意性)
+  - M-060  # Negative Space / 不在監査
+  - M-008  # Fail-Safe vs Fail-Secure 明示
+  - M-068  # Prompt Injection 耐性
+  - M-069  # Excessive Agency / Tool Whitelist
+  - M-053  # Data Lineage / Provenance
+  - M-054  # Ergodicity Audit (Path vs Ensemble)
+  - M-011  # Iatrogenics / 防御の逆効果
+  - M-014  # Fail Philosophy 一貫性
+  - M-026  # Second-Order Effects / 介入カスケード
+
+# 大カテゴリ定義
+categories:
+  C1: { name: "Security & Privacy", count: 6 }
+  C2: { name: "Reliability & Operability", count: 20 }
+  C3: { name: "Performance & Scale", count: 4 }
+  C4: { name: "Code Quality & Maintainability", count: 12 }
+  C5: { name: "UX / a11y / i18n", count: 10 }
+  C6: { name: "Data Integrity & Lineage", count: 3 }
+  C7: { name: "Supply Chain & Build", count: 3 }
+  C8: { name: "Meta Audit / 思考方法", count: 9 }
+  C9: { name: "LLM Agent 駆動開発リスク", count: 8 }
+
+# 75 軸定義 (spec §4.1-§4.9 順)
+axes:
+
+  # ============================================================
+  # C1 Security & Privacy (6 軸)
+  # ============================================================
+
+  - id: M-001
+    name: "AuthN / AuthZ + OWASP Top 10"
+    category: C1
+    original_id: A3
+    tags: [web, api, llm-app]
+    scores: { U: 2, I: 5, E: 5 }
+    focus: "認証・認可・OWASP A01-A10 の典型欠陥 (IDOR / SSRF / SQLi / XSS / CSRF / step-up)"
+    relationship: "既存軸 (baseline)"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      認証 / 認可 / OWASP Top 10 観点で {target_paths} を監査。endpoint ごとに
+      (a) 認証必須か (b) ロール / リソース所有者 check (c) input validation
+      (d) output encoding (e) rate limit (f) audit log の有無を表で出せ。
+      step-up が必要な destructive 操作の欠落も指摘。
+
+  - id: M-002
+    name: "Multi-tenant / Cross-User Data Leakage"
+    category: C1
+    original_id: L1-3
+    tags: [web, api]
+    scores: { U: 4, I: 5, E: 4 }
+    focus: "per-row authz、IDOR、WHERE user_id=? の漏れ"
+    relationship: "M-001 の subset だが「全クエリで tenant filter が付くか」という横断視点で独立"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      全 DB クエリ / ORM 呼び出しを列挙し、tenant_id / user_id / account_id 等の
+      scope 列が WHERE に必ず入るか確認。入っていない経路を「IDOR risk」として
+      挙げ、API endpoint との対応表を出せ。filter を service 層に集約する
+      helper があるか、bypass 経路 (admin / system task) はどう区別されているか。
+
+  - id: M-003
+    name: "Immutable Audit Trail / Tamper-Evident Logging"
+    category: C1
+    original_id: L1-1
+    tags: [api, llm-app, infra]
+    scores: { U: 5, I: 4, E: 3 }
+    focus: "app プロセス / DBA が事後改竄できないログ構造 (append-only / hash chain / WORM)"
+    relationship: "独立 (既存 audit_log は emit のみ、tamper-evidence は別問題)"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      audit_event / audit_log 系テーブルの schema を確認し、UPDATE/DELETE 経路が
+      app コードから到達可能か grep。append-only か、外部 WORM (S3 Object Lock /
+      CloudWatch immutable) に sink しているか。事故 / 訴訟時に「app 管理者が
+      改竄していない」を示せる構造かを評価せよ。
+
+  - id: M-004
+    name: "Red Team / Adversarial Path Walk"
+    category: C1
+    original_id: RED
+    tags: [web, api, llm-app]
+    scores: { U: 3, I: 5, E: 4 }
+    focus: "攻撃者視点で最も「お得な」侵入経路を 5 つ"
+    relationship: "既存軸"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      外部攻撃者 / 内部低権限ユーザー / 漏洩した token 保持者 の 3 persona で
+      「最もコスト効率の良い攻撃 5 種」を列挙。前提条件 / 必要ツール / 期待戻り
+      / 検知可能性 / 緩和策 を 1 件ずつ。OWASP 教科書通りでなく実装文脈に即せ。
+
+  - id: M-005
+    name: "Regulatory & Compliance Mapping"
+    category: C1
+    original_id: REG
+    tags: [api, llm-app, all]
+    scores: { U: 3, I: 4, E: 3 }
+    focus: "業界規制 (GDPR / 金商法 / HIPAA / GxP / AI Act) と実装の対応"
+    relationship: "既存軸"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      対象業界の主要規制 (PJ context に応じる) と、データ保持期間 / 同意取得 /
+      削除権 / 監査ログ / 説明可能性 の対応表を出力。実装側で satisfied / partial
+      / missing を明記。partial / missing は具体的修正タスクを起票せよ。
+
+  - id: M-006
+    name: "Sensitive Data Disclosure via Logs / Errors"
+    category: C1
+    original_id: L5-6+RED
+    tags: [all]
+    scores: { U: 3, I: 4, E: 5 }
+    focus: "stack trace / PII / secret が log / error response に漏出"
+    relationship: "M-001 の補完、M-045 と並存"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      Exception handler / logger 呼び出し / error response builder を列挙し、
+      (a) raw exception を user に返していないか (b) PII / secret / token を
+      log にそのまま出していないか (c) structlog の bind に sensitive key が
+      入っていないか を表で出せ。leak risk が高い順に並べよ。
+
+  # ============================================================
+  # C2 Reliability & Operability (20 軸)
+  # ============================================================
+
+  - id: M-007
+    name: "SRE 3AM Oncall Walk-through"
+    category: C2
+    original_id: SRE
+    tags: [api, batch, infra, llm-app]
+    scores: { U: 3, I: 5, E: 4 }
+    focus: "3AM oncall が runbook / dashboard / log だけで復旧できるか"
+    relationship: "既存軸"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      3AM に「サービス停止」alert を受けた oncall を想定し、(a) どの dashboard
+      を見るか (b) どの log query を打つか (c) どの runbook がヒットするか (d)
+      どの操作で復旧するか の 4 ステップを実コマンドレベルで書け。書けない箇所
+      が「ある」のがバグ。
+
+  - id: M-008
+    name: "Fail-Safe vs Fail-Secure 設計の明示"
+    category: C2
+    original_id: L1-2
+    tags: [api, batch, infra, ml]
+    scores: { U: 5, I: 5, E: 3 }
+    focus: "障害時に「止まる」「続ける」「縮退する」の選択が明文化されているか"
+    relationship: "独立 (機能安全領域からの import、SaaS では未浸透)"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      external dependency (DB / cache / external API / queue / auth) ごとに
+      「障害時にどう振る舞うか」を表化。fail-open (素通し) / fail-closed (拒否)
+      / fail-degrade (縮退) の選択を、ビジネス要件と整合しているか評価せよ。
+      明文化されていない選択を「暗黙 fail philosophy」として指摘。
+
+  - id: M-009
+    name: "Graceful Degradation / Brown-Out 設計"
+    category: C2
+    original_id: L1-6
+    tags: [web, api, infra]
+    scores: { U: 4, I: 4, E: 3 }
+    focus: "部分障害時の段階的縮退 (load shedding / read-only mode / feature flag kill)"
+    relationship: "M-008 の dynamic 版"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      「重要度 S/A/B/C」の機能分類を再構成し、過負荷時 / partial outage 時に
+      C → B → A の順で機能を落とす機構があるか確認。circuit breaker / load
+      shedder / read-only flag / feature kill の有無、orchestration の場所を示せ。
+
+  - id: M-010
+    name: "Human-in-the-Loop / Override / Kill Switch"
+    category: C2
+    original_id: L1-8
+    tags: [api, batch, ml, llm-app]
+    scores: { U: 4, I: 5, E: 4 }
+    focus: "自動化が暴走した時、人間が独立経路で止められるか"
+    relationship: "独立 (M-008 と相補、止め方の保証)"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      自動的に副作用を起こす経路 (auto-execute / scheduled / agent loop / retry
+      daemon) を列挙し、それぞれに (a) 人間が止める手段 (b) その手段が同じ
+      サービス bug に巻き込まれないか (c) kill 後の半端な state の片付け
+      を評価。kill switch が同じ DB / 同じ process に依存しているなら指摘。
+
+  - id: M-011
+    name: "Iatrogenics / 防御の逆効果"
+    category: C2
+    original_id: L3-2
+    tags: [api, infra]
+    scores: { U: 5, I: 4, E: 4 }
+    focus: "retry storm / alert fatigue / HA そのものの SPOF 化"
+    relationship: "独立 (高ユニーク)"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      「防御のための仕組み」を列挙 (retry / circuit breaker / HA / replication /
+      rate limit / alerting / 監視)。それぞれが「導入していなければ起きなかった
+      種類の事故」を 1 件想像し、現実的に起こり得るかを評価。retry の指数 backoff
+      / jitter / 上限、alert の SLO 連動 / dedup を check。
+
+  - id: M-012
+    name: "Hidden SPOF"
+    category: C2
+    original_id: L3-3
+    tags: [api, infra, ml]
+    scores: { U: 4, I: 5, E: 3 }
+    focus: "TLS cert / DNS / 鍵管理 / 1 つの 3rd party / bus factor の単一障害点"
+    relationship: "M-040 と部分相互参照"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      「これが今日止まったら全機能停止」になる依存を 10 個 brainstorm。TLS cert
+      / DNS provider / OAuth IdP / external API / cron host / 暗号鍵 (KMS / env)
+      / 単一 region / 単一 maintainer。失効・rotation 手順の有無、SPOF を解消する
+      コストと benefit を表化せよ。
+
+  - id: M-013
+    name: "Antifragility / ストレス下成長"
+    category: C2
+    original_id: L3-5
+    tags: [api, infra]
+    scores: { U: 5, I: 3, E: 2 }
+    focus: "chaos drill / game day / postmortem → test 還元のループ"
+    relationship: "独立 (高ユニーク、メタ思考必要)"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      過去 N 回の incident / postmortem を列挙し、それぞれが (a) 新しい test に
+      なったか (b) chaos drill に組み込まれたか (c) playbook に reflect されたか
+      を check。「同じ事故を 2 回起こさない構造」が成立しているかを評価せよ。
+
+  - id: M-014
+    name: "Fail Philosophy 一貫性"
+    category: C2
+    original_id: L3-9
+    tags: [all]
+    scores: { U: 5, I: 4, E: 3 }
+    focus: "沈黙の失敗 / 騒がしい失敗 の選択が業界文脈と一貫しているか"
+    relationship: "M-008 と相補、A1 silent-failure の延長"
+    recommended_agent_type: silent-failure-hunter
+    prompt_skeleton: |
+      failure mode を「silent (落とさない)」「loud (落とす)」「degrade (縮退)」
+      の 3 分類で全 critical path を分類。業界 (金融 / 医療 / 広告 / ゲーム) の
+      文脈で適切な選択になっているか評価。silent と loud が混在し一貫性を欠く
+      経路を指摘せよ。
+
+  - id: M-015
+    name: "SLO / SLI / Error Budget 設計"
+    category: C2
+    original_id: L4-2
+    tags: [api, web, infra]
+    scores: { U: 3, I: 4, E: 4 }
+    focus: "user-facing SLI か内部 metric か、error budget の運用"
+    relationship: "M-021 (Goodhart) と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      既存の SLO / SLI を列挙し、それぞれが (a) user-facing か (b) 計測点が正しいか
+      (c) error budget の消費を可視化しているか (d) budget 枯渇時の意思決定が
+      document 化されているか を表で出せ。
+
+  - id: M-016
+    name: "Alert Quality / Alert Fatigue"
+    category: C2
+    original_id: L4-5
+    tags: [api, infra]
+    scores: { U: 4, I: 4, E: 4 }
+    focus: "alert → action rate、symptom vs cause、夜間に鳴る価値"
+    relationship: "M-007 / M-011 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      全 alert / notification 定義を列挙し、過去 N 件で (a) 発火 → action 率
+      (b) false positive 率 (c) symptom-based か cause-based か (d) 夜間に
+      鳴って人を起こす価値があるか を評価。低品質 alert を kill / mute / 統合
+      すべきものとして提案。
+
+  - id: M-017
+    name: "Configuration Drift / Environment Parity"
+    category: C2
+    original_id: L1-7
+    tags: [api, infra, batch]
+    scores: { U: 4, I: 5, E: 4 }
+    focus: "dev / staging / prod の意図的 vs 事故的差異、env / compose / IaC の wiring shadow"
+    relationship: "PJ 経験 (compose env shadow) の一般化"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      config source を全列挙 (env / .env / docker-compose / IaC / runtime override
+      / secret manager)。同じ key が複数 source に出る場合、resolution 順序と
+      「どこに書くと届くか」を表化。CI で source 間の整合性を gate しているか、
+      shadow しているケースを grep で抽出。
+
+  - id: M-018
+    name: "TOCTOU / Stale State Decision"
+    category: C2
+    original_id: L1-5
+    tags: [api, batch]
+    scores: { U: 4, I: 5, E: 4 }
+    focus: "check → act の間で前提状態が変わる経路"
+    relationship: "A2 race の subset として明示 (A2 = ロック / 並行、M-018 = 時間差判断)"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      「if X then mutate Y」型のコードを grep。check と mutate の間に await /
+      network / IO / 他 task の介入余地があるか確認。SELECT → UPDATE が
+      単一 tx でない / 楽観ロック未使用 / 状態 column の row-level check 欠落
+      を指摘。最低 5 件抽出。
+
+  - id: M-019
+    name: "Race Conditions / Concurrency"
+    category: C2
+    original_id: A2
+    tags: [api, batch]
+    scores: { U: 3, I: 5, E: 5 }
+    focus: "ロック粒度 / 二重発火 / async cancel / signal handler"
+    relationship: "既存軸 (M-018 は subset)"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      共有資源 (DB row / file / cache / in-memory dict / external API limit) を
+      列挙し、それぞれに対する concurrent access の保護を表化。lock の粒度 /
+      公平性 / re-entrancy / dead-lock 可能性 / cancellation safety を評価。
+
+  - id: M-020
+    name: "Silent Failure / Swallowed Exception"
+    category: C2
+    original_id: A1
+    tags: [all]
+    scores: { U: 3, I: 5, E: 5 }
+    focus: "except: pass / 無条件 catch / 失敗を成功に変える経路"
+    relationship: "既存軸 (M-014 と相補)"
+    recommended_agent_type: silent-failure-hunter
+    prompt_skeleton: |
+      try/except / .catch / err != nil で error を握り潰している箇所を全列挙。
+      それぞれが (a) intentional か (b) 監視 emit があるか (c) 上位 caller に
+      失敗を伝えているか (d) retry / DLQ にルーティングされるか を表で評価。
+
+  - id: M-021
+    name: "Goodhart's Law / Metric Capture"
+    category: C2
+    original_id: L3-1
+    tags: [all]
+    scores: { U: 5, I: 3, E: 2 }
+    focus: "指標が目標化して本質と乖離 (e.g., test カバレッジ / latency p50)"
+    relationship: "M-015 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      プロジェクトで「目標値」として運用される metric を列挙し、それぞれが
+      (a) 本来の意図 (b) hack 可能な抜け穴 (c) 既に hack されていないか の 3
+      点で評価。test カバレッジ / SLO / 売上 / engagement 等が gaming されて
+      本質的価値を毀損していないか具体例で示せ。
+
+  - id: M-022
+    name: "Temporal Coupling / Lifecycle Order"
+    category: C2
+    original_id: L2-7
+    tags: [api, batch]
+    scores: { U: 4, I: 4, E: 4 }
+    focus: "呼び出し順序の暗黙契約 (init → register → start)"
+    relationship: "既存 A8 lifecycle の DDD 視点拡張"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      lifecycle (startup / shutdown / hot-reload / migration) で「呼び出し順序」
+      に依存する箇所を列挙。順序が code comment / docstring に明示されているか、
+      順序違反時に型 / runtime で検出できるか評価。順序が暗黙の箇所を bug
+      発火源として指摘せよ。
+
+  - id: M-023
+    name: "CI/CD Health + Test Erosion"
+    category: C2
+    original_id: L4-6
+    tags: [all]
+    scores: { U: 3, I: 4, E: 4 }
+    focus: "CI 時間 / flaky / skip 蓄積 / --no-verify"
+    relationship: "M-040 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      最近 N 回の CI run を見て (a) 平均時間 (b) flaky test 上位 (c) skip / xfail
+      の蓄積 (d) --no-verify commit 履歴 (e) main 直 push の有無 を集計。
+      CI が「形だけ」になっていないかを評価。
+
+  - id: M-024
+    name: "Deployment Maturity / Rollback Capability"
+    category: C2
+    original_id: L4-7
+    tags: [api, infra]
+    scores: { U: 4, I: 5, E: 3 }
+    focus: "rollback drill が行われているか、reversible migration か"
+    relationship: "M-007 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      最近 N 回の deploy で (a) rollback された数 (b) rollback 手順が実行可能か
+      (c) DB migration が reversible か (d) feature flag で kill 可能か を表化。
+      「rollback したことがない」=「できる保証がない」前提で評価せよ。
+
+  - id: M-025
+    name: "DORA 4 Metrics 健全性"
+    category: C2
+    original_id: L4-1
+    tags: [all]
+    scores: { U: 3, I: 3, E: 4 }
+    focus: "deploy freq / lead time / CFR / MTTR"
+    relationship: "M-015 / M-021 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      過去 N ヶ月の deploy 頻度 / lead time / change failure rate / MTTR を
+      概算。State of DevOps Elite / High / Medium / Low のどこに位置するか、
+      bottleneck が code review / CI / approval / rollback どこにあるかを示せ。
+
+  - id: M-026
+    name: "Second-Order Effects / 介入カスケード"
+    category: C2
+    original_id: L3-6
+    tags: [all]
+    scores: { U: 5, I: 4, E: 2 }
+    focus: "修正 A が B を誘発する連鎖、過去事例"
+    relationship: "M-067 (loop topology) と並存・補完"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      最近 N 件の bug fix / 機能追加で「fix によって新たに起きた問題」を列挙。
+      カスケード経路 (A → B → C) を図示。fix 検討時に second-order effect を
+      routine で考える process があるか評価せよ。
+
+  # ============================================================
+  # C3 Performance & Scale (4 軸)
+  # ============================================================
+
+  - id: M-027
+    name: "Performance & Algorithmic Complexity"
+    category: C3
+    original_id: A7
+    tags: [all]
+    scores: { U: 3, I: 4, E: 5 }
+    focus: "O(N²) / N+1 / N の見積もり違い"
+    relationship: "既存軸"
+    recommended_agent_type: performance-optimizer
+    prompt_skeleton: |
+      hot path / loop / DB クエリで N の最悪見積もりを評価。N+1 / O(N²) / cache
+      miss / 大きい payload / 同期 IO in async path を列挙。production の N の
+      最悪値で latency / cost / memory を見積もれ。
+
+  - id: M-028
+    name: "Database Schema / Index / Query Plan"
+    category: C3
+    original_id: A4
+    tags: [api, batch, datapipe]
+    scores: { U: 3, I: 5, E: 5 }
+    focus: "index / N+1 / migration / transaction scope"
+    relationship: "既存軸"
+    recommended_agent_type: database-reviewer
+    prompt_skeleton: |
+      hot table を 5 つ選び、(a) index 戦略 (b) sequential scan の頻度 (c) tx
+      scope (d) N+1 (e) migration の reversibility を評価。EXPLAIN 結果 or
+      推定 plan を示し、改善 PR の SQL diff まで提示せよ。
+
+  - id: M-029
+    name: "Overfitting to Past / Black Swan 弱性"
+    category: C3
+    original_id: L3-4
+    tags: [ml, api, batch]
+    scores: { U: 5, I: 4, E: 2 }
+    focus: "過去パターン依存、unknown unknowns に弱い設計"
+    relationship: "M-054 と相補 (C6 にも跨る)"
+    recommended_agent_type: performance-optimizer
+    prompt_skeleton: |
+      設計判断 / capacity planning / ML モデル / 戦略パラメタ が、過去どの期間
+      をベースにしているか列挙。その期間に含まれない極端事象 (volatility / load /
+      user 行動) が来た場合の挙動を fault tree で展開。「想定外」を想定内化する
+      範囲を提案せよ。
+
+  - id: M-030
+    name: "Observability 2.0 / High-Cardinality Event"
+    category: C3
+    original_id: L4-3
+    tags: [api, infra]
+    scores: { U: 5, I: 4, E: 3 }
+    focus: "pre-aggregated metric の限界、未知の未知 debug"
+    relationship: "M-007 / M-015 と相補"
+    recommended_agent_type: performance-optimizer
+    prompt_skeleton: |
+      現在の telemetry が (a) metric (低 cardinality) (b) log (高 cardinality) (c)
+      trace (causal) のどれを主軸にしているか評価。「production で今初めて
+      起きた未知の事象」を 30 分以内に切り分けるための query が打てるか、
+      高 cardinality dimension (user_id / request_id / strategy_id) で event を
+      保存しているかを check。
+
+  # ============================================================
+  # C4 Code Quality & Maintainability (12 軸)
+  # ============================================================
+
+  - id: M-031
+    name: "Type Soundness Beyond Literal"
+    category: C4
+    original_id: A5
+    tags: [all]
+    scores: { U: 3, I: 4, E: 5 }
+    focus: "Literal で止めて Enum / NewType / Branded type / Pydantic に行かない箇所"
+    relationship: "既存軸"
+    recommended_agent_type: type-design-analyzer
+    prompt_skeleton: |
+      Literal["a","b"] / 文字列 union / enum 風 const 群を列挙し、それぞれを
+      (a) 真の enum / NewType / Pydantic model に格上げすべきか (b) DB schema /
+      API schema と二重定義していないか (c) 値追加時に網羅性 check が型で
+      かかるか を評価せよ。
+
+  - id: M-032
+    name: "Test Coverage Gap / Mutation Resilience"
+    category: C4
+    original_id: A6
+    tags: [all]
+    scores: { U: 3, I: 4, E: 5 }
+    focus: "branch カバレッジ穴 / mutation テスト / property-based"
+    relationship: "既存軸"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      critical path 5 つを選び、(a) line coverage (b) branch coverage (c) edge case
+      (boundary / empty / null / huge) (d) negative test (失敗経路) (e) property-
+      based の有無 を評価。mutation を 3 つ手で入れて test が落ちるか想像せよ。
+
+  - id: M-033
+    name: "Documentation Truth / Code-Docs Drift"
+    category: C4
+    original_id: A11
+    tags: [all]
+    scores: { U: 3, I: 3, E: 5 }
+    focus: "docs が code と一致するか、SSoT 設計"
+    relationship: "既存軸"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      CLAUDE.md / README / docs/ / API spec / inline comment の主張を 20 個
+      サンプリングし、実コード grep / 動作確認で truth check。drift を「致命 /
+      混乱誘発 / 些末」に分類。docs を autogen / lint で SSoT 化できる候補を
+      提案せよ。
+
+  - id: M-034
+    name: "Bounded Context / Anti-Corruption Layer"
+    category: C4
+    original_id: L2-1+L2-6
+    tags: [api, web]
+    scores: { U: 4, I: 4, E: 3 }
+    focus: "同識別子の文脈変質、外部 API 概念の domain 漏出"
+    relationship: "旧 L2-1 と L2-6 を統合"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      同じ名前 (order / user / position 等) が異なる文脈 (DB / domain / API /
+      external) で意味が違う箇所を grep。外部 API の field 名 / enum / 構造体が
+      domain layer まで貫通している箇所を ACL で隔離すべき場所として指摘せよ。
+
+  - id: M-035
+    name: "Anemic Domain / Invariant Placement"
+    category: C4
+    original_id: L2-2+L2-4
+    tags: [api]
+    scores: { U: 4, I: 4, E: 3 }
+    focus: "domain ロジックが service に集中、不変条件の置き場所"
+    relationship: "旧 L2-2 と L2-4 を統合"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      domain object (entity / value object) を列挙し、getter/setter だけで logic
+      が service 側にある「anemic」具合を評価。不変条件 (e.g., 金額 ≥ 0) が
+      constructor / setter / service / DB check / frontend のどこで enforced か
+      表化。重複 / 抜けを指摘せよ。
+
+  - id: M-036
+    name: "Dependency Direction & Stability"
+    category: C4
+    original_id: L2-3
+    tags: [api, web]
+    scores: { U: 4, I: 3, E: 3 }
+    focus: "high-level が low-level に depend していないか (依存逆転)"
+    relationship: "独立"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      module 依存グラフを書き、stable / unstable / abstract / concrete の 4 象限
+      にプロット。high-level policy が low-level detail (DB / framework / external)
+      に直接 depend している箇所を listing し、interface / port で逆転すべき
+      ものを提案せよ。
+
+  - id: M-037
+    name: "Command-Query Separation"
+    category: C4
+    original_id: L2-5
+    tags: [api, web]
+    scores: { U: 4, I: 3, E: 4 }
+    focus: "副作用ある getter / GET endpoint で write / pure に見える関数で IO"
+    relationship: "独立"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      全 GET endpoint / getter / "get_*" 関数を grep し、副作用 (DB write / cache
+      invalidation / log emit 以外) を起こすものを列挙。逆に POST/PUT で read-only
+      もありうるか確認。CQS 違反を bug 温床として指摘せよ。
+
+  - id: M-038
+    name: "Ubiquitous Language Drift"
+    category: C4
+    original_id: L2-8
+    tags: [all]
+    scores: { U: 4, I: 3, E: 4 }
+    focus: "code / DB / API / UI / docs で同義語ドリフト"
+    relationship: "M-033 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      ドメインの核心概念を 10 個選び、それぞれが (a) code identifier (b) DB
+      column (c) API field (d) UI label (e) docs の各層でどの名前で呼ばれて
+      いるか表化。ドリフトを「翻訳が必要 / 統一すべき」に分類せよ。
+
+  - id: M-039
+    name: "Cohesion-Coupling Smell + Aggregate Scope"
+    category: C4
+    original_id: L2-9+L2-10
+    tags: [api]
+    scores: { U: 4, I: 3, E: 3 }
+    focus: "feature envy / shotgun surgery / 1 tx の整合性境界"
+    relationship: "旧 L2-9 と L2-10 を統合"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      最近 N 回の PR で「同じ feature 追加で N ファイル変更」になっている例を
+      抽出 (shotgun surgery)。逆に「異なる理由で同じ class が頻繁に変わる」も
+      抽出 (divergent change)。1 tx の整合性境界が aggregate 境界と一致して
+      いるかも check。
+
+  - id: M-040
+    name: "Bus Factor / Knowledge Sustainability"
+    category: C4
+    original_id: L4-4+L7-8
+    tags: [all]
+    scores: { U: 4, I: 5, E: 4 }
+    focus: "commit author 偏在 / 暗黙知集中 / onboarding cost"
+    relationship: "旧 L4-4 と L7-8 を統合"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      主要 module ごとに commit author 分布を集計し、bus factor 1-2 の module を
+      特定。新メンバーが onboard する際の障壁 (undocumented / tribal knowledge /
+      setup complexity) を列挙。継承の弱い領域を rotation / docs 化対象として
+      提案せよ。
+
+  - id: M-041
+    name: "PR Review Hygiene / Lead Time 分解"
+    category: C4
+    original_id: L4-8
+    tags: [all]
+    scores: { U: 3, I: 3, E: 4 }
+    focus: "review SLA / self-merge / PR size"
+    relationship: "M-025 の subset 詳細化"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      過去 N 件の PR で (a) size (b) review wait time (c) reviewer 数 (d)
+      self-merge 率 (e) merge 後の hotfix 頻度 を集計。「実質 review されていない」
+      PR を抽出し、process / 文化的問題として提示せよ。
+
+  - id: M-042
+    name: "Tacit Assumption / 単位・順序・一意性"
+    category: C4
+    original_id: L7-2
+    tags: [all]
+    scores: { U: 5, I: 5, E: 4 }
+    focus: "TZ / 単位 (ms vs s) / 一意性 / 順序 / encoding の暗黙前提"
+    relationship: "独立 (高ユニーク、TOP 1 推奨)"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      「言語化されていない前提」を 10 個 brainstorm: 時刻単位 (ms/μs/s/iso) /
+      TZ / 通貨単位 / encoding / 一意性 / null 意味 / 順序保証 / 大文字小文字 /
+      正規化前 vs 後。それぞれが code 境界 (API / DB / UI / 外部) で揃って
+      いるか grep で検証せよ。
+
+  # ============================================================
+  # C5 UX / a11y / i18n (10 軸)
+  # ============================================================
+
+  - id: M-043
+    name: "UX 基礎"
+    category: C5
+    original_id: A9
+    tags: [web]
+    scores: { U: 2, I: 3, E: 5 }
+    focus: "一般的 UX heuristics (Nielsen 10 等)"
+    relationship: "既存軸"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      対象画面の主要動線 5 つを Nielsen 10 heuristics で評価。各 heuristic に
+      対し pass / partial / fail を判定し、fail を改善タスクとして起票。
+
+  - id: M-044
+    name: "Destructive Action Affordance & Error Prevention"
+    category: C5
+    original_id: L5-1
+    tags: [web]
+    scores: { U: 4, I: 5, E: 5 }
+    focus: "反射的タップで致命操作 (delete / stop / send)"
+    relationship: "M-043 の subset だが独立扱い"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      destructive action (delete / stop / send / pay) を全列挙し、それぞれが
+      (a) 確認 step (b) undo 期間 (c) reach 困難な位置 (d) keyboard shortcut
+      事故余地 (e) double-click 抑止 を備えるか表化。間違って tap した時の
+      damage を評価せよ。
+
+  - id: M-045
+    name: "Error Message Actionability"
+    category: C5
+    original_id: L5-6
+    tags: [web, cli, api]
+    scores: { U: 4, I: 4, E: 5 }
+    focus: "4 要素 (what / why / next / contact)"
+    relationship: "M-006 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      error message を 20 個サンプリングし、それぞれが (what 起きたか / why
+      原因 / next 何をすべきか / contact 連絡先) の 4 要素を満たすかを表化。
+      特に 5xx / 認証失敗 / validation error の文面を check。
+
+  - id: M-046
+    name: "Visibility of System Status"
+    category: C5
+    original_id: L5-2
+    tags: [web]
+    scores: { U: 3, I: 4, E: 5 }
+    focus: "非同期処理 / running state の可視化、Gulf of Evaluation"
+    relationship: "A10 frontend silent UI と並存補完"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      user の action が trigger する非同期処理 (POST → DB → external → response)
+      を列挙し、それぞれが (a) loading 表示 (b) progress (c) success / fail の
+      明示 (d) 取消手段 を備えるか表化。stale UI / 二重 click 余地を指摘せよ。
+
+  - id: M-047
+    name: "Mental Model ↔ System Model Alignment"
+    category: C5
+    original_id: L5-3
+    tags: [web]
+    scores: { U: 4, I: 3, E: 3 }
+    focus: "実装由来語彙 / 内部 ID の UI 漏出"
+    relationship: "M-038 (ubiquitous language) の UI 端"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      UI 表示文字列を 30 個サンプリングし、(a) ユーザーの語彙か (b) 実装由来か
+      (c) 内部 ID / enum 値 / stack trace が漏れていないか を評価。ユーザーが
+      理解できない term の改名候補を提案せよ。
+
+  - id: M-048
+    name: "Cognitive Load / Hick-Fitts"
+    category: C5
+    original_id: L5-4
+    tags: [web]
+    scores: { U: 3, I: 3, E: 4 }
+    focus: "1 画面の選択肢数、to-action 距離"
+    relationship: "M-043 補完"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      各主要画面で (a) 同時に提示される選択肢数 (b) primary action までの
+      click 数 (c) 視線移動距離 を概算。Hick の法則 / Fitts の法則の観点で
+      過負荷な画面を抽出せよ。
+
+  - id: M-049
+    name: "Accessibility (WCAG 2.2 AA)"
+    category: C5
+    original_id: L5-5
+    tags: [web]
+    scores: { U: 3, I: 4, E: 4 }
+    focus: "keyboard 単独完走、SR 互換、color contrast"
+    relationship: "独立"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      主要 flow を keyboard のみで完走できるか、focus visible / tab order /
+      aria-label / contrast / form label 連携 / SR テスト の各観点で評価。
+      WCAG 2.2 AA criteria に対し pass / fail を表化。
+
+  - id: M-050
+    name: "i18n / Locale Integrity"
+    category: C5
+    original_id: L5-7
+    tags: [web, api]
+    scores: { U: 4, I: 4, E: 4 }
+    focus: "TZ / number / date / pluralization / RTL"
+    relationship: "M-042 の UI 端"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      locale 依存箇所 (時刻 / 数値 / 通貨 / 日付 / pluralization / 並び順 / RTL)
+      を全列挙し、(a) Intl API 経由か (b) host OS 依存か (c) 設定可能か を表化。
+      英語前提のハードコード文字列も抽出せよ。
+
+  - id: M-051
+    name: "Dark Pattern / Consent Hygiene"
+    category: C5
+    original_id: L5-8
+    tags: [web, llm-app]
+    scores: { U: 5, I: 4, E: 4 }
+    focus: "confirmshaming / forced-continuity / 同意の dark pattern"
+    relationship: "M-005 と相補"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      同意取得 / 解約 / 退会 / 通知設定 / 課金 flow を walkthrough し、Deceptive
+      Pattern (confirmshaming / sneaking / forced action / obstruction) の有無を
+      check。Brignull の taxonomy と照合せよ。
+
+  - id: M-052
+    name: "Convention Adherence / Recognition over Recall"
+    category: C5
+    original_id: L5-9+L5-10
+    tags: [web, cli, api]
+    scores: { U: 3, I: 3, E: 5 }
+    focus: "POSIX flag / HTTP status / WAI-ARIA / UUID 手入力 / 補完"
+    relationship: "旧 L5-9 と L5-10 統合"
+    recommended_agent_type: code-reviewer
+    prompt_skeleton: |
+      外部慣習 (POSIX flag / HTTP status / shortcut 規約 / 業界 UI pattern) と
+      実装の照合表を作り、逸脱を「意図的 / 事故 / 学習コスト要因」に分類。
+      user が記憶しなくても良いように補完 / suggest / history が用意されて
+      いるか check。Progressive Disclosure 観点で「初心者を圧倒しているか /
+      熟練者に深層機能が届くか」両軸で評価。
+
+  # ============================================================
+  # C6 Data Integrity & Lineage (3 軸)
+  # ============================================================
+
+  - id: M-053
+    name: "Data Lineage / Provenance"
+    category: C6
+    original_id: L1-4
+    tags: [api, batch, datapipe, ml]
+    scores: { U: 5, I: 5, E: 3 }
+    focus: "重要決定 / 出力データの入力出自再現性"
+    relationship: "M-003 と相補 (tamper-evidence は事実、lineage は経路)"
+    recommended_agent_type: database-reviewer
+    prompt_skeleton: |
+      重要な出力 (注文 / 決定 / 通知 / レポート / モデル出力) を 5 つ選び、それ
+      ぞれの入力データ source を full path で逆引きできるか確認。版数 / 取得
+      時刻 / 加工パラメタ / コードバージョン が再現可能に保存されているか評価。
+      GDPR 削除 / 訴訟 / 規制 audit に耐えるか。
+
+  - id: M-054
+    name: "Ergodicity Audit / Path vs Ensemble"
+    category: C6
+    original_id: L7-9+L3-7
+    tags: [ml, api]
+    scores: { U: 5, I: 5, E: 2 }
+    focus: "集合平均は OK でも単一 path で破滅"
+    relationship: "旧 L7-9 と L3-7 を統合 (重複)"
+    recommended_agent_type: database-reviewer
+    prompt_skeleton: |
+      期待値 / 平均 / 中央値で意思決定している箇所を grep。同じ subject (user /
+      account / 資源) が複数 step を順に経験する場合の累積結果 (path-dependent)
+      と母集団平均が乖離しうるか評価。Kelly criterion / ruin probability の
+      考え方を導入すべき領域を提案せよ。
+
+  - id: M-055
+    name: "PG tz-aware / Timestamp Hygiene"
+    category: C6
+    original_id: A4+L7-2
+    tags: [api, batch, datapipe]
+    scores: { U: 3, I: 5, E: 5 }
+    focus: "tz-aware / tz-naive 混在、ms / s / μs 単位混在"
+    relationship: "A4 / M-042 の subset の重要再掲"
+    recommended_agent_type: database-reviewer
+    prompt_skeleton: |
+      全 datetime / timestamp 取扱箇所を grep し、tz-aware か tz-naive か、
+      単位 (s / ms / μs) を表化。境界 (DB / API / WS / file) で同一前提に揃って
+      いるか確認。SQLite ↔ PG 移行時に壊れる経路を特に重点 check。
+
+  # ============================================================
+  # C7 Supply Chain & Build (3 軸)
+  # ============================================================
+
+  - id: M-056
+    name: "Dependency Supply Chain"
+    category: C7
+    original_id: SUP
+    tags: [all]
+    scores: { U: 3, I: 5, E: 4 }
+    focus: "依存ライブラリ / lockfile / SBOM / typosquat"
+    relationship: "既存軸"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      全 dependency manifest を解析し、(a) lockfile 有無 (b) integrity hash (c)
+      直接 vs 推移 (d) license (e) 最終更新 / maintainer 数 / CVE 履歴 を表化。
+      typosquat 疑い、postinstall script、release signature の有無 も check。
+
+  - id: M-057
+    name: "Lindy / 新規依存の脆さ"
+    category: C7
+    original_id: L3-8
+    tags: [all]
+    scores: { U: 4, I: 3, E: 4 }
+    focus: "メンテナ 1 名、頻繁な breaking change"
+    relationship: "M-056 の subset 詳細化"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      critical path で使う library で (a) 5 年以上の歴史 (b) メンテナ 2 名以上
+      (c) major version 互換性 を満たさないものを抽出。Lindy 効果 / hype cycle
+      の観点で「置き換えるなら何か」「自前実装の方が安いか」も評価。
+
+  - id: M-058
+    name: "Agent Harness / Hook / MCP Supply Chain"
+    category: C7
+    original_id: L6-5
+    tags: [llm-dev, llm-app]
+    scores: { U: 5, I: 5, E: 4 }
+    focus: "Hook / MCP / Tool Plugin の supply chain"
+    relationship: "M-056 の LLM 特化"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      agent 周辺の plugin (hook / MCP server / tool / skill / extension) を列挙し、
+      それぞれの (a) source (b) auto-update 経路 (c) 実行権限 (d) shell 実行可否
+      を表化。1 つが悪意化した場合の damage 範囲を見積もり、署名 / pin / sandbox
+      の有無を check せよ。
+
+  # ============================================================
+  # C8 Meta Audit / 思考方法 (9 軸)
+  # ============================================================
+
+  - id: M-059
+    name: "Cross-Cutting Pattern Meta-Audit"
+    category: C8
+    original_id: META
+    tags: [all]
+    scores: { U: 4, I: 4, E: 2 }
+    focus: "並列監査で個別 LOW でも横断で HIGH 化する pattern"
+    relationship: "既存軸"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      他の監査軸の出力を全て読み、(a) 複数軸に共通して現れる根本原因 (b) 個別
+      では LOW だが横断で見ると HIGH な pattern (c) 修正の root cause を絞れる
+      上位概念 を抽出。少なくとも 5 件の cross-cutting pattern を提示せよ。
+
+  - id: M-060
+    name: "Negative Space / 不在監査"
+    category: C8
+    original_id: L7-1
+    tags: [all]
+    scores: { U: 5, I: 5, E: 2 }
+    focus: "あるべきだが無いものの系統的列挙"
+    relationship: "独立 (高ユニーク、TOP 2 推奨)"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      各 critical path (auth, money, data destructive) について、
+      「正常系の対 (counter-pair)」を列挙し、対が存在するか確認せよ:
+      start ↔ stop / open ↔ close / encrypt ↔ rotate /
+      alert ↔ recovery / log ↔ retention / migration ↔ rollback /
+      feature ↔ kill-switch / metric ↔ SLO / decision ↔ ADR.
+      片側のみの artifact を全件 list せよ。
+
+  - id: M-061
+    name: "Time Horizon Monoculture"
+    category: C8
+    original_id: L7-3
+    tags: [all]
+    scores: { U: 5, I: 4, E: 2 }
+    focus: "1w / 1y / 10y / 退役時の failure mode 差"
+    relationship: "独立"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      全 stateful artifact (DB table / log / cache / key / secret / flag) を列挙し、
+      各々について次の時間軸 audit:
+      - 1 週間後: 何が変化するか
+      - 1 年後: ストックが何倍になるか、何が EOL か
+      - 10 年後: そもそも仕組みが残っているか
+      - 退役時: clean teardown 可能か
+      各時間軸で破綻する artifact を list せよ。
+
+  - id: M-062
+    name: "Cynefin Domain Mismatch"
+    category: C8
+    original_id: L7-4
+    tags: [all]
+    scores: { U: 4, I: 3, E: 2 }
+    focus: "Simple/Complicated/Complex/Chaotic に対する手法の誤適用"
+    relationship: "独立"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      主要な意思決定領域を 10 個列挙し、各々を Cynefin 4 領域に分類:
+      - Simple (因果明確): SOP, automation
+      - Complicated (専門家領域): expert analysis
+      - Complex (創発): probe-sense-respond, safe-to-fail experiments
+      - Chaotic (混沌): act-sense-respond
+      現状の対応 (test / docs / SOP / automation / monitoring) と
+      領域要求の mismatch を抽出せよ。
+
+  - id: M-063
+    name: "TRIZ Contradiction"
+    category: C8
+    original_id: L7-5
+    tags: [all]
+    scores: { U: 4, I: 3, E: 3 }
+    focus: "Sec ↔ UX / Reliability ↔ Velocity 等の trade-off 隠蔽"
+    relationship: "独立"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      主要な品質属性ペア 15 組について現状を測定:
+      Security↔UX, Reliability↔Velocity, Latency↔Consistency,
+      Determinism↔Adaptability, Observability↔Privacy,
+      Automation↔Human-control, Generality↔Specificity,
+      Coupling↔Cohesion, Cost↔Robustness, ...
+      片側のみが最適化されているペア、または対立が
+      docs / ADR で明示されていないペアを list し、
+      TRIZ 40 原理から解決候補を 1 つ提案せよ。
+
+  - id: M-064
+    name: "Stakeholder 10 視座対立"
+    category: C8
+    original_id: L7-6
+    tags: [all]
+    scores: { U: 4, I: 4, E: 3 }
+    focus: "10 視座 (開発 / 運用 / ユーザー / 攻撃者 / 規制 / 経営 / 法務 / サポ / 競合 / 後継者)"
+    relationship: "独立"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      各 critical artifact (error, log, doc, alert, decision) を 10 視座で読み、
+      以下を抽出:
+      - 視座間で意味が反転する箇所
+      - 特定視座だけが過剰負担を負う設計
+      - 視座が docs から「省略」されている stakeholder
+      - 視座 X の利益が視座 Y の損失になる zero-sum 構造
+
+  - id: M-065
+    name: "Cognitive Sustainability for Audit / Bus Factor of Audit Itself"
+    category: C8
+    original_id: L7-8
+    tags: [all]
+    scores: { U: 4, I: 3, E: 3 }
+    focus: "監査者・知識継承の側の sustainability (M-040 と分離した audit メタ視点)"
+    relationship: "M-040 と相補 (M-040 = code 側、M-065 = audit / process 側)"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      この監査自体が (a) 再現可能か (b) 別人が同じ結果を出せるか (c) checklist
+      化されているか (d) prompt / skill 化されているか を評価。process としての
+      bus factor を上げる施策を提案せよ。
+
+  - id: M-066
+    name: "Audit Meta-Process (青帽子)"
+    category: C8
+    original_id: L7-10+META
+    tags: [all]
+    scores: { U: 5, I: 4, E: 1 }
+    focus: "監査自体の盲点 catalog 化"
+    relationship: "旧 L7-10 と META 統合的視点"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      「今回の監査自体に存在する bias / 盲点 / framing 限界」を列挙。
+      (a) 監査者の専門性 bias (b) 与えた素材の不足 (c) 時間制約 (d) 用語の
+      恣意性 (e) 評価尺度の主観性。次回の監査 process 改善を 5 件提案せよ。
+
+  - id: M-067
+    name: "Feedback Loop Topology"
+    category: C8
+    original_id: L7-7
+    tags: [all]
+    scores: { U: 5, I: 4, E: 2 }
+    focus: "positive / negative / delay / governor の interaction"
+    relationship: "M-026 (second-order) と並存・補完。M-026 は事例ベース、M-067 は構造ベース"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      自動化されている loop (retry, scale, restart, throttle, alert, recover) を列挙し、
+      各々について:
+      - polarity (+/-)
+      - delay (msec / sec / min / hour)
+      - governor の有無 (loop を止める仕組み)
+      - 他 loop との干渉
+      loop interaction diagram を生成し、暴走 / 振動 / 麻痺リスクを評価せよ。
+      Meadows の 12 leverage points のうち、現在介入されていない高 leverage point を提案。
+
+  # ============================================================
+  # C9 LLM Agent 駆動開発リスク (8 軸)
+  # ============================================================
+
+  - id: M-068
+    name: "Prompt Injection 耐性"
+    category: C9
+    original_id: L6-1+L6-6
+    tags: [llm-app, llm-dev]
+    scores: { U: 5, I: 5, E: 4 }
+    focus: "Direct / Indirect / Stored 経路、repo artifact (filename / commit / issue) 由来"
+    relationship: "旧 L6-1 と L6-6 統合 (経路は違えど対策軸が同じ)"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      LLM / agent に与えられる入力 source を全列挙 (user prompt / file content /
+      filename / commit msg / issue / PR comment / web fetch / DB row / log /
+      external API)。各 source の signed / trusted / untrusted を分類し、
+      untrusted source からの instruction 取り込みを cut する境界を特定。
+
+  - id: M-069
+    name: "Excessive Agency / Tool Whitelist"
+    category: C9
+    original_id: L6-2
+    tags: [llm-app, llm-dev]
+    scores: { U: 5, I: 5, E: 4 }
+    focus: "LLM が呼べる tool / 権限の最小化"
+    relationship: "独立"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      agent / LLM が呼べる tool / function / shell 経路を全列挙し、それぞれが
+      (a) 読取のみ / 書込可 (b) external 副作用 (c) 取消可能 (d) approval 必要
+      かを表化。最小権限原則で必要十分か評価し、削るべき tool / 追加すべき
+      approval を提案せよ。
+
+  - id: M-070
+    name: "Sensitive Data Disclosure via LLM Context"
+    category: C9
+    original_id: L6-3
+    tags: [llm-app]
+    scores: { U: 5, I: 5, E: 4 }
+    focus: "LLM context / embedding に PII / secret が流入"
+    relationship: "M-006 / M-003 と相補"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      LLM API に送る payload を全経路で grep し、PII / secret / 内部 token /
+      認証情報 が context / embedding source に含まれていないか check。
+      log / retention policy / 第三者 LLM provider の data use policy も照合。
+
+  - id: M-071
+    name: "Agent Configuration File Tampering"
+    category: C9
+    original_id: L6-4
+    tags: [llm-dev]
+    scores: { U: 5, I: 5, E: 4 }
+    focus: "CLAUDE.md / .cursor/rules / AGENTS.md 改竄経路"
+    relationship: "独立 (LLM 開発時代特有)"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      agent 設定ファイル (CLAUDE.md / AGENTS.md / .cursor/rules / .claude/) の
+      (a) 改竄経路 (b) review 経路 (c) injection 耐性 (d) version 管理 を表化。
+      PR 経由で auto-merge 可能か、悪意ある PR で agent 行動を変えられるかを
+      walkthrough せよ。
+
+  - id: M-072
+    name: "Agent Memory & Persistent Context Poisoning"
+    category: C9
+    original_id: L6-7
+    tags: [llm-dev, llm-app]
+    scores: { U: 5, I: 5, E: 3 }
+    focus: "memory / persistent context への汚染が後続セッションに伝播"
+    relationship: "独立"
+    recommended_agent_type: security-reviewer
+    prompt_skeleton: |
+      agent の persistent memory / RAG store / fine-tune データ source を列挙し、
+      (a) 書き込みに認証あるか (b) 書き込みに validation あるか (c) 後で
+      「これ誰が書いた」を逆引きできるか を表化。1 回の汚染で永続化する経路を
+      指摘せよ。
+
+  - id: M-073
+    name: "AI-Generated Code Provenance"
+    category: C9
+    original_id: L6-8
+    tags: [llm-dev]
+    scores: { U: 4, I: 4, E: 4 }
+    focus: "AI 生成 code の review discipline / license / 出自記録"
+    relationship: "M-040 と相補"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      最近 N 件の commit / PR で AI 生成部分を識別できるか確認。license 上の
+      懸念 (GPL contamination 等)、review depth (rubber stamp 化)、test 追加率
+      を集計。AI 生成と human authored で品質 / 信頼性に差があるかを評価せよ。
+
+  - id: M-074
+    name: "Model / Version / Capability Drift & Cost-DoS"
+    category: C9
+    original_id: L6-9
+    tags: [llm-app]
+    scores: { U: 5, I: 4, E: 4 }
+    focus: "model version 更新で挙動 / cost が変わる、token cost-DoS"
+    relationship: "独立"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      使用する LLM model 名 / version pin / fallback chain を確認。silent
+      version bump で挙動が変わるか、cost が桁違いに増えるか、user 入力長で
+      cost-DoS が成立するか を評価。snapshot model 名固定 / per-user token
+      budget の有無も check。
+
+  - id: M-075
+    name: "LLM-as-Judge / Auto-Approval Trust Boundary"
+    category: C9
+    original_id: L6-10
+    tags: [llm-app, llm-dev]
+    scores: { U: 5, I: 4, E: 3 }
+    focus: "LLM が judge / auto-merge / auto-approve する箇所"
+    relationship: "M-010 / M-069 と相補"
+    recommended_agent_type: general-purpose
+    prompt_skeleton: |
+      LLM が「OK / NG」「approve / reject」「merge / not」を判定する箇所を列挙。
+      bias / inconsistency / prompt injection 耐性を評価し、人間 reviewer との
+      二段構えか、LLM 単独で final か を判定。LLM 単独 final の経路は damage
+      範囲を見積もれ。

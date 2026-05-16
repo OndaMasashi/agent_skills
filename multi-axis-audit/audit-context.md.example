@@ -1,0 +1,101 @@
+# PJ Audit Context (例)
+
+このファイルは multi-axis-audit スキルに `--context-file <path>` で渡す
+PJ 固有 context のテンプレ。各 PJ で `.claude/audit-context.md` 等に
+コピーして書き換えて使う (spec §5.2)。
+
+`--context-file` 未指定だと汎用 prompt で実行され、finding の PJ 文脈
+解釈精度が低下する。最低限の context は記述することを推奨。
+
+---
+
+## 1. PJ 概要 (5 行)
+
+- **何のシステムか**: (例) 為替自動売買 bot / SaaS 経理アプリ / 院内オーダリング 等
+- **スタック (言語 / FW / DB / インフラ)**: (例) Python 3.13 / FastAPI / PostgreSQL 17 / Docker Compose + VPS
+- **規模**: (例) LOC 50K / 開発者 1 名 / 運用 18 ヶ月
+- **業界 (規制要件)**: (例) 金融 (金商法該当の自己トレード) / 医療 (HIPAA) / 一般 (規制要件なし)
+- **チーム**: (例) 1 人運用 (bus factor 1) / 5 人チーム / 20 人 + SRE 専任
+
+## 2. 既知 gotcha / 過去事故
+
+過去に踏んだ罠 / 既知の構造的弱点。監査時に重点 check してほしい点。
+
+- (例) ms vs seconds 単位混在で 2026-03 に注文サイズ計算間違い
+- (例) compose env shadow パターン (.env と docker-compose.yml の優先順位ずれ) で
+  Sprint 8 で staging fail
+- (例) WebSocket reconnect で duplicate event を fire し、portfolio 重複計上事故
+- ...
+
+## 3. 既存監査履歴
+
+- **YYYY-MM-DD mega-audit**: finding HIGH 18 / MED 38 / LOW 27、Sprint 11 で HIGH 17 件 fix
+- **YYYY-MM-DD audit (異視座追加)**: 14 軸 + 5 異視座 = 89 件、新規 HIGH 24
+- ...
+
+## 4. KEEP / DROP / UNVERIFIED 系 PJ 固有判定
+
+監査の finding に対して **PJ オーナーが既に評価済の項目** を記述。
+重複指摘を防ぐ。
+
+### KEEP (敢えてそうしている、指摘不要)
+
+- (例) strategy `EMA_cross_v3` は accuracy 低いが volatility hedging 用途で KEEP
+- (例) auth_log は app プロセス書き込み可だが、別途 daily S3 export で WORM 化済
+
+### DROP (近日中に削除予定、指摘不要)
+
+- (例) `legacy_v1/` ディレクトリは 2026-Q3 で削除予定
+- (例) feature flag `experimental_*` は冬リリース後に削除
+
+### UNVERIFIED (オーナーも未確認、優先的に評価してほしい)
+
+- (例) `risk_engine.calculate_var()` の単位 (基軸通貨 vs USD) が docstring と
+  実装で乖離している疑い
+- ...
+
+## 5. 監査スコープ (in / out)
+
+### in scope
+
+- (例) `backend/` / `frontend/` / `docs/`
+- (例) `infra/terraform/` (read-only check のみ)
+
+### out of scope
+
+- (例) `analysis/` (分析用 scratch、production 影響なし)
+- (例) `docs/spec/` (古い設計書、code との drift は別問題)
+- (例) `experiments/` (PoC / 研究、品質を求めない)
+- (例) `vendor/` `node_modules/` `.venv/` (外部 dependency)
+
+## 6. 注意事項
+
+- **本番アクセス制限**: (例) 本番 VPS には read-only ssh のみ。書込検証は staging で
+- **secrets を含むファイル**:
+  - `infra/secrets.example.yml` (template、実値は別 path)
+  - `~/.env.prod` (監査対象外)
+- **大規模 binary / generated**:
+  - `frontend/dist/`、`*.pyc`、`coverage/` は skip
+- **PII を含む test fixture**:
+  - `tests/fixtures/user_dump_*.json` は監査結果でファイル名は出してよいが内容引用は禁止
+
+## 7. 用語集 (PJ 固有用語、汎用化用)
+
+- (例) **position** = open trade entry (broker での建玉、DB の `positions` table)
+- (例) **strategy** = 売買ロジックの class、`strategies/` 配下
+- (例) **regime** = 市場状態フラグ (bull/bear/flat、`market_state` enum)
+
+> 監査 agent はこの用語集を読んで finding に PJ 用語を使用してよい。
+> 用語集に無い PJ 固有語を使う場合は finding に「PJ 確認要」を付記する規約。
+
+---
+
+## 使い方
+
+```bash
+# このファイルを PJ root に copy
+cp ~/.claude/skills/multi-axis-audit/audit-context.md.example .claude/audit-context.md
+
+# 内容を書き換えた後、監査起動
+/multi-axis-audit --top10 --context-file .claude/audit-context.md
+```

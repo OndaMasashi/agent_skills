@@ -1,0 +1,55 @@
+# multi-axis-audit Config (Optional)
+#
+# このファイルは optional。配置すると catalog.yml の値を上書きする。
+# 配置先 (どれか 1 つを使う、上から優先):
+#   1. {project_root}/.claude/multi-axis-audit.config.yml  (PJ 固有)
+#   2. ~/.claude/skills/multi-axis-audit/config.yml         (グローバル)
+#
+# 用途: subagent_type 上書き / 並列度デフォルト変更 / spot-check 閾値調整 等
+
+# ===== subagent_type 上書き (Q1 推奨案 c) =====
+# 軸 ID → 推奨 agent_type の上書きマップ。
+# 軸が catalog.yml で security-reviewer 推奨でも、ユーザー環境に該当 subagent
+# が無い / 別の agent を使いたい場合に上書き。
+# catalog.yml の recommended_agent_type が ~/.claude/agents/ に存在しない場合
+# は自動的に general-purpose にフォールバックされる (このマップは強制上書き)。
+subagent_overrides:
+  # 例: M-068 を security-reviewer ではなく general-purpose で実行
+  # M-068: general-purpose
+  # 例: M-026 を専門 agent で実行
+  # M-026: code-reviewer
+
+# ===== 並列度 (spec §3.3.2) =====
+default_parallelism: 5    # default (1 Round の並列 agent 数)
+max_parallelism: 7        # 上限 (これを超える指定は max にクランプ)
+
+# ===== HIGH spot-check (spec §3.4) =====
+high_spot_check_enabled: true              # default ON、--no-spot-check で OFF
+high_spot_check_min_samples: 5             # 最低 sample 数
+high_spot_check_min_ratio: 0.25            # HIGH 総数 N に対する sampling 比率
+high_spot_check_fp_rate_warning_threshold: 0.20  # FP 率 20% 超で memory に警告
+
+# ===== 出力 (spec §3.5) =====
+output_default: all       # memory | roadmap | improvement_list | all
+memory_dir_template: "~/.claude/projects/{project_slug}/memory"
+memory_filename_template: "session-snapshot-{date}-multi-axis-audit-{hhmm}.md"  # 時刻付き (Q3)
+
+# ===== Round 制御 (spec §3.3.1) =====
+meta_axes_always_last_round: true   # C8 軸を必ず最終 Round に配置 (固定推奨)
+
+# ===== retry / fallback (Q6 推奨案 a+b) =====
+agent_failure_retry_count: 1                          # retry 回数
+agent_failure_fallback_to_general_purpose: true       # retry 後 fallback
+agent_failure_skip_after_fallback: true               # fallback も失敗なら skip + memory 記録
+
+# ===== Sprint number 自動推定 (Q7 推奨案 a) =====
+sprint_number_regex: '^## Sprint (\d+):'
+task_id_regex: 'S(\d+)-(\d+)'
+sprint_number_fallback_ask_user: true   # 検出失敗時 user に問い合わせ
+
+# ===== PJ slug 自動推定 (Q4 推奨案 a) =====
+project_slug_strategy: cwd_path   # cwd_path | settings_json | user_input
+
+# ===== その他 =====
+auto_confirm_phase_2: false       # true なら Phase 2 (Plan) で user 確認を skip
+include_excluded_findings_in_memory: true   # FP 判定 finding も memory に残す (Q9 推奨案 a)
