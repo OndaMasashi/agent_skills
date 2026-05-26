@@ -9,13 +9,6 @@ import platform
 from pathlib import Path
 from datetime import datetime
 
-USAGE_LOGGER = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "usage_logger.py"))
-
-try:
-    subprocess.run([sys.executable, USAGE_LOGGER, "excel-to-pdf"], capture_output=True, timeout=5)
-except Exception:
-    pass
-
 
 def find_libreoffice():
     """Detect LibreOffice executable path."""

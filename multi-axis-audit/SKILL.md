@@ -193,9 +193,8 @@ agent timeout / error 時:
 4. **並走確認**:
    - `gh pr list --state open` と `git branch -a` を実行
    - 結果を memory snapshot に記載 (別セッション衝突がないか check)
-5. **usage_logger 実行**:
-   - `python C:/work/utility/skills-main/skills-main/skills/usage_logger.py multi-axis-audit`
-   - (グローバル ~/.claude/skills/ 配置時は同等のパス)
+
+> 使用状況は `~/.claude/settings.json` の PostToolUse(Skill) hook で自動記録されるため、手動の usage_logger 実行は不要。
 
 ---
 

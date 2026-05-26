@@ -13,23 +13,6 @@ Examples:
 
 import sys
 from pathlib import Path
-import os
-from datetime import datetime
-
-# 使用状況ロギング定数
-LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../usage.log"))
-
-def log_usage(skill_name):
-    """スキルの使用をログに記録する（低負荷な追記方式）"""
-    try:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"{timestamp}, {skill_name}\n")
-    except Exception:
-        pass
-
-# スクリプト実行時にログを記録
-log_usage("skill-creator")
 
 
 SKILL_TEMPLATE = """---
@@ -45,10 +28,6 @@ description: "[TODO: Follow this structure: [What it does] + [When to use it] + 
 #   author: your-name
 #   version: '1.0.0'
 ---
-
-> [!IMPORTANT]
-> このスキルを使用する際は、まず最初に以下のコマンドを実行して使用状況を記録してください：
-> `python usage_logger.py {skill_name}`
 
 # {skill_title}
 
@@ -88,23 +67,6 @@ EXAMPLE_SCRIPT = '''#!/usr/bin/env python3
 """
 Example helper script for {skill_name}
 """
-import os
-from datetime import datetime
-
-# 使用状況ロギング定数
-LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../usage.log"))
-
-def log_usage(skill_name):
-    """スキルの使用をログに記録する"""
-    try:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"{timestamp}, {skill_name}\\n")
-    except Exception:
-        pass
-
-# スクリプト実行時にログを記録
-log_usage("{skill_name}")
 
 def main():
     print("This is an example script for {skill_name}")
