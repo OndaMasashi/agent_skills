@@ -64,6 +64,7 @@
 | **Subagent-Driven Development** | 「サブエージェント並列で実装」「実装プランを分散実行」「二段階レビューで」 | 実装プランの独立タスクをサブエージェントに分散→spec compliance→code quality の二段階レビューで高速反復。obra/superpowers から取込み（MIT）。 |
 | **Systematic Debugging** | 「バグの原因を体系的に」「テスト失敗の根本原因」「症状ではなく原因」 | バグ・テスト失敗・予期せぬ挙動の前にPhase1（根本原因特定）を完了する4段階プロセス。症状だけのfixを禁ずる Iron Law。obra/superpowers から取込み（MIT）。 |
 | **Verification Before Completion** | 「完了前に検証」「証拠を出して完了報告」「PR前チェック」 | 完了/PR/コミット前に検証コマンドを実行し、出力を確認するまで成功宣言を禁止。Iron Law: 証拠なしの完了主張は不誠実。obra/superpowers から取込み（MIT）。 |
+| **Grill Me** | 「grill me」「計画をストレステスト」「設計を問い詰めて」 | 計画・設計を 1 問ずつ深掘り尋問し、決定木の各分岐を解決して共有理解に到達させる。各設問に推奨回答を併記、コードベースで答えられるものはコード調査で代替。mattpocock/skills から取込み。 |
 | **BigQuery Basics** | 「BigQueryで分析」「BQのテーブル作って」「BQML」 | GCP BigQueryのデータセット/テーブル/ジョブ操作・SQL実行・BigQuery ML・Gemini連携・MCP連携。CLI/クライアントライブラリ/IaC/IAMセキュリティの各リファレンス付き。google/skills 取込み（Apache-2.0）。 |
 | **GCP WAF: Cost Optimization** | 「GCPコスト最適化」「FinOps観点で」「Well-Architectedでコスト評価」 | Google Cloud Well-Architected Frameworkの「コスト最適化」柱に基づくワークロード評価。FinOps文化、CapEx→OpEx移行、コスト要件の特定と推奨事項の生成。google/skills 取込み（Apache-2.0）。 |
 | **GCP WAF: Reliability** | 「GCP信頼性設計」「可用性レビュー」「Well-Architectedで信頼性評価」 | Google Cloud Well-Architected Frameworkの「信頼性」柱に基づく設計指針。可用性・障害耐性・グレースフルリカバリの観点でワークロードを評価し推奨事項を生成。google/skills 取込み（Apache-2.0）。 |
