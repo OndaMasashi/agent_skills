@@ -1,0 +1,118 @@
+{
+  "_comment": "スキル発火精度向上のためのローカルdescription上書き記録（2026-07-12）。日本語トリガー語＋兄弟スキル境界のネガティブトリガーを加算。upstream同期でdescriptionが上書きされたら apply_description_overrides.py で再適用できる。",
+  "_generated": "2026-07-12",
+  "overrides": {
+    "auto_doc_backup": {
+      "folder": "auto_doc_backup",
+      "new_description": "implementation_planやwalkthroughの自動バックアップを行います。重要なドキュメントが更新された際、所定のフォルダにタイムスタンプ付きで保存することをAIに指示します。「実装計画を保存して」「walkthroughをバックアップ」「作業計画を残しておいて」「変更のたびに自動保存」といった指示でも使用します。"
+    },
+    "brainstorming": {
+      "folder": "brainstorming",
+      "new_description": "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation. 日本語トリガー: 「壁打ちしたい」「アイデアを整理して」「要件を一緒に詰めたい」「仕様を固めたい」「設計を相談したい」。既存の計画やコードを批判的に検証したいだけなら grill-me を使う（本スキルはゼロから要件を引き出し設計を作る用途）。内容が固まった文書を清書・共著したいだけなら doc-coauthoring を使う。"
+    },
+    "brand-guidelines": {
+      "folder": "brand-guidelines",
+      "new_description": "Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply. 日本語では「ブランドガイドラインに沿って」「Anthropicのブランドカラーを適用して」「トンマナを合わせて」「コーポレートカラーで統一して」といった指示でも使用する。Anthropic以外の汎用テーマ選択にはtheme-factoryを使う。"
+    },
+    "canvas-design": {
+      "folder": "canvas-design",
+      "new_description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations. 日本語トリガー: ポスターを作って、アート作品を作成、デザイン哲学に基づいた作品、静的なビジュアルデザイン、1枚絵の作品。写実的な写真調画像の単純生成にはimagenを、p5.jsのコードによるジェネラティブアートにはalgorithmic-artを使う（本スキルはデザイン哲学から構築する静的アート作品向け）。"
+    },
+    "csv-data-summarizer": {
+      "folder": "csv-data-summarizer",
+      "new_description": "CSVファイルを自動分析し、統計サマリーと可視化を即時生成します。「CSVを分析して」「データを要約して」「CSVの傾向を見せて」「CSVの中身をざっくり確認して」「このデータの概要を教えて」「欠損値をチェックして」といった指示で使用。pandas, matplotlib, seabornを用いた包括的な分析を質問なしで即実行します。Excel/スプレッドシートの作成・編集には使わないでください（xlsxスキルを使用）。詳細な仮説生成やインタラクティブなレポート作成が目的の場合はdata-analysisスキルを使用してください。"
+    },
+    "docx-word-count": {
+      "folder": "docx-word-count",
+      "new_description": "MDファイルからMicrosoft Word相当の文字数をカウントします。MD記法を自動的に除外して、本文の純粋な文字数（スペースあり・なし）を算出します。「文字数を数えて」「文字数チェック」「Word換算の文字数」「原稿の文字数」「提出書類の文字数確認」といった指示で使用。Wordファイル(.docx)自体の作成・読込・編集にはdocxスキルを使用してください（本スキルはMDファイルの文字数カウント専用です）。"
+    },
+    "find-skills": {
+      "folder": "find-skills",
+      "new_description": "Helps users discover and install agent skills when they ask questions like \"how do I do X\", \"find a skill for X\", \"is there a skill that can...\", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill. Also trigger on Japanese phrases such as「スキルを探して」「こんなスキルない？」「スキルをインストールして」「拡張機能を探したい」「npx skillsで検索」. Do not use when the user wants to create a brand-new custom skill from scratch — use skill-creator instead."
+    },
+    "github-pusher": {
+      "folder": "github-pusher",
+      "new_description": "GitHubへのコミットとプッシュを自動化します。「GitHubへプッシュして」「変更を反映して」といった指示で、変更箇所の要約、コミットメッセージの生成、GitHubへの反映を一括で行います。「pushして」「コミットして」「gitに上げて」「リポジトリに反映して」といった短い指示でも起動します。"
+    },
+    "gmail": {
+      "folder": "gmail",
+      "new_description": "Interact with Gmail - search emails, read messages, send emails, create drafts, and manage labels. Use when user asks to: search email, read email, send email, create email draft, mark as read, archive email, star email, or manage Gmail labels. Lightweight alternative to full Google Workspace MCP server with standalone OAuth authentication. 日本語トリガー例: メールを検索して／メールを送って／下書きを作成／未読にする・既読にする／メールをアーカイブ／スターを付ける／ラベルを整理して、といった依頼で使用する。"
+    },
+    "google-cloud-waf-cost-optimization": {
+      "folder": "google-cloud-waf-cost-optimization",
+      "new_description": "Generates cost optimization guidance for Google Cloud workloads based on the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify cost requirements and constraints, and provide actionable recommendations for build, deploy, and manage the workload cost-efficiently in Google Cloud. 日本語トリガー: 「GCPコスト最適化」「Google Cloudの費用削減」「クラウドコスト診断」「WAFのコスト観点でレビュー」。信頼性の観点（可用性・障害対策）が主目的なら google-cloud-waf-reliability を、セキュリティ（IAM・ネットワーク保護等）が主目的なら google-cloud-waf-security を使う。"
+    },
+    "google-cloud-waf-reliability": {
+      "folder": "google-cloud-waf-reliability",
+      "new_description": "Generates reliability-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Google Cloud Well-Architected Framework. Use this skill to evaluate a workload, identify reliability requirements, and provide actionable recommendations for build, deploy, and manage the workload reliably in Google Cloud. 日本語では「GCPの信頼性設計」「可用性・冗長化のレビュー」「Well-Architected Framework 信頼性の柱」「SLO/SLIの設計」「障害復旧・DR対策のチェック」といった依頼で使用する。コスト最適化の相談にはgoogle-cloud-waf-cost-optimizationを、IAM・ネットワーク・データ保護などセキュリティの相談にはgoogle-cloud-waf-securityを使う（本スキルはそれらには使わない）。"
+    },
+    "google-cloud-waf-security": {
+      "folder": "google-cloud-waf-security",
+      "new_description": "Generates security-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify security requirements, and provide actionable recommendations for IAM, network security, data protection, and operational security. 日本語では「GCPのセキュリティ設計を評価して」「Well-Architected Frameworkのセキュリティ観点でレビュー」「IAM設計・ゼロトラスト・データ保護のベストプラクティス」「Google Cloudのセキュリティ監査観点」といった依頼で使用する。コスト最適化の相談にはgoogle-cloud-waf-cost-optimizationを、可用性・信頼性の相談にはgoogle-cloud-waf-reliabilityを使うこと（本スキルはセキュリティ専用）。"
+    },
+    "google-docs": {
+      "folder": "google-docs",
+      "new_description": "Interact with Google Docs - create documents, search by title, read content, and edit text. Use when user asks to: create a Google Doc, find a document, read doc content, add text to a doc, or replace text in a document. Lightweight alternative to full Google Workspace MCP server with standalone OAuth authentication. Googleドキュメントの作成・検索・本文の読み取りや追記・置換に使う（例: Googleドキュメントを作って、議事録をドキュメントに、本文を読んで、テキストを置換して）。Word文書（.docx）の作成・編集には使わない（docxスキルを使う）。Googleドライブ内のファイル横断検索・ダウンロードには使わない（google-driveスキルを使う）。"
+    },
+    "grill-me": {
+      "folder": "grill-me",
+      "new_description": "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions \"grill me\". 日本語では「計画を詰めてほしい」「設計に突っ込みを入れて」「前提を洗い出して」「詰めの甘い点を指摘して」「一問一答で確認して」といった依頼でも使う。新規タスク着手前の意図・要件探索にはbrainstormingを使う（本スキルは既存の計画・設計を後から尋問して穴を潰す用途）。"
+    },
+    "imagen": {
+      "folder": "imagen",
+      "new_description": "Generate images using Google Gemini's image generation capabilities. Use this skill when the user needs to create, generate, or produce images for any purpose including UI mockups, icons, illustrations, diagrams, concept art, placeholder images, or visual representations. 日本語トリガー例: 画像を生成して/画像を作って/アイコンを作って/イラストを生成/画像生成/挿絵がほしい/ヒーロー画像を作って。構造化・クリック可能なアーキテクチャ図やフロー図・シーケンス図には使わない（architecture-diagramまたはmermaid-diagramを使用）。デザイン哲学に基づくポスターやPDF/PNGアート作品にはcanvas-designを使用。"
+    },
+    "internal-comms": {
+      "folder": "internal-comms",
+      "new_description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.). 日本語トリガー: 社内向け状況報告、週次アップデート、リーダーシップ向け報告、社内報、FAQ回答作成、インシデントレポート作成。DOCX形式の総括報告書・完了報告書を作る場合はproject-reportを使う。"
+    },
+    "kaizen": {
+      "folder": "kaizen",
+      "new_description": "継続的改善（カイゼン）手法をコード実装・設計・業務改善に適用します。「カイゼンの視点で」「継続的改善を」「ポカヨケで」「JITで設計」「標準化して」「業務改善」「ムダ取り」「小さく直して」「一気に作らず段階的に」といった指示で使用。4つの柱（継続的改善・ポカヨケ・標準化・JIT）に基づき、漸進的な品質向上を支援します。中小企業診断士的な経営フレームワーク分析（SWOT・財務指標等）にはsme-consultantを、バグの原因究明そのものにはsystematic-debuggingを使う。"
+    },
+    "moai-domain-frontend": {
+      "folder": "moai-domain-frontend",
+      "new_description": "Frontend development specialist covering React 19, Next.js 16, Vue 3.5, and modern UI/UX patterns with component architecture. Use when building web UIs, implementing components, optimizing frontend performance, or integrating state management. 日本語トリガー: フロントエンド開発、UIコンポーネントを実装、Reactコンポーネントを作って、Next.jsアプリを構築、Vueコンポーネント作成、状態管理を実装。ビジュアルデザイン・配色・スタイル選定のみが目的ならui-ux-pro-maxやfrontend-designを使う。Reactのコンポーネント合成パターンのみの相談ならcomposition-patternsを使う。"
+    },
+    "react-best-practices": {
+      "folder": "react-best-practices",
+      "new_description": "React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements. 日本語トリガー: 「Reactのパフォーマンス最適化」「Next.jsを高速化」「再レンダリングを減らして」「バンドルサイズを削減」「Reactのベストプラクティスに従って」。コンポーネント構成パターンの設計自体にはcomposition-patternsを、React全般のUI実装・状態管理にはmoai-domain-frontendを使う（本スキルはパフォーマンス最適化に特化）。"
+    },
+    "reverve-style-writer": {
+      "folder": "reverve-style-writer",
+      "new_description": "Reverve Consulting（リバーヴ・コンサルティング）のブログ記事の執筆スタイル、トーン、構成の癖を再現するためのスキルです。専門的な知見を構造化して分かりやすく解説しつつ、個人的な背景を交えて信頼性を醸成するスタイルを模倣します。「Reverveスタイルで書いて」「リバーヴ風のブログ記事を」「この文体で記事を執筆して」「ブログ用に書き起こして」といった指示で使用します。農業や中小企業経営の知見そのものの分析にはagriculture-knowledge・sme-consultantを、一般的な文書の共同執筆にはdoc-coauthoringを使ってください（本スキルは文体・構成の模倣が主目的）。"
+    },
+    "ship-learn-next": {
+      "folder": "ship-learn-next",
+      "new_description": "Transform learning content (like YouTube transcripts, articles, tutorials) into actionable implementation plans using the Ship-Learn-Next framework. Use when user wants to turn advice, lessons, or educational content into concrete action steps, reps, or a learning quest. 日本語トリガー: 「学んだ内容を行動計画に変換して」「この動画/記事を実践プランにして」「学びをShip-Learn-Nextで整理して」「次の一歩（レップ）を設計して」。URLからのコンテンツ抽出自体はtapestryを使う（本スキルは抽出済みのテキストから実行計画を作る後段の役割）。"
+    },
+    "skill-creator": {
+      "folder": "skill-creator",
+      "new_description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations. 日本語トリガー例：新しいスキルを作って、スキルを作成したい、SKILL.mdを書いて、スキルの雛形を作成、既存スキルを更新・改善して。Do NOT use for finding or installing existing skills（既存スキルを探す・導入する用途にはfind-skillsを使う）。Do NOT use for auditing or updating CLAUDE.md files（CLAUDE.mdの監査・改善にはclaude-md-improverを使う）。"
+    },
+    "stripe-integration": {
+      "folder": "stripe-integration",
+      "new_description": "Implement Stripe payment processing for robust, PCI-compliant payment flows using Node.js, Express, and React. Covers PaymentElement, Subscriptions, and Webhooks. 決済機能の実装、Stripe連携、サブスクリプション課金、Webhook処理、返金処理、顧客ポータルの構築といった依頼で使用する（例:「Stripeで決済を実装して」「サブスク課金を組み込みたい」「Webhookで決済完了を検知したい」）。"
+    },
+    "subagent-driven-development": {
+      "folder": "subagent-driven-development",
+      "new_description": "Use when executing implementation plans with independent tasks in the current session. 実装計画をタスクごとに新規サブエージェントへ委任し、仕様準拠レビューとコード品質レビューの二段階チェックを経て進める場面（「実装計画を実行して」「タスクごとにサブエージェントで実装」「仕様レビューと品質レビューをして」）で使う。単発の差分レビューのみが目的ならcode-review、横断的な監査ならmulti-axis-auditを使う（本スキルは実装の遂行が主目的）。"
+    },
+    "systematic-debugging": {
+      "folder": "systematic-debugging",
+      "new_description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes. 日本語トリガー: バグ調査、原因究明、根本原因分析、なぜ動かないか調べて、エラーの原因を特定してから直して、場当たり的な修正はしない、デバッグして、といった依頼で使う。テスト戦略の事前設計にはtest-strategyを、修正完了後の検証にはverification-before-completionを使う。"
+    },
+    "theme-factory": {
+      "folder": "theme-factory",
+      "new_description": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly. 「テーマを適用して」「配色とフォントを統一して」「プレゼン資料のトーン＆マナーを整えて」「スライドの見た目に統一感を」といった依頼でも使用する。Anthropic公式ブランドを適用する場合はbrand-guidelinesを、UI/UXのスタイル・パレット設計自体を検討する場合はui-ux-pro-maxを使うこと（本スキルは既存アーティファクトへの10種プリセットテーマ適用が主目的）。"
+    },
+    "vercel-deploy-claimable": {
+      "folder": "claude.ai/vercel-deploy-claimable",
+      "new_description": "Deploy applications and websites to Vercel. Use this skill when the user requests deployment actions such as \"Deploy my app\", \"Deploy this to production\", \"Create a preview deployment\", \"Deploy and give me the link\", or \"Push this live\". No authentication required - returns preview URL and claimable deployment link. 日本語トリガー例:「デプロイして」「Vercelに公開して」「本番公開して」「プレビューURLをちょうだい」「公開リンクをください」。GitHubへのコミット・プッシュ自体にはgithub-pusherを使う（デプロイではない）。"
+    },
+    "web-design-guidelines": {
+      "folder": "web-design-guidelines",
+      "new_description": "Review UI code for Web Interface Guidelines compliance. Use when asked to \"review my UI\", \"check accessibility\", \"audit design\", \"review UX\", or \"check my site against best practices\". 日本語トリガー: 「UIコードをレビューして」「アクセシビリティをチェック」「デザインを監査して」「Web Interface Guidelinesに準拠しているか確認して」「UXをレビュー」。一般的なコード監査・セキュリティ監査にはmulti-axis-auditを、美的な方向性の相談・新規UI構築にはfrontend-designを使う（本スキルはガイドライン準拠チェック専用）。"
+    }
+  }
+}
