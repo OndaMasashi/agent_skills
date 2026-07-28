@@ -21,7 +21,7 @@ const {
 } = require("docx");
 
 // ===== Configuration =====
-const VERSION = 12;
+const VERSION = 13;
 const OUTPUT_PATH = `${__dirname}/skill_catalog_v${VERSION}.docx`;
 const CREATED_DATE = "2026-05-26";
 
@@ -447,6 +447,15 @@ const categories = [
           "React/Next.js/Vue.js\u3092\u7528\u3044\u305F\u30E2\u30C0\u30F3\u30D5\u30ED\u30F3\u30C8\u30A8\u30F3\u30C9\u958B\u767A",
         features:
           "React 19/Next.js 16/Vue 3.5\u5BFE\u5FDC\u3002Server Components\u3001Zustand\u72B6\u614B\u7BA1\u7406\u3002",
+      },
+      {
+        name: "Impeccable",
+        keywords:
+          "\u300CUI\u3092\u6D17\u7DF4\u3057\u3066\u300D\u300C\u30C7\u30B6\u30A4\u30F3\u3092\u6279\u8A55\u3057\u3066\u300D",
+        useCase:
+          "\u65E2\u5B58UI\u306E\u6D17\u7DF4\u30FB\u6279\u8A55\u30FB\u76E3\u67FB\uFF08\u30EC\u30A4\u30A2\u30A6\u30C8/\u4ED5\u4E0A\u3052/UX\u30EC\u30D3\u30E5\u30FC\uFF09",
+        features:
+          "\u4F59\u767D\u30FB\u30EA\u30BA\u30E0\u30FB\u8996\u899A\u968E\u5C64\u306E\u662F\u6B63(layout)\u3001\u51FA\u8377\u524D\u306E\u6700\u7D42\u4ED5\u4E0A\u3052(polish)\u3001UX\u30EC\u30D3\u30E5\u30FC(critique)\u3001a11y/\u6027\u80FD/\u30EC\u30B9\u30DD\u30F3\u30B7\u30D6\u76E3\u67FB(audit)\u306A\u306924\u30B5\u30D6\u30B3\u30DE\u30F3\u30C9\u3002AI\u7279\u6709\u306E\u30C7\u30B6\u30A4\u30F3\u30A2\u30F3\u30C1\u30D1\u30BF\u30FC\u30F3\u3092\u6A5F\u68B0\u691C\u51FA\u3059\u308B\u30C7\u30A3\u30C6\u30AF\u30BF\u540C\u68B1\u3002",
       },
       {
         name: "Ship-Learn-Next",

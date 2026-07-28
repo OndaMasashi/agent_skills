@@ -48,6 +48,7 @@
 | **GitHub Pusher** | 「GitHubへプッシュして」「コミットしてGitHubへ」 | 変更箇所の自動要約、最適なコミットメッセージの生成、GitHubへの一括反映。 |
 | **Stripe Integration** | 「Stripe決済を実装」「サブスクリプション機能」 | PaymentElement、Webhook処理、サブスクリプション管理など、Stripe決済の統合実装を支援。 |
 | **MoAI Domain Frontend** | 「Next.jsアプリを開発」「フロントエンド開発」 | React/Next.js/Vue.jsを用いたフロントエンド開発。Server Components、Zustand状態管理に対応。 |
+| **Impeccable** | 「UIを洗練して」「デザインを批評して」「余白と階層を整えて」 | 既存フロントエンドUIを出荷品質へ引き上げる。layout(余白・リズム・視覚階層)、polish(最終仕上げ)、critique(UXレビュー)、audit(a11y/性能/レスポンシブ)、typeset/colorize/animate など24サブコマンドを `/impeccable <コマンド> [対象]` で実行。AI特有のデザインアンチパターンを機械検出するNode製ディテクタを同梱。 |
 | **Ship-Learn-Next** | 「学習内容を計画に」「アウトプット計画を」 | 学習成果を次のアウトプットにつなげるための計画策定フレームワーク。 |
 | **Brainstorming** | 「設計のブレスト」「構成案を出して」 | 実装前の設計検討やアイデア出しを構造化して行うブレインストーミング支援。 |
 | **Jules** | 「Julesに聞いて」「エージェント連携を」 | 外部エージェント（Jules）との連携によるタスク委任・協調作業。 |
