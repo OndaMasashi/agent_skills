@@ -1,6 +1,7 @@
-﻿---
+---
 name: find-skills
-description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
+description: |
+  Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill. Also trigger on Japanese phrases such as「スキルを探して」「こんなスキルない？」「スキルをインストールして」「拡張機能を探したい」「npx skillsで検索」. Do not use when the user wants to create a brand-new custom skill from scratch — use skill-creator instead.
 ---
 ## Context
 

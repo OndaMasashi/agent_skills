@@ -1,6 +1,7 @@
-﻿---
+---
 name: web-design-guidelines
-description: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices".
+description: |
+  Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices". 日本語トリガー: 「UIコードをレビューして」「アクセシビリティをチェック」「デザインを監査して」「Web Interface Guidelinesに準拠しているか確認して」「UXをレビュー」。一般的なコード監査・セキュリティ監査にはmulti-axis-auditを、美的な方向性の相談・新規UI構築にはfrontend-designを使う（本スキルはガイドライン準拠チェック専用）。
 metadata:
   author: vercel
   version: "1.0.0"

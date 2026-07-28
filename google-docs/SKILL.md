@@ -1,4 +1,9 @@
-﻿---
+---
+name: google-docs
+description: |
+  Interact with Google Docs - create documents, search by title, read content, and edit text. Use when user asks to: create a Google Doc, find a document, read doc content, add text to a doc, or replace text in a document. Lightweight alternative to full Google Workspace MCP server with standalone OAuth authentication. Googleドキュメントの作成・検索・本文の読み取りや追記・置換に使う（例: Googleドキュメントを作って、議事録をドキュメントに、本文を読んで、テキストを置換して）。Word文書（.docx）の作成・編集には使わない（docxスキルを使う）。Googleドライブ内のファイル横断検索・ダウンロードには使わない（google-driveスキルを使う）。
+---
+
 # Google Docs
 
 Lightweight Google Docs integration with standalone OAuth authentication. No MCP server required.

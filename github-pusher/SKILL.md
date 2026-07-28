@@ -1,6 +1,7 @@
-﻿---
+---
 name: github-pusher
-description: GitHubへのコミットとプッシュを自動化します。「GitHubへプッシュして」「変更を反映して」といった指示で、変更箇所の要約、コミットメッセージの生成、GitHubへの反映を一括で行います。
+description: |
+  GitHubへのコミットとプッシュを自動化します。「GitHubへプッシュして」「変更を反映して」といった指示で、変更箇所の要約、コミットメッセージの生成、GitHubへの反映を一括で行います。「pushして」「コミットして」「gitに上げて」「リポジトリに反映して」といった短い指示でも起動します。
 metadata:
   author: Antigravity
   version: "1.0.0"

@@ -1,6 +1,7 @@
 ---
 name: google-cloud-waf-cost-optimization
-description: Generates cost optimization guidance for Google Cloud workloads based on the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify cost requirements and constraints, and provide actionable recommendations for build, deploy, and manage the workload cost-efficiently in Google Cloud.
+description: |
+  Generates cost optimization guidance for Google Cloud workloads based on the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify cost requirements and constraints, and provide actionable recommendations for build, deploy, and manage the workload cost-efficiently in Google Cloud. 日本語トリガー: 「GCPコスト最適化」「Google Cloudの費用削減」「クラウドコスト診断」「WAFのコスト観点でレビュー」。信頼性の観点（可用性・障害対策）が主目的なら google-cloud-waf-reliability を、セキュリティ（IAM・ネットワーク保護等）が主目的なら google-cloud-waf-security を使う。
 ---
 
 # Google Cloud Well-Architected Framework skill for the Cost Optimization pillar

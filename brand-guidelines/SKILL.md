@@ -1,6 +1,7 @@
 ---
 name: brand-guidelines
-description: Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.
+description: |
+  Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply. 日本語では「ブランドガイドラインに沿って」「Anthropicのブランドカラーを適用して」「トンマナを合わせて」「コーポレートカラーで統一して」といった指示でも使用する。Anthropic以外の汎用テーマ選択にはtheme-factoryを使う。
 license: Complete terms in LICENSE.txt
 ---
 

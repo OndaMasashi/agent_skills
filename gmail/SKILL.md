@@ -1,4 +1,9 @@
-﻿---
+---
+name: gmail
+description: |
+  Interact with Gmail - search emails, read messages, send emails, create drafts, and manage labels. Use when user asks to: search email, read email, send email, create email draft, mark as read, archive email, star email, or manage Gmail labels. Lightweight alternative to full Google Workspace MCP server with standalone OAuth authentication. 日本語トリガー例: メールを検索して／メールを送って／下書きを作成／未読にする・既読にする／メールをアーカイブ／スターを付ける／ラベルを整理して、といった依頼で使用する。
+---
+
 # Gmail
 
 Lightweight Gmail integration with standalone OAuth authentication. No MCP server required.

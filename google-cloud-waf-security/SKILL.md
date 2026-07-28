@@ -1,6 +1,7 @@
 ---
 name: google-cloud-waf-security
-description: Generates security-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify security requirements, and provide actionable recommendations for IAM, network security, data protection, and operational security.
+description: |
+  Generates security-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify security requirements, and provide actionable recommendations for IAM, network security, data protection, and operational security. 日本語では「GCPのセキュリティ設計を評価して」「Well-Architected Frameworkのセキュリティ観点でレビュー」「IAM設計・ゼロトラスト・データ保護のベストプラクティス」「Google Cloudのセキュリティ監査観点」といった依頼で使用する。コスト最適化の相談にはgoogle-cloud-waf-cost-optimizationを、可用性・信頼性の相談にはgoogle-cloud-waf-reliabilityを使うこと（本スキルはセキュリティ専用）。
 ---
 
 # Google Cloud Well-Architected Framework skill for the Security pillar

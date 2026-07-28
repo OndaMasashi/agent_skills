@@ -1,6 +1,7 @@
 ---
 name: google-cloud-waf-reliability
-description: Generates reliability-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Google Cloud Well-Architected Framework. Use this skill to evaluate a workload, identify reliability requirements, and provide actionable recommendations for build, deploy, and manage the workload reliably in Google Cloud.
+description: |
+  Generates reliability-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Google Cloud Well-Architected Framework. Use this skill to evaluate a workload, identify reliability requirements, and provide actionable recommendations for build, deploy, and manage the workload reliably in Google Cloud. 日本語では「GCPの信頼性設計」「可用性・冗長化のレビュー」「Well-Architected Framework 信頼性の柱」「SLO/SLIの設計」「障害復旧・DR対策のチェック」といった依頼で使用する。コスト最適化の相談にはgoogle-cloud-waf-cost-optimizationを、IAM・ネットワーク・データ保護などセキュリティの相談にはgoogle-cloud-waf-securityを使う（本スキルはそれらには使わない）。
 ---
 
 # Google Cloud Well-Architected Framework skill for the Reliability pillar

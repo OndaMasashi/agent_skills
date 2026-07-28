@@ -1,6 +1,7 @@
 ---
 name: theme-factory
-description: Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.
+description: |
+  Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly. 「テーマを適用して」「配色とフォントを統一して」「プレゼン資料のトーン＆マナーを整えて」「スライドの見た目に統一感を」といった依頼でも使用する。Anthropic公式ブランドを適用する場合はbrand-guidelinesを、UI/UXのスタイル・パレット設計自体を検討する場合はui-ux-pro-maxを使うこと（本スキルは既存アーティファクトへの10種プリセットテーマ適用が主目的）。
 license: Complete terms in LICENSE.txt
 ---
 

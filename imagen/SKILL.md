@@ -1,4 +1,9 @@
-﻿---
+---
+name: imagen
+description: |
+  Generate images using Google Gemini's image generation capabilities. Use this skill when the user needs to create, generate, or produce images for any purpose including UI mockups, icons, illustrations, diagrams, concept art, placeholder images, or visual representations. 日本語トリガー例: 画像を生成して/画像を作って/アイコンを作って/イラストを生成/画像生成/挿絵がほしい/ヒーロー画像を作って。構造化・クリック可能なアーキテクチャ図やフロー図・シーケンス図には使わない（architecture-diagramまたはmermaid-diagramを使用）。デザイン哲学に基づくポスターやPDF/PNGアート作品にはcanvas-designを使用。
+---
+
 # Imagen - AI Image Generation Skill
 
 ## Overview

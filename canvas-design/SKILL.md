@@ -1,6 +1,7 @@
 ---
 name: canvas-design
-description: Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.
+description: |
+  Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations. 日本語トリガー: ポスターを作って、アート作品を作成、デザイン哲学に基づいた作品、静的なビジュアルデザイン、1枚絵の作品。写実的な写真調画像の単純生成にはimagenを、p5.jsのコードによるジェネラティブアートにはalgorithmic-artを使う（本スキルはデザイン哲学から構築する静的アート作品向け）。
 license: Complete terms in LICENSE.txt
 ---
 

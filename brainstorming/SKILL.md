@@ -1,6 +1,7 @@
-﻿---
+---
 name: brainstorming
-description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+description: |
+  You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation. 日本語トリガー: 「壁打ちしたい」「アイデアを整理して」「要件を一緒に詰めたい」「仕様を固めたい」「設計を相談したい」。既存の計画やコードを批判的に検証したいだけなら grill-me を使う（本スキルはゼロから要件を引き出し設計を作る用途）。内容が固まった文書を清書・共著したいだけなら doc-coauthoring を使う。
 ---
 # Brainstorming Ideas Into Designs
 

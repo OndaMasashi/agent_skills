@@ -1,6 +1,7 @@
 ---
 name: internal-comms
-description: A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).
+description: |
+  A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.). 日本語トリガー: 社内向け状況報告、週次アップデート、リーダーシップ向け報告、社内報、FAQ回答作成、インシデントレポート作成。DOCX形式の総括報告書・完了報告書を作る場合はproject-reportを使う。
 license: Complete terms in LICENSE.txt
 ---
 

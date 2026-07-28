@@ -1,6 +1,7 @@
-﻿---
+---
 name: "moai-domain-frontend"
-description: "Frontend development specialist covering React 19, Next.js 16, Vue 3.5, and modern UI/UX patterns with component architecture. Use when building web UIs, implementing components, optimizing frontend performance, or integrating state management."
+description: |
+  Frontend development specialist covering React 19, Next.js 16, Vue 3.5, and modern UI/UX patterns with component architecture. Use when building web UIs, implementing components, optimizing frontend performance, or integrating state management. 日本語トリガー: フロントエンド開発、UIコンポーネントを実装、Reactコンポーネントを作って、Next.jsアプリを構築、Vueコンポーネント作成、状態管理を実装。ビジュアルデザイン・配色・スタイル選定のみが目的ならui-ux-pro-maxやfrontend-designを使う。Reactのコンポーネント合成パターンのみの相談ならcomposition-patternsを使う。
 version: 2.0.0
 category: "domain"
 modularized: true

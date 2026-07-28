@@ -1,4 +1,12 @@
-﻿---
+---
+name: google-calendar
+description: |
+  Interact with Google Calendar - list calendars, view events, create/update/delete events, and find free time.
+  Use when user asks to: check calendar, schedule a meeting, create an event, find available time, list upcoming events,
+  delete or update a calendar event, or respond to meeting invitations. Lightweight alternative to full
+  Google Workspace MCP server with standalone OAuth authentication.
+---
+
 # Google Calendar
 
 Lightweight Google Calendar integration with standalone OAuth authentication. No MCP server required.

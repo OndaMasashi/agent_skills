@@ -1,6 +1,7 @@
 ---
 name: systematic-debugging
-description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+description: |
+  Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes. 日本語トリガー: バグ調査、原因究明、根本原因分析、なぜ動かないか調べて、エラーの原因を特定してから直して、場当たり的な修正はしない、デバッグして、といった依頼で使う。テスト戦略の事前設計にはtest-strategyを、修正完了後の検証にはverification-before-completionを使う。
 ---
 
 # Systematic Debugging

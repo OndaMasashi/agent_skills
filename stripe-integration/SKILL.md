@@ -1,6 +1,7 @@
-﻿---
+---
 name: stripe-integration-node
-description: Implement Stripe payment processing for robust, PCI-compliant payment flows using Node.js, Express, and React. Covers PaymentElement, Subscriptions, and Webhooks.
+description: |
+  Implement Stripe payment processing for robust, PCI-compliant payment flows using Node.js, Express, and React. Covers PaymentElement, Subscriptions, and Webhooks. 決済機能の実装、Stripe連携、サブスクリプション課金、Webhook処理、返金処理、顧客ポータルの構築といった依頼で使用する（例:「Stripeで決済を実装して」「サブスク課金を組み込みたい」「Webhookで決済完了を検知したい」）。
 ---
 ## Overview
 

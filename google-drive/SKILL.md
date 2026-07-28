@@ -1,4 +1,12 @@
-﻿---
+---
+name: google-drive
+description: |
+  Interact with Google Drive - search files, find folders, list contents, and download files.
+  Use when user asks to: search Google Drive, find a file/folder, list Drive contents,
+  download a file from Drive, or browse Drive folders. Lightweight alternative to full
+  Google Workspace MCP server with standalone OAuth authentication.
+---
+
 # Google Drive
 
 Lightweight Google Drive integration with standalone OAuth authentication. No MCP server required.

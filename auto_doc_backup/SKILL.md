@@ -1,6 +1,7 @@
-﻿---
+---
 name: auto_doc_backup
-description: implementation_planやwalkthroughの自動バックアップを行います。重要なドキュメントが更新された際、所定のフォルダにタイムスタンプ付きで保存することをAIに指示します。
+description: |
+  implementation_planやwalkthroughの自動バックアップを行います。重要なドキュメントが更新された際、所定のフォルダにタイムスタンプ付きで保存することをAIに指示します。「実装計画を保存して」「walkthroughをバックアップ」「作業計画を残しておいて」「変更のたびに自動保存」といった指示でも使用します。
 ---
 # Auto Document Backup Skill
 

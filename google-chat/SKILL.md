@@ -1,4 +1,12 @@
-﻿---
+---
+name: google-chat
+description: |
+  Interact with Google Chat - list spaces, send messages, read conversations, and manage DMs.
+  Use when user asks to: send a message on Google Chat, read chat messages, list chat spaces,
+  find a chat room, send a DM, or create a new chat space. Lightweight alternative to full
+  Google Workspace MCP server with standalone OAuth authentication.
+---
+
 # Google Chat
 
 Lightweight Google Chat integration with standalone OAuth authentication. No MCP server required.

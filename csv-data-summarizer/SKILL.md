@@ -1,6 +1,7 @@
 ---
 name: csv-data-summarizer
-description: CSVファイルを自動分析し、統計サマリーと可視化を即時生成します。「CSVを分析して」「データを要約して」「CSVの傾向を見せて」といった指示で使用。pandas, matplotlib, seabornを用いた包括的な分析を質問なしで即実行します。Excel/スプレッドシートの作成・編集には使わないでください（xlsxスキルを使用）。
+description: |
+  CSVファイルを自動分析し、統計サマリーと可視化を即時生成します。「CSVを分析して」「データを要約して」「CSVの傾向を見せて」「CSVの中身をざっくり確認して」「このデータの概要を教えて」「欠損値をチェックして」といった指示で使用。pandas, matplotlib, seabornを用いた包括的な分析を質問なしで即実行します。Excel/スプレッドシートの作成・編集には使わないでください（xlsxスキルを使用）。詳細な仮説生成やインタラクティブなレポート作成が目的の場合はdata-analysisスキルを使用してください。
 metadata:
   author: coffeefuelbump
   version: "2.1.0"

@@ -1,4 +1,12 @@
-﻿---
+---
+name: google-slides
+description: |
+  Read content from Google Slides presentations - get text, find presentations, and retrieve metadata.
+  Use when user asks to: read a presentation, find slides, get presentation content, search for a slideshow,
+  or check presentation details. Lightweight alternative to full Google Workspace MCP server with standalone
+  OAuth authentication. Read-only operations only.
+---
+
 # Google Slides
 
 Lightweight Google Slides integration with standalone OAuth authentication. No MCP server required.

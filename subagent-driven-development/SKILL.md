@@ -1,6 +1,7 @@
 ---
 name: subagent-driven-development
-description: Use when executing implementation plans with independent tasks in the current session
+description: |
+  Use when executing implementation plans with independent tasks in the current session. 実装計画をタスクごとに新規サブエージェントへ委任し、仕様準拠レビューとコード品質レビューの二段階チェックを経て進める場面（「実装計画を実行して」「タスクごとにサブエージェントで実装」「仕様レビューと品質レビューをして」）で使う。単発の差分レビューのみが目的ならcode-review、横断的な監査ならmulti-axis-auditを使う（本スキルは実装の遂行が主目的）。
 ---
 
 # Subagent-Driven Development

@@ -1,4 +1,10 @@
-﻿---
+---
+name: skill-creator
+description: |
+  Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations. 日本語トリガー例：新しいスキルを作って、スキルを作成したい、SKILL.mdを書いて、スキルの雛形を作成、既存スキルを更新・改善して。Do NOT use for finding or installing existing skills（既存スキルを探す・導入する用途にはfind-skillsを使う）。Do NOT use for auditing or updating CLAUDE.md files（CLAUDE.mdの監査・改善にはclaude-md-improverを使う）。
+license: Complete terms in LICENSE.txt
+---
+
 > **思考モード**: このスキルはユースケース定義→アーキテクチャ設計→Progressive Disclosure設計→テスト戦略の多段設計判断を伴うため、各フェーズの意思決定前に `ultrathink` で深く考えること。
 
 # Skill Creator

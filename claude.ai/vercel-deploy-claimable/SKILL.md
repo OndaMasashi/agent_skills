@@ -1,4 +1,12 @@
-﻿---
+---
+name: vercel-deploy
+description: |
+  Deploy applications and websites to Vercel. Use this skill when the user requests deployment actions such as "Deploy my app", "Deploy this to production", "Create a preview deployment", "Deploy and give me the link", or "Push this live". No authentication required - returns preview URL and claimable deployment link. 日本語トリガー例:「デプロイして」「Vercelに公開して」「本番公開して」「プレビューURLをちょうだい」「公開リンクをください」。GitHubへのコミット・プッシュ自体にはgithub-pusherを使う（デプロイではない）。
+metadata:
+  author: vercel
+  version: "1.0.0"
+---
+
 # Vercel Deploy
 
 Deploy any project to Vercel instantly. No authentication required.

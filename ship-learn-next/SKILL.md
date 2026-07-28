@@ -1,6 +1,7 @@
-﻿---
+---
 name: ship-learn-next
-description: Transform learning content (like YouTube transcripts, articles, tutorials) into actionable implementation plans using the Ship-Learn-Next framework. Use when user wants to turn advice, lessons, or educational content into concrete action steps, reps, or a learning quest.
+description: |
+  Transform learning content (like YouTube transcripts, articles, tutorials) into actionable implementation plans using the Ship-Learn-Next framework. Use when user wants to turn advice, lessons, or educational content into concrete action steps, reps, or a learning quest. 日本語トリガー: 「学んだ内容を行動計画に変換して」「この動画/記事を実践プランにして」「学びをShip-Learn-Nextで整理して」「次の一歩（レップ）を設計して」。URLからのコンテンツ抽出自体はtapestryを使う（本スキルは抽出済みのテキストから実行計画を作る後段の役割）。
 allowed-tools:
   - Read
   - Write
