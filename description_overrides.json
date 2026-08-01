@@ -1,5 +1,5 @@
 {
-  "_comment": "スキル発火精度向上のためのローカルdescription上書き記録（2026-07-12）。日本語トリガー語＋兄弟スキル境界のネガティブトリガーを加算。upstream同期でdescriptionが上書きされたら apply_description_overrides.py で再適用できる。",
+  "_comment": "スキル発火精度向上のためのローカルdescription上書き記録（2026-07-12）。日本語トリガー語＋兄弟スキル境界のネガティブトリガーを加算。upstream同期でdescriptionが上書きされたら apply_description_overrides.py で再適用できる。 2026-08-01: marketingskills(6) + claude-seo(2) の8スキルを追加。",
   "_generated": "2026-07-12",
   "overrides": {
     "auto_doc_backup": {
@@ -18,9 +18,25 @@
       "folder": "canvas-design",
       "new_description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations. 日本語トリガー: ポスターを作って、アート作品を作成、デザイン哲学に基づいた作品、静的なビジュアルデザイン、1枚絵の作品。写実的な写真調画像の単純生成にはimagenを、p5.jsのコードによるジェネラティブアートにはalgorithmic-artを使う（本スキルはデザイン哲学から構築する静的アート作品向け）。"
     },
+    "competitor-profiling": {
+      "folder": "competitor-profiling",
+      "new_description": "When the user wants to research, profile, or analyze competitors from their URLs. Also use when the user mentions 'competitor profile,' 'competitor research,' 'competitor analysis,' 'competitive intelligence,' 'competitor landscape,' or 'competitive audit.' Input is a list of competitor URLs. Output is structured, side-by-side comparable competitor profile markdown files, with raw data saved by date so profiles can be diffed over time. 日本語トリガー例: 競合を調べて／競合分析して／競合サイトを比較して／競合の料金体系を調べて／競合の訴求を整理して／競合リサーチをまとめて。技術・市場テーマの一般調査は deep-research を使う（本スキルは競合URLから構造化プロファイルを作るのが目的）。Firecrawl / DataForSEO MCP は未導入のためSEO指標は取得できない（SKILL.md 冒頭の注記を参照）。"
+    },
+    "copywriting": {
+      "folder": "copywriting",
+      "new_description": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or product pages. Also use when the user says 'write copy for,' 'improve this copy,' 'headline help,' 'CTA copy,' 'value proposition,' or 'tagline.' 日本語トリガー例: LPのコピーを書いて／キャッチコピーを考えて／訴求文を改善して／見出しを強くして／CTAの文言を考えて／価値提案を言語化して。ブログ記事をReverveの文体で書く場合は reverve-style-writer、提案書・報告書の共同執筆は doc-coauthoring、社内向け連絡文は internal-comms を使う（本スキルはWebページの販売用コピーが対象）。ページ構成・成約率の診断は cro を使う。"
+    },
+    "cro": {
+      "folder": "cro",
+      "new_description": "When the user wants to optimize, improve, or increase conversions on any marketing page or form — including homepage, landing pages, pricing pages, feature pages, lead capture forms, or contact forms. Also use when the user says 'CRO,' 'conversion rate optimization,' 'this page isn't converting,' 'improve conversions,' or 'low conversion rate.' Use this even if the user just shares a URL and asks for feedback. 日本語トリガー例: コンバージョン率を上げたい／CVRを改善して／このLPが成約しない／問い合わせが増えない／申込率を改善して／このページの改善点を教えて。Web Interface Guidelines への準拠チェックには web-design-guidelines、UIの美観・実装改善には impeccable や ui-ux-pro-max を使う（本スキルは成約率向上のための構成・訴求の診断が目的）。販売文そのものの執筆・書き直しは copywriting を使う。"
+    },
     "csv-data-summarizer": {
       "folder": "csv-data-summarizer",
       "new_description": "CSVファイルを自動分析し、統計サマリーと可視化を即時生成します。「CSVを分析して」「データを要約して」「CSVの傾向を見せて」「CSVの中身をざっくり確認して」「このデータの概要を教えて」「欠損値をチェックして」といった指示で使用。pandas, matplotlib, seabornを用いた包括的な分析を質問なしで即実行します。Excel/スプレッドシートの作成・編集には使わないでください（xlsxスキルを使用）。詳細な仮説生成やインタラクティブなレポート作成が目的の場合はdata-analysisスキルを使用してください。"
+    },
+    "customer-research": {
+      "folder": "customer-research",
+      "new_description": "When the user wants to conduct, analyze, or synthesize customer research. Use when the user mentions 'customer research,' 'ICP research,' 'customer interviews,' 'survey analysis,' 'voice of customer,' 'VOC,' 'customer personas,' 'jobs to be done,' 'JTBD,' 'review mining,' or 'why customers churn/convert/buy.' Covers both analyzing existing assets (transcripts, surveys, support tickets, win/loss, NPS) and gathering new research from online sources (Reddit, G2, forums). 日本語トリガー例: 顧客インタビューを分析して／アンケート結果をまとめて／顧客の生の声を抽出して／ペルソナを作って／JTBDで整理して／解約理由を分析して／口コミを分析して。技術文献や市場全体の外部調査は deep-research、経営理論に基づく診断は sme-consultant を使う（本スキルは顧客の発言・行動データから示唆を出すのが目的）。"
     },
     "docx-word-count": {
       "folder": "docx-word-count",
@@ -70,9 +86,17 @@
       "folder": "kaizen",
       "new_description": "継続的改善（カイゼン）手法をコード実装・設計・業務改善に適用します。「カイゼンの視点で」「継続的改善を」「ポカヨケで」「JITで設計」「標準化して」「業務改善」「ムダ取り」「小さく直して」「一気に作らず段階的に」といった指示で使用。4つの柱（継続的改善・ポカヨケ・標準化・JIT）に基づき、漸進的な品質向上を支援します。中小企業診断士的な経営フレームワーク分析（SWOT・財務指標等）にはsme-consultantを、バグの原因究明そのものにはsystematic-debuggingを使う。"
     },
+    "marketing-plan": {
+      "folder": "marketing-plan",
+      "new_description": "When the user needs a comprehensive marketing plan for a client, a company they advise, or their own product. Also use when the user mentions \"marketing plan,\" \"growth plan,\" \"GTM plan,\" \"go-to-market plan,\" \"AARRR plan,\" or \"fractional CMO plan.\" Generates a 13-section plan structured by AARRR (Acquisition, Activation, Retention, Referral, Revenue), customized to the client's budget, team, and stage, cross-referenced with a 139-idea library and a 17-section current-state audit rubric. Outputs a Notion-paste-ready markdown document. 日本語トリガー例: マーケティング計画を作って／マーケ戦略の12ヶ月ロードマップ／GTM計画／集客の全体設計／販促計画を立てて。経営理論のフレームワーク分析（SWOT・4P・財務指標・診断士の事例I〜IV）には sme-consultant を使う（本スキルは実行計画の作成が目的）。価格・プラン設計のみなら pricing、申込率改善のみなら cro を使う。"
+    },
     "moai-domain-frontend": {
       "folder": "moai-domain-frontend",
       "new_description": "Frontend development specialist covering React 19, Next.js 16, Vue 3.5, and modern UI/UX patterns with component architecture. Use when building web UIs, implementing components, optimizing frontend performance, or integrating state management. 日本語トリガー: フロントエンド開発、UIコンポーネントを実装、Reactコンポーネントを作って、Next.jsアプリを構築、Vueコンポーネント作成、状態管理を実装。ビジュアルデザイン・配色・スタイル選定のみが目的ならui-ux-pro-maxやfrontend-designを使う。Reactのコンポーネント合成パターンのみの相談ならcomposition-patternsを使う。"
+    },
+    "pricing": {
+      "folder": "pricing",
+      "new_description": "When the user wants help with pricing decisions, packaging, or monetization strategy. Also use when the user mentions 'pricing,' 'pricing tiers,' 'freemium,' 'free trial,' 'packaging,' 'price increase,' 'value metric,' 'Van Westendorp,' 'willingness to pay,' 'monetization,' 'how much should I charge,' or 'pricing page audit.' 日本語トリガー例: 価格設定を相談したい／プラン構成を考えて／いくらで売るべきか／値上げの進め方／料金ページを診断して／支払意欲を測りたい／サブスクの階層設計。財務モデル・収支計画・DCFの構築は financial-modeling、経営戦略全般の診断は sme-consultant を使う（本スキルは価格・パッケージ設計に特化）。注意: 内容はB2B SaaS前提（ARPU・解約率・席数課金）のため、他業態では枠組みのみ流用する。"
     },
     "react-best-practices": {
       "folder": "react-best-practices",
@@ -81,6 +105,14 @@
     "reverve-style-writer": {
       "folder": "reverve-style-writer",
       "new_description": "Reverve Consulting（リバーヴ・コンサルティング）のブログ記事の執筆スタイル、トーン、構成の癖を再現するためのスキルです。専門的な知見を構造化して分かりやすく解説しつつ、個人的な背景を交えて信頼性を醸成するスタイルを模倣します。「Reverveスタイルで書いて」「リバーヴ風のブログ記事を」「この文体で記事を執筆して」「ブログ用に書き起こして」といった指示で使用します。農業や中小企業経営の知見そのものの分析にはagriculture-knowledge・sme-consultantを、一般的な文書の共同執筆にはdoc-coauthoringを使ってください（本スキルは文体・構成の模倣が主目的）。"
+    },
+    "seo-geo": {
+      "folder": "seo-geo",
+      "new_description": "Optimize content for AI Overviews (formerly SGE), ChatGPT web search, Perplexity, and other AI-powered search experiences. Generative Engine Optimization (GEO) analysis including brand mention signals, AI crawler accessibility, llms.txt compliance, passage-level citability scoring, and platform-specific optimization. Use when user says 'AI Overviews', 'SGE', 'GEO', 'AI search', 'LLM optimization', 'Perplexity', 'AI citations', 'ChatGPT search', or 'AI visibility'. 日本語トリガー例: AI検索で引用されたい／AI Overviewsに載るには／ChatGPTやPerplexityでの見え方を改善／生成AI経由の流入を増やしたい／llms.txtは必要か／AIクローラーの許可設定。構造化データ・JSON-LDの生成や検証は seo-schema を使う。自社サイトのGSC/GA4実測データの分析は reverve-hp MCP を使う（本スキルは実測ではなくページ内容のAI検索最適化が目的）。"
+    },
+    "seo-schema": {
+      "folder": "seo-schema",
+      "new_description": "Detect, validate, and generate Schema.org structured data. JSON-LD format preferred. Use when user says 'schema', 'structured data', 'rich results', 'JSON-LD', or 'markup'. Includes the current active/deprecated schema type list (as of June 2026) and Google's supported rich result types. 日本語トリガー例: 構造化データを作って／JSON-LDを生成して／リッチリザルトに対応したい／schema.orgのマークアップを検証して／パンくずやFAQの構造化データ／この型はまだ有効か。AI検索（AI Overviews・ChatGPT・Perplexity）向けの最適化は seo-geo を使う（本スキルは構造化データの検出・検証・生成に特化）。"
     },
     "ship-learn-next": {
       "folder": "ship-learn-next",
