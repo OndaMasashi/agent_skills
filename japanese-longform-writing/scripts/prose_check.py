@@ -7,6 +7,7 @@
   python prose_check.py "docs/*.md"                    # glob 可（クォート推奨）
   python prose_check.py "手本/*.md" "draft/*.md"        # 手本と並べて基準を作る
   python prose_check.py *.md --jargon 巻き取る,握る,温度感  # 内輪語を追加指定
+  python prose_check.py draft.md --genre pro           # 寄稿・専門誌（長い文を許容）
   python prose_check.py *.md --detail                  # 該当行を全部出す
   python prose_check.py *.md --json                    # 機械可読出力
 
@@ -15,6 +16,9 @@
 **合格ラインは持たない。** 文体の数値は原稿のジャンル・書き手・媒体で変わるため、
 このスクリプトは数値を出すだけで OK/NG を判定しない。基準がほしいときは、
 自分がお手本にしたい原稿を一緒に渡して、同じ表に並べて見比べる。
+
+`--genre` が変えるのは「合格ライン」ではなく**検出のしきい値**（何字から長文として
+拾うか）だけ。表に出る数値そのものは媒体によらず同じ実測値を出す。
 """
 
 from __future__ import annotations
@@ -125,33 +129,65 @@ def has_no_chain(s: str) -> bool:
 
 
 # 正規表現では取れず、文そのものの性質で判定するもの
-# (キー, 表示名, 述語, 補足)
-TIC_PREDICATES = [
-    (
-        "no_chain",
-        "「の」の連続",
-        has_no_chain,
-        "G3. 3 連続すると係り先が読めなくなる。1 つを動詞句や読点に置き換える",
-    ),
-    (
-        "long_sent",
-        "一文が長すぎる",
-        lambda s: len(s) > 80,
-        "G6. 80 字超は主述が離れてねじれやすい。句点で割るか、修飾を前に出す",
-    ),
-    (
-        "comma_heavy",
-        "読点が多い",
-        lambda s: s.count("、") >= 4,
-        "G4. 1 文に読点 4 個以上。息継ぎではなく係り先の切れ目で打つ。単語の列挙（A、B、C、D）は誤検知なので無視してよい",
-    ),
-]
+# ------------------------------------------------------- 媒体プロファイル
+# 「長い文」の許容は、読者と読む場所で変わる。
+#   web … 画面で拾い読みされる。1 文が長いと視線が迷子になるので短く刻む
+#   pro … 法令・通達を日常的に読む読者が紙で通読する。長文への耐性が高く、
+#         刻みすぎると寄稿としての落ち着きを失う
+# pro のしきい値は社労士会報への寄稿 1 本（69 文）の実測から置いた。この原稿では
+# 80 字超が 8.7%、120 字超が 2.9%、読点 5 個以上が 1.4%、6 個以上は 0 件だった。
+# 120 字 / 読点 5 個なら、突出した 2〜3 文だけが残る。
+GENRES = {
+    "web": {
+        "long_sent": 80,
+        "comma_heavy": 4,
+        "label": "note・ブログ・Web 記事・社内向け md",
+    },
+    "pro": {
+        "long_sent": 120,
+        "comma_heavy": 5,
+        "label": "寄稿・専門誌・報告書・提案書（専門家が読む）",
+    },
+}
+DEFAULT_GENRE = "web"
+_LIMITS = dict(GENRES[DEFAULT_GENRE])
 
-# 検出側は正規表現も述語も「文を渡すと真偽が返る関数」に揃えて 1 ループで回す
-TIC_RULES = [
-    (key, label, re.compile(pattern).search, hint)
-    for key, label, pattern, hint in TIC_PATTERNS
-] + list(TIC_PREDICATES)
+
+def build_tic_rules() -> list:
+    """現在の媒体プロファイルで検出ルール一式を組み立てる。
+
+    正規表現も述語も「文を渡すと真偽が返る関数」に揃えて 1 ループで回す。
+    媒体で動くのは長文・読点のしきい値だけなので、補足文もその値で書き換える。
+    """
+    long_n = _LIMITS["long_sent"]
+    comma_n = _LIMITS["comma_heavy"]
+    predicates = [
+        (
+            "no_chain",
+            "「の」の連続",
+            has_no_chain,
+            "G3. 3 連続すると係り先が読めなくなる。1 つを動詞句や読点に置き換える",
+        ),
+        (
+            "long_sent",
+            "一文が長すぎる",
+            lambda s: len(s) > long_n,
+            f"G6. {long_n} 字超は主述が離れてねじれやすい。句点で割るか、修飾を前に出す",
+        ),
+        (
+            "comma_heavy",
+            "読点が多い",
+            lambda s: s.count("、") >= comma_n,
+            f"G4. 1 文に読点 {comma_n} 個以上。息継ぎではなく係り先の切れ目で打つ。単語の列挙（A、B、C、D）は誤検知なので無視してよい",
+        ),
+    ]
+    return [
+        (key, label, re.compile(pattern).search, hint)
+        for key, label, pattern, hint in TIC_PATTERNS
+    ] + predicates
+
+
+TIC_RULES = build_tic_rules()
 
 # 件数がこの数を超えたときだけ報告する（少数の出現は癖ではない）
 TIC_MIN = {
@@ -449,7 +485,18 @@ def main() -> int:
     ap.add_argument("--exclude", default=None, help="除外する行の正規表現（免責文など）")
     ap.add_argument("--detail", action="store_true", help="該当行を全件表示")
     ap.add_argument("--json", action="store_true", help="JSON で出力")
+    ap.add_argument(
+        "--genre",
+        choices=sorted(GENRES),
+        default=DEFAULT_GENRE,
+        help="媒体（web: note・ブログ / pro: 寄稿・専門誌・報告書）。長文と読点の検出しきい値が変わる",
+    )
     args = ap.parse_args()
+
+    # 媒体で動くのは検出のしきい値だけ。表に出る実測値は媒体によらず同じ
+    global _LIMITS, TIC_RULES
+    _LIMITS = dict(GENRES[args.genre])
+    TIC_RULES = build_tic_rules()
 
     matched = {Path(p) for pat in args.paths for p in glob.glob(pat, recursive=True)}
     files = sorted(f for f in matched if f.is_file())
@@ -469,7 +516,9 @@ def main() -> int:
         return 0
 
     print(
-        "\n※ 文体の数値に合格ラインは無い。ジャンル・書き手・媒体で変わる。"
+        f"\n※ 媒体: {args.genre}（{_LIMITS['label']}）"
+        f" — 一文 {_LIMITS['long_sent']} 字超 / 読点 {_LIMITS['comma_heavy']} 個以上を検出"
+        "\n   文体の数値に合格ラインは無い。ジャンル・書き手・媒体で変わる。"
         "\n   基準がほしいときは、お手本にしたい原稿を一緒に渡して同じ表で見比べる。\n"
     )
     print_skeleton(results, skipped)
