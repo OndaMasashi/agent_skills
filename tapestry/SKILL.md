@@ -25,16 +25,13 @@ metadata:
 
 | パターン | 種別 | 抽出方法 |
 |---------|------|---------|
-| `youtube.com/watch`, `youtu.be/` | YouTube | yt-dlp で字幕取得 |
+| `youtube.com/watch`, `youtu.be/`, `/shorts/` | YouTube | youtube-fetch スキル |
 | `.pdf` で終わるURL | PDF | curl + pdftotext |
 | その他 HTTP/HTTPS | Web記事 | WebFetch / trafilatura |
 
 ## YouTube抽出
 
-```bash
-# yt-dlpで字幕取得
-yt-dlp --write-auto-sub --skip-download --sub-langs en,ja --output "transcript" "$URL"
-```
+`youtube-fetch` スキルの手順で取得する（題名・概要欄・チャプター・時刻つき字幕を 1 つの Markdown にまとめる）。取り方をこのスキルに書き写さないこと（YouTube 側の変更への対応を 1 か所にまとめるため）。
 
 ## Web記事抽出
 
@@ -64,6 +61,6 @@ Plan: アクションプラン - [タイトル].md
 
 ## 依存ツール
 
-- **YouTube**: yt-dlp（`pip install yt-dlp`）
+- **YouTube**: youtube-fetch スキル（uv が要る）
 - **記事**: WebFetchツール
 - **PDF**: curl + pdftotext（poppler-utils）

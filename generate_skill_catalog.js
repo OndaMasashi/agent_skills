@@ -21,7 +21,7 @@ const {
 } = require("docx");
 
 // ===== Configuration =====
-const VERSION = 17;
+const VERSION = 18;
 const OUTPUT_PATH = `${__dirname}/skill_catalog_v${VERSION}.docx`;
 const CREATED_DATE = "2026-05-26";
 
@@ -217,6 +217,15 @@ const categories = [
           "Markdown\u5F62\u5F0F\u304B\u3089Word\u306B\u66F8\u304D\u51FA\u3057\u305F\u969B\u306E\u60F3\u5B9A\u6587\u5B57\u6570\u30FB\u679A\u6570\u3092\u7CBE\u5BC6\u306B\u63A8\u5B9A\u3002",
       },
       {
+        name: "note\u8CBC\u4ED8HTML",
+        keywords:
+          "\u300Cnote\u306B\u8CBC\u308C\u308BHTML\u306B\u300D\u300Cnote\u6295\u7A3F\u7528\u306B\u5909\u63DB\u300D",
+        useCase:
+          "Markdown\u8A18\u4E8B\u3092note\u306B\u305D\u306E\u307E\u307E\u8CBC\u308A\u4ED8\u3051\u3089\u308C\u308BHTML\u306B\u5909\u63DB",
+        features:
+          "note\u975E\u5BFE\u5FDC\u306E\u8868\u30FBh4\u4EE5\u4E0B\u30FB\u753B\u50CF\u3092\u81EA\u52D5\u5909\u63DB\u3002\u30BF\u30A4\u30C8\u30EB\u6B04\u7528\u30C6\u30AD\u30B9\u30C8\u3001\u30CF\u30C3\u30B7\u30E5\u30BF\u30B0\u9078\u5B9A\u3001\u30EF\u30F3\u30AF\u30EA\u30C3\u30AF\u30B3\u30D4\u30FC\u4ED8\u304D\u3002",
+      },
+      {
         name: "Google Docs",
         keywords:
           "\u300CGoogle\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\u3092\u300D\u300C\u30C6\u30AD\u30B9\u30C8\u53D6\u5F97\u300D",
@@ -305,6 +314,15 @@ const categories = [
           "\u793E\u5185\u5411\u3051\u30FB\u9867\u5BA2\u5411\u3051\u306E\u7DCF\u62EC\u5831\u544A\u66F8\u3092DOCX\u3068\u3057\u3066\u751F\u6210",
         features:
           "\u30A4\u30F3\u30BF\u30D3\u30E5\u30FC\u5F62\u5F0F\u3067\u5185\u5BB9\u53CE\u96C6\u3001DOCX\u3068\u3057\u3066\u751F\u6210\u3002\u30BB\u30AF\u30B7\u30E7\u30F3\u9078\u629E\u30FB\u30B9\u30BF\u30A4\u30EB\u9078\u629E\u5BFE\u5FDC\u3002",
+      },
+      {
+        name: "YouTube取得",
+        keywords:
+          "「この動画を見て」「動画の字幕を取って」",
+        useCase:
+          "YouTube動画の中身（概要欄・チャプター・字幕）を読んで要約・調査・引用したい場合",
+        features:
+          "URLから題名・公開日・概要欄・チャプター・時刻つき字幕を1つのMarkdownにまとめる。yt-dlpが失敗したときは別の取得方法へ自動で切り替える。映像のコマを画像にして確かめる手順付き。",
       },
       {
         name: "Mermaid Diagram",
