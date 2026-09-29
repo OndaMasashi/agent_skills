@@ -37,37 +37,50 @@ echo 'export GEMINI_API_KEY="your-api-key-here"' >> ~/.zshrc
 
 ### Model
 
-- **Model ID**: `gemini-3-pro-image-preview` (configurable via `--model` flag or `GEMINI_MODEL` env var)
-- **Endpoint**: `https://generativelanguage.googleapis.com/v1beta/models/{model}:streamGenerateContent`
+- **Model ID**: `gemini-3.1-flash-image` (configurable via `--model` flag or `GEMINI_MODEL` env var). `gemini-3-pro-image-preview` was shut down on 2026-06-25
+- **Endpoint**: `POST https://generativelanguage.googleapis.com/v1beta/interactions` (Interactions API; the key is sent in the `x-goog-api-key` header)
+- **Request**: `{"model": ..., "input": [{"type": "text", "text": prompt}], "response_format": {"type": "image", "mime_type": "image/jpeg", "aspect_ratio": "1:1", "image_size": "1K"}}`
+- **Response**: the image is the first `steps[].content[]` item with `"type": "image"` (base64 in `data`)
+- **Output format**: JPEG only (`image/png` is rejected)
 
 ### Image Sizes
 
 | Size | Description |
 |------|-------------|
-| `512` | 512x512 pixels - Fast, good for icons/thumbnails |
-| `1K` | 1024x1024 pixels - Default, balanced quality/speed |
-| `2K` | 2048x2048 pixels - High resolution, slower |
+| `512` | 512x512 pixels - Fast, good for icons/thumbnails ($0.045) |
+| `1K` | 1024x1024 pixels - Default, balanced quality/speed ($0.067) |
+| `2K` | 2048x2048 pixels - High resolution, slower ($0.101) |
+| `4K` | 4096x4096 pixels - Largest, slowest ($0.151) |
+
+Sizes are for the default 1:1 aspect ratio. Prices per image as of 2026-09.
+
+### Aspect Ratios
+
+`--aspect` accepts 1:1 (default), 3:2, 2:3, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9 and 21:9.
 
 ## Script Parameters
 
 ### Python Script (Cross-Platform)
 
 ```bash
-python scripts/generate_image.py <prompt> [output_path] [--size SIZE]
+python scripts/generate_image.py <prompt> [output_path] [--size SIZE] [--aspect RATIO] [--model MODEL]
 ```
 
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
 | `prompt` | Yes | - | Text description of desired image |
-| `output_path` | No | `./generated-image.png` | Where to save the image |
-| `--size` | No | `1K` | Image size (512, 1K, or 2K) |
+| `output_path` | No | `./generated-image.jpg` | Where to save the image (always saved as `.jpg`) |
+| `--size` | No | `1K` | Image size (512, 1K, 2K or 4K) |
+| `--aspect` | No | `1:1` | Aspect ratio |
+| `--model` | No | `gemini-3.1-flash-image` | Model ID |
 
 ### Environment Variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `GEMINI_API_KEY` | Yes | - | Your Google Gemini API key |
-| `IMAGE_SIZE` | No | `1K` | Image size (512, 1K, or 2K) |
+| `IMAGE_SIZE` | No | `1K` | Image size (512, 1K, 2K or 4K) |
+| `GEMINI_MODEL` | No | `gemini-3.1-flash-image` | Model ID |
 
 ## Usage Examples
 
@@ -80,19 +93,19 @@ python scripts/generate_image.py "A serene mountain landscape at dawn"
 ### Custom Output Path
 
 ```bash
-python scripts/generate_image.py "Minimalist logo design" "./assets/logo.png"
+python scripts/generate_image.py "Minimalist logo design" "./assets/logo.jpg"
 ```
 
 ### High Resolution
 
 ```bash
-python scripts/generate_image.py --size 2K "Detailed portrait" "./high-res.png"
+python scripts/generate_image.py --size 2K --aspect 3:4 "Detailed portrait" "./high-res.jpg"
 ```
 
 ### Small/Fast Generation
 
 ```bash
-python scripts/generate_image.py --size 512 "Simple icon" "./icon.png"
+python scripts/generate_image.py --size 512 "Simple icon" "./icon.jpg"
 ```
 
 ## Prompt Tips
@@ -200,8 +213,8 @@ echo $GEMINI_API_KEY  # Should show your key
 - Verify API key is valid
 
 ### "API request failed with HTTP status 429"
-- Rate limited - wait a moment and retry
-- Consider upgrading your API quota
+- Rate limited or quota reached - wait a minute and retry
+- Check usage and billing in Google AI Studio
 
 ### "No image data found in response"
 - The model may have refused the prompt (content policy)
@@ -219,7 +232,7 @@ echo $GEMINI_API_KEY  # Should show your key
 
 ## API Costs
 
-Check [Google AI pricing](https://ai.google.dev/pricing) for current Gemini API costs. Image generation typically costs more than text generation.
+Image generation has no free tier. As of 2026-09, `gemini-3.1-flash-image` costs $0.045 (512), $0.067 (1K), $0.101 (2K) or $0.151 (4K) per image. The script prints the estimate before each call. Check [Google AI pricing](https://ai.google.dev/pricing) for current prices.
 
 ## Limitations
 

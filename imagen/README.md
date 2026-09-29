@@ -18,7 +18,7 @@ A Claude Code skill that generates images using Google Gemini's image generation
 
 ### 2. Set Your API Key
 
-Get a free API key from [Google AI Studio](https://aistudio.google.com/):
+Get an API key from [Google AI Studio](https://aistudio.google.com/). Image generation has no free tier, so billing must be enabled for the key:
 
 **Windows (PowerShell):**
 ```powershell
@@ -60,7 +60,9 @@ When you mention needing an image, Claude will automatically:
 
 - **Cross-Platform**: Python script works on Windows, macOS, and Linux
 - **Automatic Activation**: Claude detects when you need an image
-- **Multiple Sizes**: 512px, 1K (default), or 2K resolution
+- **Multiple Sizes**: 512px, 1K (default), 2K or 4K resolution
+- **Aspect Ratios**: 1:1 (default), 16:9, 9:16 and more via `--aspect`
+- **JPEG Output**: the API only returns JPEG (no transparency)
 - **Custom Output Paths**: Save images wherever you need them
 - **Frontend Ready**: Perfect for UI development, placeholders, icons
 - **Documentation Images**: Generate diagrams, illustrations, flowcharts
@@ -70,18 +72,18 @@ When you mention needing an image, Claude will automatically:
 ### During Frontend Development
 ```
 You: "I'm building a dashboard. Generate a placeholder chart image."
-Claude: *generates and saves image* "Created the image at ./assets/chart-placeholder.png"
+Claude: *generates and saves image* "Created the image at ./assets/chart-placeholder.jpg"
 ```
 
 ### For Documentation
 ```
 You: "Create an architecture diagram for our microservices"
-Claude: *generates image* "Saved to ./docs/architecture.png"
+Claude: *generates image* "Saved to ./docs/architecture.jpg"
 ```
 
 ### Custom Size & Location
 ```
-You: "Generate a high-res hero image and save it to ./public/hero.png"
+You: "Generate a high-res hero image and save it to ./public/hero.jpg"
 Claude: *generates 2K image at specified path*
 ```
 
@@ -92,16 +94,19 @@ Claude: *generates 2K image at specified path*
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `GEMINI_API_KEY` | Yes | - | Your Google Gemini API key |
-| `IMAGE_SIZE` | No | `1K` | Default size (512, 1K, or 2K) |
-| `GEMINI_MODEL` | No | `gemini-3-pro-image-preview` | Gemini model ID |
+| `IMAGE_SIZE` | No | `1K` | Default size (512, 1K, 2K or 4K) |
+| `GEMINI_MODEL` | No | `gemini-3.1-flash-image` | Gemini model ID |
 
 ### Image Sizes
 
-| Size | Resolution | Best For |
-|------|------------|----------|
-| `512` | 512x512 | Icons, thumbnails, quick previews |
-| `1K` | 1024x1024 | General use, web images |
-| `2K` | 2048x2048 | High-res, print, retina displays |
+The resolution is for the default 1:1 aspect ratio. Prices are for `gemini-3.1-flash-image` (2026-09).
+
+| Size | Resolution | Price per image | Best For |
+|------|------------|-----------------|----------|
+| `512` | 512x512 | $0.045 | Icons, thumbnails, quick previews |
+| `1K` | 1024x1024 | $0.067 | General use, web images |
+| `2K` | 2048x2048 | $0.101 | High-res, print, retina displays |
+| `4K` | 4096x4096 | $0.151 | Very large prints and backgrounds |
 
 ## Manual Script Usage
 
@@ -110,13 +115,13 @@ Claude: *generates 2K image at specified path*
 python scripts/generate_image.py "A serene lake at dawn"
 
 # Custom output path
-python scripts/generate_image.py "App icon" "./icon.png"
+python scripts/generate_image.py "App icon" "./icon.jpg"
 
-# With size option
-python scripts/generate_image.py --size 2K "Detailed landscape" "./wallpaper.png"
+# With size and aspect ratio
+python scripts/generate_image.py --size 2K --aspect 16:9 "Detailed landscape" "./wallpaper.jpg"
 
 # With custom model
-python scripts/generate_image.py --model gemini-3-pro-image-preview "A logo" "./logo.png"
+python scripts/generate_image.py --model gemini-3.1-flash-image "A logo" "./logo.jpg"
 ```
 
 ## File Structure
@@ -135,7 +140,7 @@ imagen/
 ## Requirements
 
 - **Python 3.6+**: No additional packages needed (uses standard library only)
-- **Gemini API Key**: Free from [Google AI Studio](https://aistudio.google.com/)
+- **Gemini API Key**: From [Google AI Studio](https://aistudio.google.com/), with billing enabled
 
 ## Troubleshooting
 
@@ -154,8 +159,8 @@ source ~/.zshrc       # Reload if you just added it
 
 ### API Errors
 - **400**: Check your prompt for special characters
-- **429**: Rate limited, wait and retry
-- **403**: Invalid API key
+- **429**: Rate limited or quota reached, wait a minute and retry
+- **403**: Invalid API key, or billing is not set up
 
 ## Getting a Gemini API Key
 
