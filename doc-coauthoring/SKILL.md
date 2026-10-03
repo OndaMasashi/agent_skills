@@ -89,7 +89,7 @@ Inform them clarifying questions will be asked once they've done their initial d
 
 When user signals they've done their initial dump (or after substantial context provided), ask clarifying questions to ensure understanding:
 
-Generate 5-10 numbered questions based on gaps in the context.
+Ask numbered questions that cover the gaps in the context, as many as the gaps need.
 
 Inform them they can use shorthand to answer (e.g., "1: yes, 2: see #channel, 3: no because backwards compat"), link to more docs, point to channels to read, or just keep info-dumping. Whatever's most efficient for them.
 
@@ -132,7 +132,7 @@ Ask if this structure works, or if they want to adjust it.
 Create the initial document structure with placeholder text for all sections.
 
 **If access to artifacts is available:**
-Use `create_file` to create an artifact. This gives both Claude and the user a scaffold to work from.
+Create the document as an artifact. This gives both Claude and the user a scaffold to work from.
 
 Inform them that the initial structure with placeholders for all sections will be created.
 
@@ -153,9 +153,9 @@ Confirm the filename has been created and indicate it's time to fill in each sec
 
 ### Step 1: Clarifying Questions
 
-Announce work will begin on the [SECTION NAME] section. Ask 5-10 clarifying questions about what should be included:
+Announce work will begin on the [SECTION NAME] section. Ask clarifying questions about what should be included:
 
-Generate 5-10 specific questions based on context and section purpose.
+Ask only what the context and the section's purpose leave open.
 
 Inform them they can answer in shorthand or just indicate what's important to cover.
 
@@ -185,7 +185,7 @@ Based on what they've selected, ask if there's anything important missing for th
 
 ### Step 5: Drafting
 
-Use `str_replace` to replace the placeholder text for this section with the actual drafted content.
+Replace the placeholder text for this section with the drafted content, editing only that section.
 
 Announce the [SECTION NAME] section will be drafted now based on what they've selected.
 
@@ -205,7 +205,7 @@ Provide a note: Instead of editing the doc directly, ask them to indicate what t
 ### Step 6: Iterative Refinement
 
 As user provides feedback:
-- Use `str_replace` to make edits (never reprint the whole doc)
+- Edit only the passage that changes (never reprint the whole doc)
 - **If using artifacts:** Provide link to artifact after each edit
 - **If using files:** Just confirm edits are complete
 - If user edits doc directly and asks to read it: mentally note the changes they made and keep them in mind for future sections (this shows their preferences)
@@ -364,12 +364,8 @@ Announce document completion. Provide a few final tips:
 - Don't let gaps accumulate - address them as they come up
 
 **Artifact Management:**
-- Use `create_file` for drafting full sections
-- Use `str_replace` for all edits
+- Edit sections in place; never rewrite the whole document for a local change
 - Provide artifact link after every change
 - Never use artifacts for brainstorming lists - that's just conversation
 
-**Quality over Speed:**
-- Don't rush through stages
-- Each iteration should make meaningful improvements
-- The goal is a document that actually works for readers
+**Quality bar:** The goal is a document that actually works for readers.

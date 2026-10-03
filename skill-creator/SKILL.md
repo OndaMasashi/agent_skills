@@ -335,7 +335,7 @@ Write the YAML frontmatter. See references/frontmatter-reference.md for complete
 - `name`: Skill name in kebab-case (max 64 chars, must match folder name)
 - `description`: Primary triggering mechanism. Structure as: `[What it does] + [When to use it] + [Key capabilities]`
   - Include all "when to use" information here — the body is only loaded after triggering
-  - Include specific phrases users would say to trigger the skill
+  - Describe the kinds of requests that should trigger the skill (intent categories); a few representative phrases help, but avoid lists of near-synonyms
   - Mention relevant file types if applicable
 
 **Good example:** `"Comprehensive document creation and editing with tracked changes and comments. Use when Claude needs to create, modify, or analyze .docx files, work with tracked changes, or add comments to documents."`
@@ -360,7 +360,7 @@ Write instructions for using the skill and its bundled resources. Recommended bo
 2. **Examples** - Input/output pairs or usage scenarios showing desired style and quality
 3. **Troubleshooting** - Common issues and solutions (if applicable)
 
-Put critical instructions at the top. Use `## Important` or `## Critical` headers for must-follow rules. For critical validations, prefer bundling scripts over relying on language instructions — code is deterministic; language interpretation is not.
+Put the instructions that matter most near the top and state each plainly with its reason; reserve emphasis for an instruction that testing shows is being underweighted. For critical validations, prefer bundling scripts over relying on language instructions — code is deterministic; language interpretation is not.
 
 ### Step 5: Packaging a Skill
 
@@ -445,7 +445,7 @@ After creating the skill, test it systematically before distributing. See refere
 
 **Iteration signals:**
 
-- **Undertriggering** (skill does not activate when it should): Broaden description keywords, add trigger phrases
+- **Undertriggering** (skill does not activate when it should): Name the missing category of intent in the description (what the user is trying to get done) rather than appending the exact phrase that was missed
 - **Overtriggering** (skill activates for unrelated queries): Add negative triggers (`Do NOT use for...`), make description more specific
 - **Poor execution** (output quality is low): Add examples or scripts, check reference files are loaded, move critical instructions to top of SKILL.md
 

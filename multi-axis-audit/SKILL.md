@@ -113,7 +113,7 @@ PJ context-file: {path_or_未指定}
 続行しますか? [Y/n]
 ```
 
-token 見積もり経験則 (依頼者 PJ 実測 §8.4):
+token 見積もり経験則 (実測値):
 
 - 1 agent 平均 ~100K token (75-150K range)
 - 整合 + memory 作成 ~50K
@@ -135,7 +135,7 @@ token 見積もり経験則 (依頼者 PJ 実測 §8.4):
    - N > parallelism: ceil(N/parallelism) Round に均等分割
 3. C8 (Meta) 軸は **必ず最終 Round** に配置 (他 Round の出力を読むため)
 4. 1 Round 内では各軸を 1 agent に dispatch (1 軸 1 agent 原則)
-5. parallelism は min(軸数, parallelism, max_parallelism=7) に clamp (Q5)
+5. parallelism は min(軸数, parallelism, max_parallelism=7) に clamp
 ```
 
 #### 3.2 並列 dispatch
@@ -154,7 +154,7 @@ token 見積もり経験則 (依頼者 PJ 実測 §8.4):
 C8 軸の dispatch では `prompts/meta-audit-prompt.md` template を使用。
 placeholder `{other_rounds_findings_block}` に Round 1〜N-1 の全 finding を inject。
 
-#### 3.4 retry / fallback (Q6 推奨案)
+#### 3.4 retry / fallback
 
 agent timeout / error 時:
 
@@ -165,11 +165,11 @@ agent timeout / error 時:
 ### Phase 4: Integrate
 
 1. **全 agent finding 回収**: 各 agent の status / finding を集約
-2. **重複統合**: 同じ `file:line` で同じ症状の finding を 1 件に統合 (counter は廃止し 1 件として扱う)
+2. **重複統合**: 同じ `file:line` で同じ症状の finding を 1 件に統合する
 3. **HIGH spot-check** (default ON, `--no-spot-check` で skip):
    - HIGH 件 ≥ 1 なら `prompts/spot-check-prompt.md` で sampler を発射
    - sample_count = max(5, ceil(N * 0.25))、N<5 なら全件
-   - false_positive 判定 finding は HIGH 集合から除外 (memory に「除外 finding」として残す Q9)
+   - false_positive 判定 finding は HIGH 集合から除外 (memory に「除外 finding」として残す)
    - severity_downgrade 判定 finding は MED / LOW に格下げ
    - FP 率を計算
 4. **C8 Meta 軸の出力統合**: Meta finding は通常 finding と分離して "メタ監査者の補足" / "横断パターン" として記録
@@ -178,12 +178,12 @@ agent timeout / error 時:
 
 1. **memory snapshot 生成** (`--output memory` or `all`):
    - 保存先: `~/.claude/projects/{project_slug}/memory/session-snapshot-{YYYY-MM-DD}-multi-axis-audit-{HHMM}.md`
-   - `{project_slug}` は cwd path を slug 化 (Q4: `c:\work\my-project` → `c--work-my-project`)
-   - 時刻付き (Q3) で同日複数回起動の衝突回避
+   - `{project_slug}` は cwd path を slug 化 (例: `c:\work\my-project` → `c--work-my-project`)
+   - 時刻付きにして同日複数回起動の衝突を避ける
    - template: `outputs/memory-template.md`
 2. **ROADMAP 起票** (`--output roadmap` or `all`、`--no-roadmap` で skip):
    - 保存先: `{project_root}/ROADMAP.md` (末尾 append)
-   - 新 Sprint 番号 = grep `^## Sprint (\d+):` の最大値 + 1 (Q7)
+   - 新 Sprint 番号 = grep `^## Sprint (\d+):` の最大値 + 1
    - 検出失敗時は user に問い合わせ
    - template: `outputs/roadmap-template.md`
 3. **improvement_list 履歴** (`--output improvement_list` or `all`):
@@ -193,8 +193,6 @@ agent timeout / error 時:
 4. **並走確認**:
    - `gh pr list --state open` と `git branch -a` を実行
    - 結果を memory snapshot に記載 (別セッション衝突がないか check)
-
-> 使用状況は `~/.claude/settings.json` の PostToolUse(Skill) hook で自動記録されるため、手動の usage_logger 実行は不要。
 
 ---
 
@@ -294,23 +292,3 @@ git branch -a
 - open PR / feature branch が監査結果と衝突しうるか check
 - 結果を memory snapshot の「並走確認結果」に記録
 - 衝突可能性があれば user に明示 (例: 監査で指摘した HIGH を既に別 PR で fix 中など)
-
----
-
-## 起動の判断基準 (再掲)
-
-「監査」「audit」「総合レビュー」等のキーワードを user が言ったら **第一選択で本スキル**。
-特に以下のパターンで proactive に呼ぶこと:
-
-- 「Sprint 末の総合チェックを」
-- 「branch 全体を監査して」
-- 「コード全体の盲点を洗い出したい」
-- 「規制対応 / セキュリティ / サプライチェーン / LLM 監査を」
-- 「異視座でレビューして」
-
-逆に以下では他スキルを優先:
-
-- 「この PR を review して」(行レベル / 単一 PR) → `code-review`
-- 「この PR のセキュリティだけ見て」(PR scope のみ) → `security-review`
-
-迷ったら本スキルでよい (--top10 / --filter で範囲を絞れるため過剰負担にならない)。

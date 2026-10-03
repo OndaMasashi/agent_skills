@@ -46,7 +46,7 @@ To capture the ALGORITHMIC essence, express how this philosophy manifests throug
 
 **CRITICAL GUIDELINES:**
 - **Avoid redundancy**: Each algorithmic aspect should be mentioned once. Avoid repeating concepts about noise theory, particle dynamics, or mathematical principles unless adding new depth.
-- **Emphasize craftsmanship REPEATEDLY**: The philosophy MUST stress multiple times that the final algorithm should appear as though it took countless hours to develop, was refined with care, and comes from someone at the absolute top of their field. This framing is essential - repeat phrases like "meticulously crafted algorithm," "the product of deep computational expertise," "painstaking optimization," "master-level implementation."
+- **State the quality bar**: Make clear that the final algorithm must feel meticulously crafted, refined through many iterations, and master-level in implementation.
 - **Leave creative space**: Be specific about the algorithmic direction, but concise enough that the next Claude has room to make interpretive implementation choices at an extremely high level of craftsmanship.
 
 The philosophy must guide the next version to express ideas ALGORITHMICALLY, not through static images. Beauty lives in the process, not the final frame.
@@ -81,7 +81,7 @@ Algorithmic expression: Randomized circle packing or Voronoi tessellation. Start
 - **PARAMETRIC EXPRESSION**: Ideas communicate through mathematical relationships, forces, behaviors - not static composition
 - **ARTISTIC FREEDOM**: The next Claude interprets the philosophy algorithmically - provide creative implementation room
 - **PURE GENERATIVE ART**: This is about making LIVING ALGORITHMS, not static images with randomness
-- **EXPERT CRAFTSMANSHIP**: Repeatedly emphasize the final algorithm must feel meticulously crafted, refined through countless iterations, the product of deep expertise by someone at the absolute top of their field in computational aesthetics
+- **EXPERT CRAFTSMANSHIP**: The final algorithm must feel meticulously crafted and refined, the product of deep expertise in computational aesthetics.
 
 **The algorithmic philosophy should be 4-6 paragraphs long.** Fill it with poetic computational philosophy that brings together the intended vision. Avoid repeating the same points. Output this algorithmic philosophy as a .md file.
 
@@ -89,22 +89,22 @@ Algorithmic expression: Randomized circle packing or Voronoi tessellation. Start
 
 ## DEDUCING THE CONCEPTUAL SEED
 
-**CRITICAL STEP**: Before implementing the algorithm, identify the subtle conceptual thread from the original request.
+Before implementing the algorithm, identify the subtle conceptual thread from the original request.
 
 **THE ESSENTIAL PRINCIPLE**:
 The concept is a **subtle, niche reference embedded within the algorithm itself** - not always literal, always sophisticated. Someone familiar with the subject should feel it intuitively, while others simply experience a masterful generative composition. The algorithmic philosophy provides the computational language. The deduced concept provides the soul - the quiet conceptual DNA woven invisibly into parameters, behaviors, and emergence patterns.
 
-This is **VERY IMPORTANT**: The reference must be so refined that it enhances the work's depth without announcing itself. Think like a jazz musician quoting another song through algorithmic harmony - only those who know will catch it, but everyone appreciates the generative beauty.
+The reference must be so refined that it enhances the work's depth without announcing itself. Think like a jazz musician quoting another song through algorithmic harmony - only those who know will catch it, but everyone appreciates the generative beauty.
 
 ---
 
 ## P5.JS IMPLEMENTATION
 
-With the philosophy AND conceptual framework established, express it through code. Pause to gather thoughts before proceeding. Use only the algorithmic philosophy created and the instructions below.
+With the philosophy AND conceptual framework established, express it through code. Use only the algorithmic philosophy created and the instructions below.
 
-### ⚠️ STEP 0: READ THE TEMPLATE FIRST ⚠️
+### Step 0: Start from the template
 
-**CRITICAL: BEFORE writing any HTML:**
+Before writing any HTML:
 
 1. **Read** `templates/viewer.html` using the Read tool
 2. **Study** the exact structure, styling, and Anthropic branding
@@ -162,7 +162,7 @@ let params = {
 
 **Core Algorithm - EXPRESS THE PHILOSOPHY**:
 
-**CRITICAL**: The algorithmic philosophy should dictate what to build.
+The algorithmic philosophy should dictate what to build.
 
 To express the philosophy through code, avoid thinking "which pattern should I use?" and instead think "how to express this philosophy through code?"
 
@@ -200,7 +200,7 @@ function draw() {
 
 ### CRAFTSMANSHIP REQUIREMENTS
 
-**CRITICAL**: To achieve mastery, create algorithms that feel like they emerged through countless iterations by a master generative artist. Tune every parameter carefully. Ensure every pattern emerges with purpose. This is NOT random noise - this is CONTROLLED CHAOS refined through deep expertise.
+To achieve mastery, create algorithms that feel like they emerged through countless iterations by a master generative artist. Tune every parameter carefully. Ensure every pattern emerges with purpose. This is NOT random noise - this is CONTROLLED CHAOS refined through deep expertise.
 
 - **Balance**: Complexity without visual noise, order without rigidity
 - **Color Harmony**: Thoughtful palettes, not random RGB values
@@ -219,8 +219,6 @@ The HTML artifact contains everything: p5.js (from CDN), the algorithm, paramete
 ---
 
 ## INTERACTIVE ARTIFACT CREATION
-
-**REMINDER: `templates/viewer.html` should have already been read (see STEP 0). Use that file as the starting point.**
 
 To allow exploration of the generative art, create a single, self-contained HTML artifact. Ensure this artifact works immediately in claude.ai or any browser - no setup required. Embed everything inline.
 
@@ -299,7 +297,7 @@ The `templates/viewer.html` file is the foundation. It contains the exact struct
 </html>
 ```
 
-**CRITICAL**: This is a single artifact. No external files, no imports (except p5.js CDN). Everything inline.
+This is a single artifact. No external files, no imports (except p5.js CDN). Everything inline.
 
 **4. Implementation Details - BUILD THE SIDEBAR**
 

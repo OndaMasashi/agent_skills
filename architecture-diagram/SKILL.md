@@ -67,9 +67,9 @@ If there's no doc, ask the user briefly:
 - "Any mode toggles? (offline/online, dev/prod, v1/v2)"
 - "Who's the audience? Workshop attendees? Engineers? Clients?"
 
-### Step 2 — Plan the topology on paper first
+### Step 2 — Lay out the topology
 
-Before writing code, sketch on paper (literally in your head or a scratch file) WHICH services exist, WHERE they sit relative to each other, and WHICH flows connect WHICH nodes. **Avoid wire crossings** — this is the single biggest readability win. See `references/flow-design-patterns.md` for layout heuristics.
+Decide which services exist, where they sit relative to each other, and which flows connect which nodes. **Avoid wire crossings** — this is the single biggest readability win. See `references/flow-design-patterns.md` for layout heuristics.
 
 Quick rules:
 - **Orchestrator/API gateway in the middle**, dependencies fanning out

@@ -17,18 +17,19 @@ Audit, evaluate, and improve CLAUDE.md files across a codebase to ensure Claude 
 Find all CLAUDE.md files in the repository:
 
 ```bash
-find . -name "CLAUDE.md" -o -name ".claude.md" -o -name ".claude.local.md" 2>/dev/null | head -50
+find . \( -name "CLAUDE.md" -o -name "CLAUDE.local.md" -o -name "AGENTS.md" \) -not -path "*/node_modules/*" 2>/dev/null | head -50
 ```
 
 **File Types & Locations:**
 
 | Type | Location | Purpose |
 |------|----------|---------|
-| Project root | `./CLAUDE.md` | Primary project context (checked into git, shared with team) |
-| Local overrides | `./.claude.local.md` | Personal/local settings (gitignored, not shared) |
+| Project root | `./CLAUDE.md` or `./.claude/CLAUDE.md` | Primary project context (checked into git, shared with team) |
+| Local overrides | `./CLAUDE.local.md` | Personal/local settings (gitignored, not shared) |
 | Global defaults | `~/.claude/CLAUDE.md` | User-wide defaults across all projects |
 | Package-specific | `./packages/*/CLAUDE.md` | Module-level context in monorepos |
 | Subdirectory | Any nested location | Feature/domain-specific context |
+| AGENTS.md | `./AGENTS.md` | Read as project instructions only when no CLAUDE.md / CLAUDE.local.md exists in the cwd or its ancestors, or when a CLAUDE.md imports it |
 
 **Note:** Claude auto-discovers CLAUDE.md files in parent directories, making monorepo setups work automatically.
 
@@ -193,10 +194,10 @@ See [references/templates.md](references/templates.md) for CLAUDE.md templates b
 
 When presenting recommendations, remind users:
 
-- **`#` key shortcut**: During a Claude session, press `#` to have Claude auto-incorporate learnings into CLAUDE.md
+- **Adding learnings**: Ask Claude to "add this to CLAUDE.md", or run `/memory` to open and edit the file directly
 - **Keep it concise**: CLAUDE.md should be human-readable; dense is better than verbose
 - **Actionable commands**: All documented commands should be copy-paste ready
-- **Use `.claude.local.md`**: For personal preferences not shared with team (add to `.gitignore`)
+- **Use `CLAUDE.local.md`**: For personal preferences not shared with team (add to `.gitignore`)
 - **Global defaults**: Put user-wide preferences in `~/.claude/CLAUDE.md`
 
 ## What Makes a Great CLAUDE.md

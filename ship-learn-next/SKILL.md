@@ -34,14 +34,7 @@ Every learning quest follows three repeating phases:
 
 ### Step 1: Read the Content
 
-Read the file the user provides (transcript, article, notes):
-
-```bash
-# User provides path to file
-FILE_PATH="/path/to/content.txt"
-```
-
-Use the Read tool to analyze the content.
+Read the file the user provides (transcript, article, notes).
 
 ### Step 2: Extract Core Lessons
 
@@ -298,7 +291,7 @@ A good Ship-Learn-Next plan has:
 
 ## Saving the Plan
 
-**IMPORTANT**: Always save the plan to a file for the user.
+Save the plan to a Markdown file for the user.
 
 ### Filename Convention
 

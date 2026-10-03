@@ -135,7 +135,7 @@ Content with multi-modal elements sees **156% higher selection rates**.
 **Check for:**
 - Server-side rendering (SSR) vs client-only content
 - AI crawler access in robots.txt
-- llms.txt file presence and configuration
+- llms.txt presence (report only; it carries no score weight, see "llms.txt Standard" below)
 - RSL 1.0 licensing terms
 
 ---

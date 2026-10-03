@@ -144,7 +144,7 @@ project-reportのPhase 3でアーキテクチャセクション（セクショ�
 
 ### docx
 
-DOCX内に図を埋め込む場合、mmcでPNG出力した後、docx-jsの `ImageRun` で配置する。サイズ目安は `references/rendering-guide.md` を参照。
+DOCX内に図を埋め込む場合、mmdcでPNG出力した後、docx-jsの `ImageRun` で配置する。サイズ目安は `references/rendering-guide.md` を参照。
 
 ### 単独利用
 

@@ -122,7 +122,7 @@ If no relevant skills exist:
 
 1. Acknowledge that no existing skill was found
 2. Offer to help with the task directly using your general capabilities
-3. Suggest the user could create their own skill with `npx skills init`
+3. If it is a recurring task, offer to create a custom skill with the skill-creator skill
 
 Example:
 
@@ -130,6 +130,5 @@ Example:
 I searched for skills related to "xyz" but didn't find any matches.
 I can still help you with this task directly! Would you like me to proceed?
 
-If this is something you do often, you could create your own skill:
-npx skills init my-xyz-skill
+If this is something you do often, I can create a custom skill for it with skill-creator.
 ```

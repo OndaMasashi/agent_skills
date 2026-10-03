@@ -95,31 +95,9 @@ Performance Optimization in modules/performance-optimization.md:
 
 - Code splitting, Dynamic imports, Image optimization, Memoization
 
-Vercel React Best Practices in modules/vercel-react-best-practices.md:
+Vercel React Best Practices:
 
-- 45 rules across 8 categories from Vercel Engineering
-- Eliminating waterfalls, bundle optimization, server-side performance
-- Client-side data fetching, re-render optimization, rendering performance
-
----
-
-## Implementation Quickstart
-
-### React 19 Server Component
-
-Create an async page component that uses the cache function from React to memoize data fetching. Import Suspense for loading states. Define a getData function that fetches from the API endpoint with an id parameter and returns JSON. In the page component, wrap the DataDisplay component with Suspense using a Skeleton fallback, and pass the awaited getData result as the data prop.
-
-### Next.js Server Action
-
-Create a server action file with the use server directive. Import revalidatePath from next/cache and z from zod for validation. Define a schema with title (minimum 1 character) and content (minimum 10 characters). The createPost function accepts FormData, validates with safeParse, returns errors on failure, creates the post in the database, and calls revalidatePath for the posts page.
-
-### Vue Composable
-
-Create a useUser composable that accepts a userId ref parameter. Define user as a nullable ref, loading as a boolean ref, and fullName as a computed property that concatenates firstName and lastName. Use watchEffect to set loading true, fetch the user data asynchronously, assign to user ref, and set loading false. Return the user, loading, and fullName refs.
-
-### CVA Component
-
-Import cva and VariantProps from class-variance-authority. Define buttonVariants with base classes for inline-flex, items-center, justify-center, rounded-md, and font-medium. Add variants object with variant options for default (primary background with hover) and outline (border with hover accent). Add size options for sm (h-9, px-3, text-sm), default (h-10, px-4), and lg (h-11, px-8). Set defaultVariants for variant and size. Export a Button component that applies the variants to a button element className.
+- Performance rules from Vercel Engineering are maintained in the `react-best-practices` skill; use it for performance optimization work.
 
 ---
 
@@ -135,11 +113,11 @@ Import cva and VariantProps from class-variance-authority. Define buttonVariants
 
 ## Technology Stack
 
-Frameworks: React 19, Next.js 16, Vue 3.5, Nuxt 3
+Frameworks: React 19, Next.js 16, Vue 3.5, Nuxt 4
 
-Languages: TypeScript 5.9+, JavaScript ES2024
+Languages: TypeScript, JavaScript
 
-Styling: Tailwind CSS 3.4+, CSS Modules, shadcn/ui
+Styling: Tailwind CSS 4, CSS Modules, shadcn/ui
 
 State: Zustand, Redux Toolkit, Pinia
 

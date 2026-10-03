@@ -88,14 +88,14 @@ def sensitivity_analysis(base_fcf, wacc_range, growth_range, shares):
 import numpy as np
 import matplotlib.pyplot as plt
 
-def monte_carlo_dcf(base_fcf, n_simulations=10000):
-    """モンテカルロ法によるDCFバリュエーション"""
+def monte_carlo_dcf(base_fcf, wacc_mean, wacc_sd, growth_mean, growth_sd, shares, fcf_sd=0.1, n_simulations=10000):
+    """モンテカルロ法によるDCFバリュエーション（分布の前提は対象企業の条件から設定する）"""
     results = []
     for _ in range(n_simulations):
-        wacc = np.random.normal(0.10, 0.02)
-        growth = np.random.normal(0.02, 0.01)
-        fcf_var = [f * np.random.normal(1.0, 0.1) for f in base_fcf]
-        val = dcf_valuation(fcf_var, max(wacc, 0.01), max(growth, 0.001), 1000000)
+        wacc = np.random.normal(wacc_mean, wacc_sd)
+        growth = np.random.normal(growth_mean, growth_sd)
+        fcf_var = [f * np.random.normal(1.0, fcf_sd) for f in base_fcf]
+        val = dcf_valuation(fcf_var, max(wacc, 0.01), max(growth, 0.001), shares)
         results.append(val["equity_value_per_share"])
 
     plt.figure(figsize=(10, 6))

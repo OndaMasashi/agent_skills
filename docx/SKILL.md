@@ -80,7 +80,7 @@ python scripts/office/validate.py doc.docx
 ### Page Size
 
 ```javascript
-// CRITICAL: docx-js defaults to A4, not US Letter
+// docx-js defaults to A4, not US Letter
 // Always set page size explicitly for consistent results
 sections: [{
   properties: {
@@ -122,7 +122,7 @@ const doc = new Document({
   styles: {
     default: { document: { run: { font: "Arial", size: 24 } } }, // 12pt default
     paragraphStyles: [
-      // IMPORTANT: Use exact IDs to override built-in styles
+      // Use exact IDs to override built-in styles
       { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
         run: { size: 32, bold: true, font: "Arial" },
         paragraph: { spacing: { before: 240, after: 240 }, outlineLevel: 0 } }, // outlineLevel required for TOC
@@ -175,11 +175,11 @@ const doc = new Document({
 
 ### Tables
 
-**CRITICAL: Tables need dual widths** - set both `columnWidths` on the table AND `width` on each cell. Without both, tables render incorrectly on some platforms.
+**Tables need dual widths** - set both `columnWidths` on the table AND `width` on each cell. Without both, tables render incorrectly on some platforms.
 
 ```javascript
-// CRITICAL: Always set table width for consistent rendering
-// CRITICAL: Use ShadingType.CLEAR (not SOLID) to prevent black backgrounds
+// Set table width for consistent rendering
+// Use ShadingType.CLEAR (not SOLID) to prevent black backgrounds
 const border = { style: BorderStyle.SINGLE, size: 1, color: "CCCCCC" };
 const borders = { top: border, bottom: border, left: border, right: border };
 
@@ -223,7 +223,7 @@ columnWidths: [7000, 2360]  // Must sum to table width
 ### Images
 
 ```javascript
-// CRITICAL: type parameter is REQUIRED
+// type parameter is required
 new Paragraph({
   children: [new ImageRun({
     type: "png", // Required: png, jpg, jpeg, gif, bmp, svg
@@ -237,7 +237,7 @@ new Paragraph({
 ### Page Breaks
 
 ```javascript
-// CRITICAL: PageBreak must be inside a Paragraph
+// PageBreak must be inside a Paragraph
 new Paragraph({ children: [new PageBreak()] })
 
 // Or use pageBreakBefore
@@ -352,7 +352,7 @@ Force a column break with a new section using `type: SectionType.NEXT_COLUMN`.
 ### Table of Contents
 
 ```javascript
-// CRITICAL: Headings must use HeadingLevel ONLY - no custom styles
+// Headings must use HeadingLevel only - no custom styles
 new TableOfContents("Table of Contents", { hyperlink: true, headingStyleRange: "1-3" })
 ```
 
@@ -413,7 +413,7 @@ Edit files in `unpacked/word/`. See XML Reference below for patterns.
 
 **Use the Edit tool directly for string replacement. Do not write Python scripts.** Scripts introduce unnecessary complexity. The Edit tool shows exactly what is being replaced.
 
-**CRITICAL: Use smart quotes for new content.** When adding text with apostrophes or quotes, use XML entities to produce smart quotes:
+**Use smart quotes for new content.** When adding text with apostrophes or quotes, use XML entities to produce smart quotes:
 ```xml
 <!-- Use these entities for professional typography -->
 <w:t>Here&#x2019;s a quote: &#x201C;Hello&#x201D;</w:t>
@@ -531,7 +531,7 @@ Without the `<w:del/>` in `<w:pPr><w:rPr>`, accepting changes leaves an empty pa
 
 After running `comment.py` (see Step 2), add markers to document.xml. For replies, use `--parent` flag and nest markers inside the parent's.
 
-**CRITICAL: `<w:commentRangeStart>` and `<w:commentRangeEnd>` are siblings of `<w:r>`, never inside `<w:r>`.**
+**`<w:commentRangeStart>` and `<w:commentRangeEnd>` are siblings of `<w:r>`, never inside `<w:r>`.**
 
 ```xml
 <!-- Comment markers are direct children of w:p, never inside w:r -->

@@ -14,14 +14,13 @@ This skill generates images using Google Gemini's image generation model (`gemin
 
 ## When to Use This Skill
 
-Automatically activate this skill when:
+Use this skill when:
 
 - User requests image generation (e.g., "generate an image of...", "create a picture...")
 - Frontend development requires placeholder or actual images
-- Documentation needs illustrations or diagrams
-- Visualizing concepts, architectures, or ideas
+- Documentation needs illustrations
+- Visualizing concepts or ideas as a picture (architecture, flow, and sequence diagrams go to architecture-diagram or mermaid-diagram)
 - Creating icons, logos, or UI assets
-- Any task where an AI-generated image would be helpful
 
 ## How It Works
 
@@ -70,8 +69,8 @@ User: "I need a hero image for my landing page - something abstract and tech-foc
 ### Documentation
 
 ```
-User: "Create a diagram showing microservices architecture"
--> Generates visual representation, ready for README or docs
+User: "Create a header illustration for the README - an abstract image of data flowing between clouds"
+-> Generates the illustration, ready for README or docs
 ```
 
 ### UI Assets

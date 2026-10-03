@@ -19,12 +19,12 @@ Your knowledge of web performance metrics, thresholds, and tooling APIs may be o
 
 **Run this before starting.** Try calling `navigate_page` or `performance_start_trace`. If unavailable, STOP—the chrome-devtools MCP server isn't configured.
 
-Ask the user to add this to their MCP config:
+Ask the user to add this entry under `mcpServers` in their `.mcp.json`:
 
 ```json
 "chrome-devtools": {
-  "type": "local",
-  "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
+  "command": "npx",
+  "args": ["-y", "chrome-devtools-mcp@latest"]
 }
 ```
 

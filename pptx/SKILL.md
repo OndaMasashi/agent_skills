@@ -139,9 +139,7 @@ Choose colors that match your topic — don't default to generic blue. Use these
 
 ## QA (Required)
 
-**Assume there are problems. Your job is to find them.**
-
-Your first render is almost never correct. Approach QA as a bug hunt, not a confirmation step. If you found zero issues on first inspection, you weren't looking hard enough.
+Check the rendered output, not just the code: overflow, overlap, and contrast problems only show up in the rendered slides.
 
 ### Content QA
 
@@ -161,14 +159,8 @@ If grep returns results, fix them before declaring success.
 
 ### Visual QA
 
-**⚠️ USE SUBAGENTS** — even for 2-3 slides. You've been staring at the code and will see what you expect, not what's there. Subagents have fresh eyes.
+Convert slides to images (see [Converting to Images](#converting-to-images)), then Read each image and compare it with what the slide is meant to show. Look for:
 
-Convert slides to images (see [Converting to Images](#converting-to-images)), then use this prompt:
-
-```
-Visually inspect these slides. Assume there are issues — find them.
-
-Look for:
 - Overlapping elements (text through shapes, lines through words, stacked elements)
 - Text overflow or cut off at edges/box boundaries
 - Decorative lines positioned for single-line text but title wrapped to two lines
@@ -182,24 +174,15 @@ Look for:
 - Text boxes too narrow causing excessive wrapping
 - Leftover placeholder content
 
-For each slide, list issues or areas of concern, even if minor.
-
-Read and analyze these images:
-1. /path/to/slide-01.jpg (Expected: [brief description])
-2. /path/to/slide-02.jpg (Expected: [brief description])
-
-Report ALL issues found, including minor ones.
-```
+For a large deck, the inspection can be split across subagents, one batch of slides each.
 
 ### Verification Loop
 
 1. Generate slides → Convert to images → Inspect
-2. **List issues found** (if none found, look again more critically)
+2. **List issues found**
 3. Fix issues
 4. **Re-verify affected slides** — one fix often creates another problem
 5. Repeat until a full pass reveals no new issues
-
-**Do not declare success until you've completed at least one fix-and-verify cycle.**
 
 ---
 

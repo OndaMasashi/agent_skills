@@ -9,7 +9,7 @@ description: |
 
 Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
-Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design in small sections (200-300 words), checking after each section whether it looks right so far.
+Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design in short sections, checking after each section whether it looks right so far.
 
 ## The Process
 
@@ -30,8 +30,7 @@ Start by understanding the current project context, then ask questions one at a 
 **Presenting the design:**
 
 - Once you believe you understand what you're building, present the design
-- Break it into sections of 200-300 words
-- Ask after each section whether it looks right so far
+- Break it into short sections the user can confirm one at a time
 - Cover: architecture, components, data flow, error handling, testing
 - Be ready to go back and clarify if something doesn't make sense
 
